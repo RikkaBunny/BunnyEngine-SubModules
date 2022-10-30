@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="BunnyEngine">
+      <UniqueIdentifier>{275822C3-930D-9BB8-1C02-958F88B691BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BunnyEngine\Events">
+      <UniqueIdentifier>{2B728C13-1756-4D69-80B6-47BC6CB937EB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BEpch.h" />
+    <ClInclude Include="src\BunnyEngine.h" />
+    <ClInclude Include="src\BunnyEngine\Application.h">
+      <Filter>BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core.h">
+      <Filter>BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\EntryPoint.h">
+      <Filter>BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Events\ApplicationEvent.h">
+      <Filter>BunnyEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Events\Event.h">
+      <Filter>BunnyEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Events\KeyEvent.h">
+      <Filter>BunnyEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Events\MouseEvent.h">
+      <Filter>BunnyEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Log.h">
+      <Filter>BunnyEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BEpch.cpp" />
+    <ClCompile Include="src\BunnyEngine\Application.cpp">
+      <Filter>BunnyEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Log.cpp">
+      <Filter>BunnyEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

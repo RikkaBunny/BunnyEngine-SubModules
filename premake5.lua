@@ -1,6 +1,7 @@
 workspace "BunnyEngine"
 	architecture "x64"
 
+
 	configurations{
 		"Debug",
 		"Release",
@@ -17,19 +18,23 @@ project "BunnyEngine"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "BEpch.h"
+	pchsource "BunnyEngine/src/BEpch.cpp"
+
 	files{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 	}
 
 	includedirs{
+		"%{prj.name}/src",
 		"%{prj.name}/SDK/spdlog/include"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "10.0"
+		systemversion "latest"
 
 		defines{
 			"BE_PLATFORM_WINDOWS",
@@ -80,7 +85,7 @@ project "Sandbox"
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "10.0"
+		systemversion "latest"
 
 		defines{
 			"BE_PLATFORM_WINDOWS"
