@@ -4,9 +4,13 @@
 #include "BunnyEngine/Events/ApplicationEvent.h"
 #include "BunnyEngine/Log.h"
 
+#include <GLFW/glfw3.h>
+
 namespace BE {
 
 	Application::Application() {
+
+		m_Window = std::unique_ptr<Window>(Window::Create());
 
 	}
 
@@ -16,9 +20,11 @@ namespace BE {
 
 	void Application::Run() {
 
-		WindowResizeEvent e(1280, 720);
-		BE_TRACE(e);
-		while (true);
+		while (m_Running) {
+			glClearColor(1, 0, 0.45, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window->OnUpdate();
+		}
 	}
 
 }

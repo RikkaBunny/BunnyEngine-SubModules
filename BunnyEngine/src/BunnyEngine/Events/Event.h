@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BunnyEngine/Core.h"
+#include "BEpch.h"
 
 
 namespace BE {

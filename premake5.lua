@@ -10,6 +10,12 @@ workspace "BunnyEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "BunnyEngine/SDK/GLFW/include"
+
+include "BunnyEngine/SDK/GLFW"
+
 project "BunnyEngine"
 	location "BunnyEngine"
 	kind "SharedLib"
@@ -21,6 +27,8 @@ project "BunnyEngine"
 	pchheader "BEpch.h"
 	pchsource "BunnyEngine/src/BEpch.cpp"
 
+	buildoptions "/MDd"
+
 	files{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
@@ -28,7 +36,13 @@ project "BunnyEngine"
 
 	includedirs{
 		"%{prj.name}/src",
-		"%{prj.name}/SDK/spdlog/include"
+		"%{prj.name}/SDK/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

@@ -1,0 +1,6 @@
+[submodule "BunnyEngine/vendor/GLFW"]
+	path = BunnyEngine/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
+[submodule "BunnyEngine/SDK/GLFW"]
+	path = BunnyEngine/SDK/GLFW
+	url = https://github.com/TheCherno/glfw

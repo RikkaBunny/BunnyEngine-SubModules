@@ -7,6 +7,12 @@
     <Filter Include="BunnyEngine\Events">
       <UniqueIdentifier>{2B728C13-1756-4D69-80B6-47BC6CB937EB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BEpch.h" />
@@ -35,6 +41,12 @@
     <ClInclude Include="src\BunnyEngine\Log.h">
       <Filter>BunnyEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Window.h">
+      <Filter>BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BEpch.cpp" />
@@ -43,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Log.cpp">
       <Filter>BunnyEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
