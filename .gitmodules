@@ -4,3 +4,9 @@
 [submodule "BunnyEngine/SDK/GLFW"]
 	path = BunnyEngine/SDK/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "BunnyEngine/SDK/imgui"]
+	path = BunnyEngine/SDK/imgui
+	url = https://github.com/TheCherno/imgui
+[submodule "BunnyEngine/SDK/glm"]
+	path = BunnyEngine/SDK/glm
+	url = https://github.com/g-truc/glm
