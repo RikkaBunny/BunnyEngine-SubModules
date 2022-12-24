@@ -31,7 +31,7 @@ class Sandbox : public BE::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new BE::ImGuiLayer());
+		
 	}
 
 	~Sandbox() {

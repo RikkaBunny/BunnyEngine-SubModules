@@ -6,6 +6,8 @@
 #include "Window.h"
 #include "BunnyEngine/LayerStack.h"
 
+#include "BunnyEngine/ImGui/ImGuiLayer.h"
+
 
 namespace BE {
 
@@ -28,6 +30,7 @@ namespace BE {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;

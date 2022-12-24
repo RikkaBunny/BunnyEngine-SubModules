@@ -23,7 +23,7 @@ namespace BE {
 		std::vector<Layer*>::const_reverse_iterator rend() const { return m_Layers.rend(); }
 	private:
 		std::vector<Layer*> m_Layers;
-		std::vector<Layer*>::iterator m_LayerInsert;
+		unsigned int m_LayerInsertIndex = 0;
 	};
 
 }

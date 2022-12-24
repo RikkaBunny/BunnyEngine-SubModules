@@ -13,19 +13,13 @@ namespace BE {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttcah();
-		void OnDetach();
-		void OnUpdate();
-		void OnEvent(Event& event);
-	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-		bool OnMouseMoveEvent(MouseMoveEvent& e);
-		bool OnMouseScrolledEvent(MouseScrolledEvent& e);
-		bool OnKeyPressedEvent(KeyPressedEvent& e);
-		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		bool OnKeyTypedEvent(KeyTypedEvent& e);
-		bool OnWindowResizeEvent(WindowResizeEvent& e);
+		virtual void OnAttcah() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
+
+		void Begine();
+		void End();
+
 	private:
 		float m_Time = 0.0f;
 	};

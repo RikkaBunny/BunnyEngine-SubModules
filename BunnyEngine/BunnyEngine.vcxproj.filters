@@ -1344,9 +1344,6 @@
     <ClInclude Include="src\BunnyEngine\Window.h">
       <Filter>src\BunnyEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -1361,6 +1358,9 @@
     <ClCompile Include="src\BunnyEngine\Application.cpp">
       <Filter>src\BunnyEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\ImGui\ImGuiBuild.cpp">
+      <Filter>src\BunnyEngine\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\BunnyEngine\ImGui</Filter>
     </ClCompile>
@@ -1373,15 +1373,11 @@
     <ClCompile Include="src\BunnyEngine\Log.cpp">
       <Filter>src\BunnyEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\BunnyEngine\ImGui\ImGuiBuild.cpp" />
   </ItemGroup>
 </Project>
