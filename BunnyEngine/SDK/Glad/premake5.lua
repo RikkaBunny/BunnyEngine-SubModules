@@ -21,4 +21,4 @@ project "Glad"
 		staticruntime "On"
 
 	filter { "system:windos" , "configurations:Release"}
-		buildoptions "/MT"
+		buildoptions "/MTd"
