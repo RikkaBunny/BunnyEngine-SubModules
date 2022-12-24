@@ -55,7 +55,7 @@ namespace BE {
 	void Application::Run() {
 
 		while (m_Running) {
-			glClearColor(1, 0, 0.45, 1);
+			glClearColor((GLfloat)1.0, (GLfloat)0.0, (GLfloat)0.45, (GLfloat)1.0);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (Layer* layer : m_LayerStack) {
