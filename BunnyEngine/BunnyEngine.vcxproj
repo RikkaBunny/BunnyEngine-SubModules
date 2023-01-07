@@ -140,6 +140,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="SDK\glm\glm\common.hpp" />
     <ClInclude Include="SDK\glm\glm\detail\_features.hpp" />
     <ClInclude Include="SDK\glm\glm\detail\_fixes.hpp" />
@@ -572,11 +579,19 @@
     <ClInclude Include="src\BunnyEngine\LayerStack.h" />
     <ClInclude Include="src\BunnyEngine\Log.h" />
     <ClInclude Include="src\BunnyEngine\MouseButtonCodes.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\BunnyEngine\Window.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\BEpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -8,6 +8,10 @@
 
 #include "BunnyEngine/ImGui/ImGuiLayer.h"
 
+#include "BunnyEngine/Renderer/Shader.h"
+#include "BunnyEngine/Renderer/Buffer.h"
+#include "BunnyEngine/Renderer/VertexArray.h"
+
 
 namespace BE {
 
@@ -34,6 +38,11 @@ namespace BE {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
+
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
+		
+		
 	private:
 		static Application* s_Instance;
 	};

@@ -3,6 +3,7 @@
 #include "BunnyEngine/Window.h"
 
 #include <GLFW/glfw3.h>
+#include "BunnyEngine/Renderer/GraphicsContext.h"
 
 
 
@@ -30,6 +31,7 @@ namespace BE {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;
