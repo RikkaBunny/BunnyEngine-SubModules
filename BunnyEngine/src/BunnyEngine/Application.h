@@ -8,9 +8,13 @@
 
 #include "BunnyEngine/ImGui/ImGuiLayer.h"
 
-#include "BunnyEngine/Renderer/Shader.h"
-#include "BunnyEngine/Renderer/Buffer.h"
-#include "BunnyEngine/Renderer/VertexArray.h"
+#include "BunnyEngine/Core/Timestep.h"
+
+//#include "BunnyEngine/Renderer/Shader.h"
+//#include "BunnyEngine/Renderer/Buffer.h"
+//#include "BunnyEngine/Renderer/VertexArray.h"
+//
+//#include "BunnyEngine/Renderer/OrthographicCamera.h"
 
 
 namespace BE {
@@ -33,15 +37,13 @@ namespace BE {
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-		
+		float m_LastFrameTime = 0.0f;
 		
 	private:
 		static Application* s_Instance;

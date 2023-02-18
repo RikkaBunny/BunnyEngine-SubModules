@@ -12,6 +12,20 @@
 
 #include "BunnyEngine/ImGui/ImGuiLayer.h"
 
+#include "BunnyEngine/Core/Timestep.h"
+
+// ------------Renderer--------------
+#include "BunnyEngine/Renderer/Renderer.h"
+#include "BunnyEngine/Renderer/RenderCommand.h"
+
+#include "BunnyEngine/Renderer/Shader.h"
+#include "BunnyEngine/Renderer/Buffer.h"
+#include "BunnyEngine/Renderer/Texture.h"
+#include "BunnyEngine/Renderer/VertexArray.h"
+
+#include "BunnyEngine/Renderer/OrthographicCamera.h"
+//  ----------------------------------
+
 // ---------Entry Point ---------------
 #include"BunnyEngine/EntryPoint.h"
 // ------------------------------------

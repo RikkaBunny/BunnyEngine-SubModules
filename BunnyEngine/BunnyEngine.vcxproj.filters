@@ -22,11 +22,17 @@
     <Filter Include="SDK\glm\glm\gtx">
       <UniqueIdentifier>{07EE22D6-7379-909A-7C8A-138FE894EC9A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDK\stb_image">
+      <UniqueIdentifier>{610254B8-CDC2-CFEE-96FD-186C027D14CB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\BunnyEngine">
       <UniqueIdentifier>{BE8BFCDA-2A17-6A9F-3328-ED939F32C69F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\BunnyEngine\Core">
+      <UniqueIdentifier>{D6B63814-C245-C2DD-6B64-D6D857D2D283}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\BunnyEngine\Events">
       <UniqueIdentifier>{E2D5630A-CECF-8C5C-B73C-236DA3D5F2C8}</UniqueIdentifier>
@@ -34,8 +40,14 @@
     <Filter Include="src\BunnyEngine\ImGui">
       <UniqueIdentifier>{6857BA9B-D4C3-7596-9DB7-0DF409E397FE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BunnyEngine\Renderer">
+      <UniqueIdentifier>{24E5AB29-100A-FBA9-3955-E03925D9F9C7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -1290,6 +1302,9 @@
     <ClInclude Include="SDK\glm\glm\vector_relational.hpp">
       <Filter>SDK\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="SDK\stb_image\stb_image.h">
+      <Filter>SDK\stb_image</Filter>
+    </ClInclude>
     <ClInclude Include="src\BEpch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1301,6 +1316,9 @@
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Core.h">
       <Filter>src\BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\Timestep.h">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\EntryPoint.h">
       <Filter>src\BunnyEngine</Filter>
@@ -1338,8 +1356,53 @@
     <ClInclude Include="src\BunnyEngine\MouseButtonCodes.h">
       <Filter>src\BunnyEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\RenderCommand.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Renderer.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\RendererAPI.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Shader.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Texture.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Window.h">
       <Filter>src\BunnyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1347,21 +1410,19 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\Shader.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\Renderer.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\stb_image\stb_image.cpp">
+      <Filter>SDK\stb_image</Filter>
+    </ClCompile>
     <ClCompile Include="src\BEpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Application.cpp">
       <Filter>src\BunnyEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Core\Timestep.cpp">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\BunnyEngine\ImGui</Filter>
@@ -1378,18 +1439,53 @@
     <ClCompile Include="src\BunnyEngine\Log.cpp">
       <Filter>src\BunnyEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\RenderCommand.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Renderer.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\RendererAPI.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Shader.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Texture.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\Shader.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
   </ItemGroup>
 </Project>

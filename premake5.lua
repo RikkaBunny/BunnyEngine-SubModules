@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "BunnyEngine/SDK/GLFW/include"
 IncludeDir["Glad"] = "BunnyEngine/SDK/Glad/include"
 IncludeDir["ImGui"] = "BunnyEngine/SDK/imgui"
 IncludeDir["glm"] = "BunnyEngine/SDK/glm"
+IncludeDir["stb_image"] = "BunnyEngine/SDK/stb_image"
 
 include "BunnyEngine/SDK/GLFW"
 include "BunnyEngine/SDK/Glad"
@@ -39,6 +40,8 @@ project "BunnyEngine"
 	files{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/SDK/stb_image/**.h",
+		"%{prj.name}/SDK/stb_image/**.cpp",
 		"%{prj.name}/SDK/glm/glm/**.hpp",
 		"%{prj.name}/SDK/glm/glm/**.inl"
 	}
@@ -54,7 +57,8 @@ project "BunnyEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links{
