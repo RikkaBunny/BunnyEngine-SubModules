@@ -6,7 +6,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include "BunnyEngine/Application.h"
+#include "BunnyEngine/Core/Application.h"
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
@@ -90,11 +90,11 @@ namespace BE {
         }
 	}
 
-    void ImGuiLayer::OnImGuiRender()
-    {
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
-    }
+    //void ImGuiLayer::OnImGuiRender()
+    //{
+    //    static bool show = true;
+    //    ImGui::ShowDemoWindow(&show);
+    //}
 
 }
 

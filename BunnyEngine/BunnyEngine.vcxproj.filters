@@ -1311,17 +1311,38 @@
     <ClInclude Include="src\BunnyEngine.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Application.h">
-      <Filter>src\BunnyEngine</Filter>
+    <ClInclude Include="src\BunnyEngine\Core\Application.h">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Core.h">
-      <Filter>src\BunnyEngine</Filter>
+    <ClInclude Include="src\BunnyEngine\Core\Core.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\EntryPoint.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\Input.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\KeyCodes.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\Layer.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\LayerStack.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\Log.h">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Core\MouseButtonCodes.h">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Core\Timestep.h">
       <Filter>src\BunnyEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\EntryPoint.h">
-      <Filter>src\BunnyEngine</Filter>
+    <ClInclude Include="src\BunnyEngine\Core\Window.h">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Events\ApplicationEvent.h">
       <Filter>src\BunnyEngine\Events</Filter>
@@ -1338,24 +1359,6 @@
     <ClInclude Include="src\BunnyEngine\ImGui\ImGuiLayer.h">
       <Filter>src\BunnyEngine\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Input.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\KeyCodes.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Layer.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\LayerStack.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Log.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\MouseButtonCodes.h">
-      <Filter>src\BunnyEngine</Filter>
-    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
@@ -1363,6 +1366,9 @@
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCameraController.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\RenderCommand.h">
@@ -1382,9 +1388,6 @@
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Window.h">
-      <Filter>src\BunnyEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1410,6 +1413,8 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\BunnyEngine\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDK\stb_image\stb_image.cpp">
@@ -1418,8 +1423,17 @@
     <ClCompile Include="src\BEpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Application.cpp">
-      <Filter>src\BunnyEngine</Filter>
+    <ClCompile Include="src\BunnyEngine\Core\Application.cpp">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Core\Layer.cpp">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Core\LayerStack.cpp">
+      <Filter>src\BunnyEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Core\Log.cpp">
+      <Filter>src\BunnyEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Core\Timestep.cpp">
       <Filter>src\BunnyEngine\Core</Filter>
@@ -1430,19 +1444,13 @@
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\BunnyEngine\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Layer.cpp">
-      <Filter>src\BunnyEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BunnyEngine\LayerStack.cpp">
-      <Filter>src\BunnyEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Log.cpp">
-      <Filter>src\BunnyEngine</Filter>
-    </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCameraController.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\RenderCommand.cpp">
@@ -1487,5 +1495,6 @@
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>

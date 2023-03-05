@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core.h"
-#include "Events/Event.h"
+#include "BunnyEngine/Core/Core.h"
+#include "BunnyEngine/Events/Event.h"
 #include "BunnyEngine/Events/ApplicationEvent.h"
-#include "Window.h"
-#include "BunnyEngine/LayerStack.h"
+#include "BunnyEngine/Core/Window.h"
+#include "BunnyEngine/Core/LayerStack.h"
 
 #include "BunnyEngine/ImGui/ImGuiLayer.h"
 
@@ -26,6 +26,7 @@ namespace BE {
 		virtual ~Application();
 
 		void Run();
+		void Close() { m_Running = false; }
 
 		void OnEvent(Event& e);
 
@@ -34,12 +35,16 @@ namespace BE {
 
 		inline static Application& Get() {return *s_Instance;}
 		inline Window& GetWindow() { return *m_Window; }
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
+
 		bool m_Running = true;
+		bool m_Minimized = false;
 
 		LayerStack m_LayerStack;
 

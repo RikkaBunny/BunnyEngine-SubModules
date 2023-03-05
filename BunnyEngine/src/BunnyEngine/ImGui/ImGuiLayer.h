@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BunnyEngine/Layer.h"
+#include "BunnyEngine/Core/Layer.h"
 #include "BunnyEngine/Events/ApplicationEvent.h"
 #include "BunnyEngine/Events/KeyEvent.h"
 #include "BunnyEngine/Events/MouseEvent.h"
@@ -15,7 +15,7 @@ namespace BE {
 
 		virtual void OnAttcah() override;
 		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
+		//virtual void OnImGuiRender() override;
 
 		void Begine();
 		void End();

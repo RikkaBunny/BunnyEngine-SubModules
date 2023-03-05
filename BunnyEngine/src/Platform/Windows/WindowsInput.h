@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BunnyEngine/Input.h"
+#include "BunnyEngine/Core/Input.h"
 
 namespace BE {
 

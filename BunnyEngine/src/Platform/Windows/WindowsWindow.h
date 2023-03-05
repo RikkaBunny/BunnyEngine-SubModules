@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BunnyEngine/Window.h"
+#include "BunnyEngine/Core/Window.h"
 
 #include <GLFW/glfw3.h>
 #include "BunnyEngine/Renderer/GraphicsContext.h"

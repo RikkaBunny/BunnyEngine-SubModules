@@ -1,3 +1,7 @@
+// ---------Entry Point ---------------
+#include <BunnyEngine/Core/EntryPoint.h>
+// ------------------------------------
+
 #include <BunnyEngine.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -5,6 +9,8 @@
 #include "../imgui/imgui.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Sandbox2D.h"
 
 class ExampleLayer : public BE::Layer {
 public:
@@ -35,10 +41,10 @@ public:
 class RenderLayer : public BE::Layer {
 public:
 	RenderLayer()
-		:Layer("Render"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+		:Layer("Render"), m_CameraController(1280.0f/720.0f,true) {
 		BE_TRACE("RenderLayer Star!");
 
-		m_VertexArray.reset(BE::VertexArray::Create());
+		m_VertexArray = BE::VertexArray::Create();
 
 		float vertices[4 * 5] = {
 			-0.5f,-0.5f,0.0f, 0.0f, 0.0f,
@@ -47,8 +53,7 @@ public:
 			-0.5f, 0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		BE::Ref<BE::VertexBuffer> m_VertexBuffer;
-		m_VertexBuffer.reset(BE::VertexBuffer::Create(vertices, sizeof(vertices)));
+		BE::Ref<BE::VertexBuffer> m_VertexBuffer = BE::VertexBuffer::Create(vertices, sizeof(vertices));
 
 		BE::BufferLayout layout = {
 			{BE::ShaderDataType::Float3, "a_Position"},
@@ -60,8 +65,7 @@ public:
 
 		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		BE::Ref<BE::IndexBuffer> m_IndexBuffer;
-		m_IndexBuffer.reset(BE::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		BE::Ref<BE::IndexBuffer> m_IndexBuffer = BE::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		std::string vertexSrc = R"(
@@ -145,45 +149,27 @@ public:
 		//BE_INFO("RenderLayer Update!");
 		//BE_TRACE("Delta Time : {0}s  ({1}ms)", BE::Timestep::GetSeconds(), BE::Timestep::GetMilliseconds());
 		float ts = BE::Timestep::GetSeconds();
-		if (BE::Input::IsKeyPressed(BE_KEY_RIGHT)) {
-			m_CameraPosition.x -= m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_LEFT)) {
-			m_CameraPosition.x += m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_UP)) {
-			m_CameraPosition.y -= m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_DOWN)) {
-			m_CameraPosition.y += m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_E)) {
-			m_CameraRotation += 180.0f * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_Q)) {
-			m_CameraRotation -= 180.0f * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_A)) {
-			m_VertexPosition.x -= m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_D)) {
-			m_VertexPosition.x += m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_S)) {
-			m_VertexPosition.y -= m_CameraSpeed * ts;
-		}
-		if (BE::Input::IsKeyPressed(BE_KEY_W)) {
-			m_VertexPosition.y += m_CameraSpeed * ts;
-		}
+		m_CameraController.OnUpdate();
+		//if (BE::Input::IsKeyPressed(BE_KEY_A)) {
+		//	m_VertexPosition.x -= m_CameraSpeed * ts;
+		//}
+		//if (BE::Input::IsKeyPressed(BE_KEY_D)) {
+		//	m_VertexPosition.x += m_CameraSpeed * ts;
+		//}
+		//if (BE::Input::IsKeyPressed(BE_KEY_S)) {
+		//	m_VertexPosition.y -= m_CameraSpeed * ts;
+		//}
+		//if (BE::Input::IsKeyPressed(BE_KEY_W)) {
+		//	m_VertexPosition.y += m_CameraSpeed * ts;
+		//}
 
 		BE::RenderCommand::Clear({ 0.8,0.2,0.3,1 });
 
-		BE::Renderer::BeginScene(m_Camera);
+		BE::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		
 		glm::mat4 worldTransform = glm::translate(glm::mat4(1.0f), m_VertexPosition);
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
+
 		 
 		//BE::Material material = new BE::Material(m_shader);
 		//BE::MaterialInstance mi = new BE::MaterialInstance(material);
@@ -209,18 +195,11 @@ public:
 	}
 
 	void OnEvent(BE::Event& event) override {
-		//BE_TRACE("{0}", event);
-		if (event.GetEventType() == BE::EventType::KeyPressed) {
-			BE::KeyPressedEvent& e = (BE::KeyPressedEvent&)event;
-			//BE_TRACE("{0}", (char)e.GetKeyCode());
-			
-		}
+		m_CameraController.OnEvent(event);
+
 	}
 
 private:
-	glm::vec3 m_CameraPosition = glm::vec3(0.0f);
-	float m_CameraRotation = 0;
-	float m_CameraSpeed = 10.0f;
 
 	glm::vec3 m_VertexPosition = glm::vec3(0.0f);
 
@@ -230,7 +209,7 @@ private:
 	BE::Ref<BE::Texture> m_Texture;
 	BE::Ref<BE::Texture> m_LogTexture;
 
-	BE::OrthographicCamera m_Camera;
+	BE::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = glm::vec3(1, 1, 1);
 };
@@ -239,8 +218,9 @@ class Sandbox : public BE::Application {
 
 public:
 	Sandbox() {
-		PushLayer(new ExampleLayer());
-		PushLayer(new RenderLayer());
+		//PushLayer(new ExampleLayer());
+		//PushLayer(new RenderLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() {

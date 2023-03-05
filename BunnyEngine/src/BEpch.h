@@ -13,7 +13,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "BunnyEngine/Log.h"
+#include "BunnyEngine/Core/Log.h"
+
+#include "BunnyEngine/Debug/Instrumentor.h"
 
 #ifdef  BE_PLATFORM_WINDOWS
 #include <Windows.h>

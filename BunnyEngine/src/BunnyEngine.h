@@ -2,13 +2,14 @@
 
 // For use by BunnyEngine application
 
-#include "BunnyEngine/Application.h"
-#include "BunnyEngine/Log.h"
-#include "BunnyEngine/Layer.h"
-
-#include "BunnyEngine/Input.h"
-#include "BunnyEngine/KeyCodes.h"
-#include "BunnyEngine/MouseButtonCodes.h"
+#include "BunnyEngine/Core/Application.h"
+#include "BunnyEngine/Core/Log.h"
+#include "BunnyEngine/Core/Layer.h"
+					 
+#include "BunnyEngine/Core/Input.h"
+#include "BunnyEngine/Core/KeyCodes.h"
+#include "BunnyEngine/Core/MouseButtonCodes.h"
+#include "BunnyEngine/Renderer/OrthographicCameraController.h"
 
 #include "BunnyEngine/ImGui/ImGuiLayer.h"
 
@@ -16,6 +17,7 @@
 
 // ------------Renderer--------------
 #include "BunnyEngine/Renderer/Renderer.h"
+#include "BunnyEngine/Renderer/Renderer2D.h"
 #include "BunnyEngine/Renderer/RenderCommand.h"
 
 #include "BunnyEngine/Renderer/Shader.h"
@@ -26,6 +28,4 @@
 #include "BunnyEngine/Renderer/OrthographicCamera.h"
 //  ----------------------------------
 
-// ---------Entry Point ---------------
-#include"BunnyEngine/EntryPoint.h"
-// ------------------------------------
+
