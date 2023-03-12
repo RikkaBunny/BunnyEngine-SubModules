@@ -1,6 +1,6 @@
 workspace "BunnyEngine"
 	architecture "x64"
-	startproject "Sandbox"
+	startproject "BunnyEngineEditor"
 
 	configurations{
 		"Debug",
@@ -17,10 +17,13 @@ IncludeDir["Glad"] = "BunnyEngine/SDK/Glad/include"
 IncludeDir["ImGui"] = "BunnyEngine/SDK/imgui"
 IncludeDir["glm"] = "BunnyEngine/SDK/glm"
 IncludeDir["stb_image"] = "BunnyEngine/SDK/stb_image"
+IncludeDir["entt"] = "BunnyEngine/SDK/entt/include"
 
-include "BunnyEngine/SDK/GLFW"
-include "BunnyEngine/SDK/Glad"
-include "BunnyEngine/SDK/imgui"
+group "Dependencise"
+	include "BunnyEngine/SDK/GLFW"
+	include "BunnyEngine/SDK/Glad"
+	include "BunnyEngine/SDK/imgui"
+group ""
 
 project "BunnyEngine"
 	location "BunnyEngine"
@@ -58,7 +61,8 @@ project "BunnyEngine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links{
@@ -96,8 +100,8 @@ project "BunnyEngine"
 		optimize "on"
 
 
-project "Sandbox"
-	location "Sandbox"
+project "BunnyEngineEditor"
+	location "BunnyEngineEditor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -114,7 +118,8 @@ project "Sandbox"
 	includedirs{
 		"BunnyEngine/SDK/spdlog/include",
 		"BunnyEngine/src",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links{

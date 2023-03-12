@@ -144,4 +144,30 @@ namespace BE {
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetFloat2("u_TexTiling", glm::vec2(1.0f));
+		s_Data->WhiteTexture->Bind();
+
+		glm::mat4 worldTransform = transform;
+		s_Data->TextureShader->SetMat4("u_WorldTransform", worldTransform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D> texture, const glm::vec4& color, const glm::vec2& TexTiling)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetFloat2("u_TexTiling", TexTiling);
+		texture->Bind();
+
+		glm::mat4 worldTransform = transform;
+		s_Data->TextureShader->SetMat4("u_WorldTransform", worldTransform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
 }

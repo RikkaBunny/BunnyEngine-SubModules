@@ -16,12 +16,16 @@ namespace BE {
 		virtual void OnAttcah() override;
 		virtual void OnDetach() override;
 		//virtual void OnImGuiRender() override;
+		virtual void OnEvent(Event& e) override;
 
 		void Begine();
 		void End();
+		
+		void BlockEvents(bool blockEvents) { m_BlockEvents = blockEvents; }
 
 	private:
 		float m_Time = 0.0f;
+		bool m_BlockEvents = false;
 	};
 
 }

@@ -22,7 +22,7 @@ namespace BE {
 	class BE_API Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Bunny Engine");
 		virtual ~Application();
 
 		void Run();
@@ -35,6 +35,7 @@ namespace BE {
 
 		inline static Application& Get() {return *s_Instance;}
 		inline Window& GetWindow() { return *m_Window; }
+		inline ImGuiLayer& GetImGuiLayer() { return *m_ImGuiLayer; }
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
