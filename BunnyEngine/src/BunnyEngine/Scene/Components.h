@@ -1,19 +1,33 @@
 #pragma once
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+
+#include "BunnyEngine/Scene/SceneCamera.h"
+#include "BunnyEngine/Scene/ScriptableEntity.h"
 
 namespace BE {
 
 	struct TransformComponent
 	{
-		glm::mat4 Transform{ 1.0f };
+		glm::vec3 Translation = { 0.0f,0.0f,0.0f };
+		glm::vec3 Rotation = { 0.0f,0.0f,0.0f };
+		glm::vec3 Scale = { 1.0f,1.0f,1.0f };
 
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::mat4& transform)
-			: Transform(transform) {}
+		TransformComponent(const glm::vec3& translation)
+			: Translation(translation) {}
 
-		operator glm::mat4& () { return Transform; }
-		operator const glm::mat4& () const { return Transform; }
+		glm::mat4 GetTransform() const {
+			glm::mat4 rotaion = glm::toMat4(glm::quat(Rotation));
+
+			return glm::translate(glm::mat4(1.0f), Translation)
+				* rotaion
+				* glm::scale(glm::mat4(1.0f), Scale);
+		}
 	};
 
 	struct NameComponent
@@ -27,16 +41,38 @@ namespace BE {
 
 	};
 
-	struct SpriteRenderComponent
+	struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f };
 
-		SpriteRenderComponent() = default;
-		SpriteRenderComponent(const SpriteRenderComponent&) = default;
-		SpriteRenderComponent(const glm::vec4& color)
+		SpriteRendererComponent() = default;
+		SpriteRendererComponent(const SpriteRendererComponent&) = default;
+		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
 
 	};
 
+	struct CameraComponent {
+		SceneCamera Camera;
+		bool Main = true;
+		bool FixedAspectRatio = false;
 
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct ScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(ScriptComponent*);
+
+		template<typename T>
+		void Bind() {
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](ScriptComponent* scriptComponent) {delete scriptComponent->Instance; scriptComponent->Instance = nullptr; };
+
+		}
+	};
 }

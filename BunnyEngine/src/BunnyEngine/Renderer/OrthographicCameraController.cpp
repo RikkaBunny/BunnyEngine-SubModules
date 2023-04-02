@@ -48,8 +48,8 @@ namespace BE {
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
+		dispatcher.Dispatch<MouseScrolledEvent>(BE_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
+		dispatcher.Dispatch<WindowResizeEvent>(BE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{

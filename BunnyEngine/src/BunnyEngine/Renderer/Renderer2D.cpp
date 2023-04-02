@@ -61,10 +61,31 @@ namespace BE {
 		delete s_Data;
 	}
 
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	{
+		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
+
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProj);
+	}
+
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		glm::mat4 viewProj = camera.GetViewProjection();
+
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProj);
+	}
+
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+	}
+	void Renderer2D::BeginScene(const glm::mat4 viewProjectionMatrix)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
 	}
 
 	void Renderer2D::EndScene()
@@ -170,4 +191,5 @@ namespace BE {
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
+
 }

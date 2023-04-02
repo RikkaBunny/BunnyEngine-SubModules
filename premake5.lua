@@ -12,17 +12,20 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "BunnyEngine/SDK/GLFW/include"
-IncludeDir["Glad"] = "BunnyEngine/SDK/Glad/include"
-IncludeDir["ImGui"] = "BunnyEngine/SDK/imgui"
-IncludeDir["glm"] = "BunnyEngine/SDK/glm"
-IncludeDir["stb_image"] = "BunnyEngine/SDK/stb_image"
-IncludeDir["entt"] = "BunnyEngine/SDK/entt/include"
+IncludeDir["GLFW"] = "%{wks.location}/BunnyEngine/SDK/GLFW/include"
+IncludeDir["Glad"] = "%{wks.location}/BunnyEngine/SDK/Glad/include"
+IncludeDir["ImGui"] = "%{wks.location}/BunnyEngine/SDK/imgui"
+IncludeDir["glm"] = "%{wks.location}/BunnyEngine/SDK/glm"
+IncludeDir["stb_image"] = "%{wks.location}/BunnyEngine/SDK/stb_image"
+IncludeDir["entt"] = "%{wks.location}/BunnyEngine/SDK/entt/include"
+IncludeDir["yaml_cpp"] = "%{wks.location}/BunnyEngine/SDK/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "%{wks.location}/BunnyEngine/SDK/ImGuizmo"
 
 group "Dependencise"
 	include "BunnyEngine/SDK/GLFW"
 	include "BunnyEngine/SDK/Glad"
 	include "BunnyEngine/SDK/imgui"
+	include "BunnyEngine/SDK/yaml-cpp"
 group ""
 
 project "BunnyEngine"
@@ -39,6 +42,7 @@ project "BunnyEngine"
 	pchheader "BEpch.h"
 	pchsource "BunnyEngine/src/BEpch.cpp"
 
+	buildoptions "/MTd"
 
 	files{
 		"%{prj.name}/src/**.h",
@@ -46,7 +50,9 @@ project "BunnyEngine"
 		"%{prj.name}/SDK/stb_image/**.h",
 		"%{prj.name}/SDK/stb_image/**.cpp",
 		"%{prj.name}/SDK/glm/glm/**.hpp",
-		"%{prj.name}/SDK/glm/glm/**.inl"
+		"%{prj.name}/SDK/glm/glm/**.inl",
+		"%{prj.name}/SDK/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/SDK/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	defines{
@@ -62,15 +68,19 @@ project "BunnyEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links{
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
+
 
 	filter "system:windows"
 		systemversion "latest"
@@ -88,16 +98,19 @@ project "BunnyEngine"
 		defines "BE_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		buildoptions "/MTd"
 
 	filter "configurations:Release"
 		defines "BE_RELEASE"
 		runtime "Release"
 		optimize "on"
+		buildoptions "/MT"
 
 	filter "configurations:Dist"
 		defines "BE_DIST"
 		runtime "Release"
 		optimize "on"
+		buildoptions "/MT"
 
 
 project "BunnyEngineEditor"

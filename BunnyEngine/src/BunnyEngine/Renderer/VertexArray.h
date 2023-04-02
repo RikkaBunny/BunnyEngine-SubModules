@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>BE::Ref
+#include <memory>
 #include "BunnyEngine/Renderer/Buffer.h"
 
 namespace BE {

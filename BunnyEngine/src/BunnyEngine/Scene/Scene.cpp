@@ -19,41 +19,6 @@ namespace BE {
 
 	Scene::Scene()
 	{
-		/*struct MeshCompent{
-			float value;
-			MeshCompent() = default;
-		};
-		struct TransformComponent
-		{
-			glm::mat4 Transform;
-
-			TransformComponent() = default;
-			TransformComponent(const TransformComponent&) = default;
-			TransformComponent(const glm::mat4& transform)
-				: Transform(transform){}
-
-			operator glm::mat4& () { return Transform; }
-			operator const glm::mat4& () const{ return Transform; }
-		};
-
-		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-
-		m_Registry.on_construct<TransformComponent>().connect<&OnTransformConstruct>();
-
-		if (m_Registry.try_get<TransformComponent>(entity))
-			TransformComponent& transform = m_Registry.get<TransformComponent>(entity);
-
-		auto view = m_Registry.view<TransformComponent>();
-		for (auto entity : view) {
-			TransformComponent& transform = view.get<TransformComponent>(entity);
-		}
-
-		auto group = m_Registry.group<TransformComponent>(entt::get<MeshCompent>);
-		for (auto entity : group) {
-			auto&[transform, mesh] = group.get<TransformComponent, MeshCompent>(entity);
-		}*/
-
 	}
 
 	Scene::~Scene()
@@ -70,13 +35,92 @@ namespace BE {
 		return entity;
 	}
 
-	void Scene::OnUpdate()
+	void Scene::DestroyEntity(Entity entity)
 	{
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
-		for (auto entity : group) {
-			auto& [transform, Sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
-			Renderer2D::DrawQuad(transform.Transform, Sprite.Color);
+		m_Registry.destroy(entity);
+	}
+
+	void Scene::OnUpdateEditor(EditorCamera& camera)
+	{
+		Renderer2D::BeginScene(camera);
+
+		auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group1) {
+			auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
+			Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
 		}
+
+		Renderer2D::EndScene();
+	}
+
+
+
+	void Scene::OnUpdateRuntime()
+	{
+		//Update scripts
+		{
+			m_Registry.view<ScriptComponent>().each([=](auto entity, auto& scriptComponent) {
+				//TODO: Move to Scene::OnScenePlay
+				if (!scriptComponent.Instance) {
+					scriptComponent.Instance = scriptComponent.InstantiateScript();
+					scriptComponent.Instance->m_Entity = Entity{ entity, this };
+					scriptComponent.Instance->OnCreate();
+				}				
+				scriptComponent.Instance->OnUpdate();
+				});
+		}
+
+		//Render 2D
+		Camera* mainCamera = nullptr;
+		glm::mat4 mainCamerTransform ;
+		{
+			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : view) {
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+
+				if (camera.Main) {
+					mainCamera = &camera.Camera;
+					mainCamerTransform = transform.GetTransform();
+					break;
+				}
+			}
+		}
+		if (mainCamera) {
+			Renderer2D::BeginScene(*mainCamera, mainCamerTransform);
+
+			auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group1) {
+				auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+			}
+
+			Renderer2D::EndScene();
+		}
+	}
+
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view) {
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+			if (!cameraComponent.FixedAspectRatio) {
+				cameraComponent.Camera.SetViewportSize(width, height);
+			}
+		}
+	}
+
+	Entity Scene::GetMainCameraEntity()
+	{
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view) {
+			const auto& camera = view.get<CameraComponent>(entity);
+			if (camera.Main)
+				return Entity{ entity, this };
+		}
+		return {};
 	}
 
 }

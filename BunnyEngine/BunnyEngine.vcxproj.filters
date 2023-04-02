@@ -4,6 +4,9 @@
     <Filter Include="SDK">
       <UniqueIdentifier>{071D880B-7326-887C-FCA1-9E7C68AA937C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDK\ImGuizmo">
+      <UniqueIdentifier>{47278C09-338A-1BAE-DC0F-5464C851E730}</UniqueIdentifier>
+    </Filter>
     <Filter Include="SDK\glm">
       <UniqueIdentifier>{D6D2E89C-42B2-6738-4BCA-F20EB728CE99}</UniqueIdentifier>
     </Filter>
@@ -49,6 +52,9 @@
     <Filter Include="src\BunnyEngine\Scene">
       <UniqueIdentifier>{5B4F6A9C-C7BB-2597-90AF-BDF4FCDA47FF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BunnyEngine\Utils">
+      <UniqueIdentifier>{9EE3979C-0A50-5397-D343-EBF43F6F75FF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -60,6 +66,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SDK\ImGuizmo\ImGuizmo.h">
+      <Filter>SDK\ImGuizmo</Filter>
+    </ClInclude>
     <ClInclude Include="SDK\glm\glm\common.hpp">
       <Filter>SDK\glm\glm</Filter>
     </ClInclude>
@@ -1371,6 +1380,9 @@
     <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Camera.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Framebuffer.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
@@ -1413,6 +1425,18 @@
     <ClInclude Include="src\BunnyEngine\Scene\Scene.h">
       <Filter>src\BunnyEngine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Scene\SceneCamera.h">
+      <Filter>src\BunnyEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Scene\SceneSerializer.h">
+      <Filter>src\BunnyEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Scene\ScriptableEntity.h">
+      <Filter>src\BunnyEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Utils\PlatformUtils.h">
+      <Filter>src\BunnyEngine\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -1437,8 +1461,13 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Math\Math.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\ImGuizmo\ImGuizmo.cpp">
+      <Filter>SDK\ImGuizmo</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\stb_image\stb_image.cpp">
       <Filter>SDK\stb_image</Filter>
     </ClCompile>
@@ -1505,6 +1534,12 @@
     <ClCompile Include="src\BunnyEngine\Scene\Scene.cpp">
       <Filter>src\BunnyEngine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Scene\SceneCamera.cpp">
+      <Filter>src\BunnyEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Scene\SceneSerializer.cpp">
+      <Filter>src\BunnyEngine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1529,8 +1564,13 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Math\Math.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

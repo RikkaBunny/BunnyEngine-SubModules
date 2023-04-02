@@ -66,16 +66,19 @@ namespace BE {
 			m_LastFrameTime = time;
 
 			if (!m_Minimized) {
-				for (Layer* layer : m_LayerStack) {
-					layer->OnUpdate();
+				{
+					for (Layer* layer : m_LayerStack) {
+						layer->OnUpdate();
+					}
 				}
+
+				m_ImGuiLayer->Begine();
+				{
+					for (Layer* layer : m_LayerStack)
+						layer->OnImGuiRender();
+				}
+					m_ImGuiLayer->End();
 			}
-
-
-			m_ImGuiLayer->Begine();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}

@@ -77,10 +77,11 @@
       <PrecompiledHeaderFile>BEpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;SDK\yaml-cpp\include;SDK\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MTd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -97,13 +98,14 @@
       <PrecompiledHeaderFile>BEpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;SDK\yaml-cpp\include;SDK\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MTd /MT %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -121,13 +123,14 @@
       <PrecompiledHeaderFile>BEpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;SDK\spdlog\include;SDK\GLFW\include;SDK\Glad\include;SDK\imgui;SDK\glm;SDK\stb_image;SDK\entt\include;SDK\yaml-cpp\include;SDK\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MTd /MT %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -140,6 +143,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
+    <ClInclude Include="SDK\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="SDK\glm\glm\common.hpp" />
     <ClInclude Include="SDK\glm\glm\detail\_features.hpp" />
     <ClInclude Include="SDK\glm\glm\detail\_fixes.hpp" />
@@ -576,7 +581,9 @@
     <ClInclude Include="src\BunnyEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\BunnyEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\BunnyEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\BunnyEngine\Math\Math.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\Camera.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h" />
@@ -591,6 +598,10 @@
     <ClInclude Include="src\BunnyEngine\Scene\Components.h" />
     <ClInclude Include="src\BunnyEngine\Scene\Entity.h" />
     <ClInclude Include="src\BunnyEngine\Scene\Scene.h" />
+    <ClInclude Include="src\BunnyEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\BunnyEngine\Scene\SceneSerializer.h" />
+    <ClInclude Include="src\BunnyEngine\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\BunnyEngine\Utils\PlatformUtils.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -601,6 +612,8 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
+    <ClCompile Include="SDK\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="SDK\stb_image\stb_image.cpp" />
     <ClCompile Include="src\BEpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -612,6 +625,7 @@
     <ClCompile Include="src\BunnyEngine\Core\Timestep.cpp" />
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Math\Math.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp" />
@@ -625,6 +639,8 @@
     <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\BunnyEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\BunnyEngine\Scene\Scene.cpp" />
+    <ClCompile Include="src\BunnyEngine\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\BunnyEngine\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
@@ -633,6 +649,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -644,6 +661,9 @@
     </ProjectReference>
     <ProjectReference Include="SDK\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="SDK\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "BunnyEngine.h"
+#include "Panels/SceneHierarchyPanel.h"
+#include "BunnyEngine/Renderer/EditorCamera.h"
 
 namespace BE {
 	class EditorLayer : public Layer
@@ -13,6 +15,12 @@ namespace BE {
 		virtual void OnUpdate() override;
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& event) override;
+
+	private:
+		bool OnKeyPressed(KeyPressedEvent& event);
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
 	private:
 
 		Ref<Shader> m_Shader;
@@ -21,6 +29,7 @@ namespace BE {
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_SquareEntity;
+		Entity m_CameraEntity;
 
 		Ref<Framebuffer> m_Framebuffer;
 
@@ -32,6 +41,11 @@ namespace BE {
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
+		int m_GizmoType = -1;
+		//Panels 
+		SceneHierarchyPanel m_SceneHierarchyPanel;
+
+		EditorCamera m_EditorCamera;
 	};
 }
 

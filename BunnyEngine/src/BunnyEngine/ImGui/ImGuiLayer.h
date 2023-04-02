@@ -22,7 +22,8 @@ namespace BE {
 		void End();
 		
 		void BlockEvents(bool blockEvents) { m_BlockEvents = blockEvents; }
-
+	private:
+		void SetDarkThemeColors();
 	private:
 		float m_Time = 0.0f;
 		bool m_BlockEvents = false;

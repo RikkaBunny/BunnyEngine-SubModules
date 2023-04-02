@@ -10,3 +10,9 @@
 [submodule "BunnyEngine/SDK/glm"]
 	path = BunnyEngine/SDK/glm
 	url = https://github.com/g-truc/glm
+[submodule "BunnyEngine/SDK/yaml-cpp"]
+	path = BunnyEngine/SDK/yaml-cpp
+	url = https://github.com/thecherno/yaml-cpp
+[submodule "BunnyEngine/SDK/ImGuizmo"]
+	path = BunnyEngine/SDK/ImGuizmo
+	url = https://github.com/thecherno/imguizmo
