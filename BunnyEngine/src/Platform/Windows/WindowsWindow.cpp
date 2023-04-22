@@ -43,6 +43,8 @@ namespace BE {
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
+		// 设置窗口提示 GLFW_DECORATED 的值为 GLFW_FALSE，以创建一个无边框窗口
+		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
@@ -132,7 +134,25 @@ namespace BE {
 			MouseMoveEvent event((float)xPos, (float)yPos);
 			data.EventCallback(event);
 		});
+		glfwSetWindowIconifyCallback(m_Window, [](GLFWwindow* window, int iconified) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			if (iconified) {
+				data.WindowState = WindowState::MINIMIZED;
+			}
+			else {
+				data.WindowState = WindowState::NORMAL;
+			}
+		});
 
+		glfwSetWindowMaximizeCallback(m_Window, [](GLFWwindow* window, int iconified) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			if (iconified) {
+				data.WindowState = WindowState::MAXIMIZED;
+			}
+			else {
+				data.WindowState = WindowState::NORMAL;
+			}
+		});
 	}
 
 	void WindowsWindow::Shutdown() {
@@ -144,6 +164,19 @@ namespace BE {
 		m_Context->SwapBuffers();
 		
 	}
+
+
+	void WindowsWindow::SetWindowPos(int windowPosX, int windowPosY)
+	{
+		glfwSetWindowPos(m_Window, windowPosX, windowPosY);
+	}
+
+	void WindowsWindow::SetWindowSize(int windowSizeX, int windowSizeY)
+	{
+		glfwSetWindowSize(m_Window, windowSizeX, windowSizeY);
+	}
+
+
 
 	void WindowsWindow::SetVSync(bool enabled) {
 		if (enabled) {

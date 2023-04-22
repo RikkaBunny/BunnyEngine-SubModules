@@ -46,6 +46,9 @@
     <Filter Include="src\BunnyEngine\ImGui">
       <UniqueIdentifier>{6857BA9B-D4C3-7596-9DB7-0DF409E397FE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BunnyEngine\Math">
+      <UniqueIdentifier>{57F73D14-4386-C7DD-ECA4-DBD8D812D883}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\BunnyEngine\Renderer">
       <UniqueIdentifier>{24E5AB29-100A-FBA9-3955-E03925D9F9C7}</UniqueIdentifier>
     </Filter>
@@ -1377,10 +1380,16 @@
     <ClInclude Include="src\BunnyEngine\ImGui\ImGuiLayer.h">
       <Filter>src\BunnyEngine\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Math\Math.h">
+      <Filter>src\BunnyEngine\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Camera.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Framebuffer.h">
@@ -1461,8 +1470,6 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Math\Math.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDK\ImGuizmo\ImGuizmo.cpp">
@@ -1495,7 +1502,13 @@
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\BunnyEngine\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Math\Math.cpp">
+      <Filter>src\BunnyEngine\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp">
@@ -1570,7 +1583,5 @@
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Math\Math.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

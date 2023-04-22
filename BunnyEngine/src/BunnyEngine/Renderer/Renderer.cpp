@@ -5,6 +5,7 @@
 namespace BE {
 
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
+	Renderer::RenderPipeline m_RenderPipeline = Renderer::RenderPipeline::DeferredRendering;
 
 	void Renderer::Init()
 	{

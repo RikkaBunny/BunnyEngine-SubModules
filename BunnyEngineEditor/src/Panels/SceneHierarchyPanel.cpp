@@ -3,25 +3,34 @@
 #include <../imgui/imgui.h>
 #include <../imgui/imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <filesystem>
+#include "DockSpace.h"
+
 
 namespace BE {
+	extern const std::filesystem::path g_AssetsPath;
 
-	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
-	{
-		SetContext(context);
-	}
+	//SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
+	//{
+	//	SetContext(context);
+	//}
 
-	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
+	//void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
+	//{
+	//	m_Context = context;
+	//	m_SelectionContext = {};
+	//}
+
+	void SceneHierarchyPanel::SetContext(DockSpace* context)
 	{
 		m_Context = context;
-		m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRenderer()
 	{
 		ImGui::Begin("Scene Hierarchy");
-		m_Context->m_Registry.each([&](auto& entityID) {
-			Entity entity{ entityID, m_Context.get() };
+		m_Context->GetActiveScene()->m_Registry.each([&](auto& entityID) {
+			Entity entity{ entityID, m_Context->GetActiveScene().get() };
 			DrawEntityNode(entity);
 		});
 
@@ -31,7 +40,7 @@ namespace BE {
 		// Right - Click On blank space
 		if (ImGui::BeginPopupContextWindow(0, 1, false)) {
 			if (ImGui::MenuItem("Create New Entity")) {
-				m_Context->CreateEntity();
+				m_Context->GetActiveScene()->CreateEntity();
 			}
 			ImGui::EndPopup();
 		}
@@ -77,7 +86,7 @@ namespace BE {
 			if (m_SelectionContext == entity)
 				m_SelectionContext = {};
 
-			m_Context->DestroyEntity(entity);
+			m_Context->GetActiveScene()->DestroyEntity(entity);
 		}
 
 	}
@@ -203,6 +212,10 @@ namespace BE {
 				m_SelectionContext.AddComponent<SpriteRendererComponent>();
 				ImGui::CloseCurrentPopup();
 			}
+			if (ImGui::MenuItem("Quad Renderer")) {
+				m_SelectionContext.AddComponent<QuadRendererComponent>();
+				ImGui::CloseCurrentPopup();
+			}
 			ImGui::EndPopup();
 		}
 		ImGui::PopItemWidth();
@@ -268,6 +281,84 @@ namespace BE {
 
 		DrawComponent<SpriteRendererComponent>("SpriteRenderer", entity, [](auto& component) {
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+			ImGui::Button("Texture", ImVec2(100.0f, 100.0f));
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.Texture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+
+			ImGui::DragFloat("Tiling", &component.Tiling, 0.1f, 0.0f, 10.0f);
+			});
+
+		DrawComponent<QuadRendererComponent>("QuadRenderer", entity, [&](auto& component) {
+			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+			//ImGui::Button("AlbedoTexture", ImVec2(100.0f, 100.0f));
+			ImGui::ImageButton((ImTextureID)m_BEIcon->GetRendererID(), { m_ThumbnailSize, m_ThumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.u_AlbedoTexture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+			//ImGui::Button("NormalTexture", ImVec2(100.0f, 100.0f));
+			ImGui::ImageButton((ImTextureID)m_BEIcon->GetRendererID(), { m_ThumbnailSize, m_ThumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.u_AlbedoTexture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+			ImGui::DragFloat("Metallic", &component.Metallic, 0.1f, 0.0f, 10.0f);
+			//ImGui::Button("MetallicTexture", ImVec2(100.0f, 100.0f));
+			ImGui::ImageButton((ImTextureID)m_BEIcon->GetRendererID(), { m_ThumbnailSize, m_ThumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.u_AlbedoTexture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+			ImGui::DragFloat("Roughness", &component.Roughness, 0.1f, 0.0f, 10.0f);
+			//ImGui::Button("RoughnessTexture", ImVec2(100.0f, 100.0f));
+			ImGui::ImageButton((ImTextureID)m_BEIcon->GetRendererID(), { m_ThumbnailSize, m_ThumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.u_AlbedoTexture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+			//ImGui::Button("AoTexture", ImVec2(100.0f, 100.0f));
+			ImGui::ImageButton((ImTextureID)m_BEIcon->GetRendererID(), { m_ThumbnailSize, m_ThumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					auto texturePath = std::filesystem::path(g_AssetsPath) / path;
+					component.u_AlbedoTexture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+
+			}
+			ImGui::DragFloat("Emissive", &component.Emissive, 0.1f, 0.0f, 10.0f);
+
+			ImGui::DragFloat("Tiling", &component.Tiling, 0.1f, 0.0f, 10.0f);
 			});
 	}
 

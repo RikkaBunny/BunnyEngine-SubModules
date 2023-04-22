@@ -20,14 +20,17 @@ void main(){
 #version 330 core
 			
 layout(location = 0) out vec4 color;
-layout(location = 1) out vec4 color2;
+layout(location = 1) out int color2;
 uniform sampler2D u_Texture;			
 uniform vec2 u_TexTiling;
 uniform vec4 u_Color;
+
+uniform int u_EntityID;
 
 in vec2 v_TexCoord;
 void main(){
 
 	color = texture(u_Texture, v_TexCoord * u_TexTiling) * u_Color;
-	color2 = vec4(1.0f,0.0f,0.0f,1.0f);
+	//color *= u_EntityID;
+	color2 = u_EntityID;
 }

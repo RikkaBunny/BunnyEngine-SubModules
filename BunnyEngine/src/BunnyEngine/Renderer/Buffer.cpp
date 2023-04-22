@@ -7,6 +7,7 @@
 
 
 namespace BE {
+	OutBuffer::VisibleBuffer OutBuffer::m_OutBuffer = OutBuffer::VisibleBuffer::FinalBuffer;
 
 	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{

@@ -3,12 +3,14 @@
 #include "Texture.h"
 #include "BunnyEngine/Renderer/Camera.h"
 #include "BunnyEngine/Renderer/EditorCamera.h"
+#include <BunnyEngine/Scene/Components.h>
 namespace BE {
 
 	class Renderer2D
 	{
 	public:
 		static void Init();
+		static void InitQuad();
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
@@ -33,6 +35,9 @@ namespace BE {
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
 		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D> texture, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& TexTiling = glm::vec2(1.0f));
 
+		static void DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& component, const int entityID = -1);
+
+		static void DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID = -1);
 
 	};
 

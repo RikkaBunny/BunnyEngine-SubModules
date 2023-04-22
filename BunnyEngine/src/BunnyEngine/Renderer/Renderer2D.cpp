@@ -16,6 +16,7 @@ namespace BE {
 		Ref<VertexArray> QuadVertexArray;
 		Ref<Shader> TextureShader;
 		Ref<Texture2D> WhiteTexture;
+
 	};
 
 	static Renderer2DStorage* s_Data;
@@ -25,18 +26,20 @@ namespace BE {
 		s_Data = new Renderer2DStorage();
 		s_Data->QuadVertexArray = VertexArray::Create();
 
-		float vertices[4 * 5] = {
-			-0.5f,-0.5f,0.0f,0.0f,0.0f,
-			0.5f, -0.5f, 0.0f,1.0f,0.0f,
-			0.5f, 0.5f, 0.0f,1.0f,1.0f,
-			-0.5f, 0.5f, 0.0f,0.0f,1.0f
+		float vertices[4 * 11] = {
+			-0.5f,-0.5f,0.0f, 0.0f,0.0f,-1.0f, 0.0f,0.0f, 0.707107f,0.707107f,0.0f,
+			0.5f, -0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,0.0f, -0.707107f,0.707107f,0.0f,
+			0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,1.0f, -0.707107f,-0.707107f,0.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 0.0f,1.0f, 0.707107f,-0.707107f,0.0f
 		};
 
 		Ref<VertexBuffer> m_VertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
 
 		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float3, "a_Normal"},
 			{ShaderDataType::Float2, "a_TexCoord"},
+			{ShaderDataType::Float3, "a_Tangent"}
 		};
 
 		m_VertexBuffer->SetLayout(layout);
@@ -54,6 +57,49 @@ namespace BE {
 		s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetInt("u_Texture", 0);
+	}
+
+	void Renderer2D::InitQuad()
+	{
+		s_Data = new Renderer2DStorage();
+		s_Data->QuadVertexArray = VertexArray::Create();
+
+		float vertices[4 * 11] = {
+			-0.5f,-0.5f,0.0f, 0.0f,0.0f,-1.0f, 0.0f,0.0f, 0.707107f,0.707107f,0.0f,
+			0.5f, -0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,0.0f, -0.707107f,0.707107f,0.0f,
+			0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,1.0f, -0.707107f,-0.707107f,0.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 0.0f,1.0f, 0.707107f,-0.707107f,0.0f
+		};
+
+		Ref<VertexBuffer> m_VertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
+
+		BufferLayout layout = {
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float3, "a_Normal"},
+			{ShaderDataType::Float2, "a_TexCoord"},
+			{ShaderDataType::Float3, "a_Tangent"}
+		};
+
+		m_VertexBuffer->SetLayout(layout);
+		s_Data->QuadVertexArray->AddVertexBuffer(m_VertexBuffer);
+
+		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
+
+		Ref<IndexBuffer> m_IndexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
+		s_Data->QuadVertexArray->SetIndexBuffer(m_IndexBuffer);
+
+		s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+
+		s_Data->TextureShader = Shader::Create("assets/shaders/DeferredPBR.glsl");
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetInt("u_AlbedoTexture", 0);
+		s_Data->TextureShader->SetInt("u_NormalTexture", 1);
+		s_Data->TextureShader->SetInt("u_MetallicTexture", 2);
+		s_Data->TextureShader->SetInt("u_RoughnessTexture", 3);
+		s_Data->TextureShader->SetInt("u_AoTexture", 4);
+		//return s_Data;
 	}
 
 	void Renderer2D::Shutdown()
@@ -191,5 +237,85 @@ namespace BE {
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& component, const int entityID)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", component.Color);
+		s_Data->TextureShader->SetFloat2("u_TexTiling", glm::vec2(component.Tiling));
+		s_Data->TextureShader->SetInt("u_EntityID", entityID);
+		if (component.Texture) {
+			component.Texture->Bind();
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind();
+		}
+
+		s_Data->TextureShader->SetMat4("u_WorldTransform", transform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", component.Color);
+		s_Data->TextureShader->SetFloat2("u_TexTiling", glm::vec2(component.Tiling));
+		s_Data->TextureShader->SetFloat("u_Metallic", component.Metallic);
+		s_Data->TextureShader->SetFloat("u_Roughness", component.Roughness);
+		s_Data->TextureShader->SetFloat("u_Emissive", component.Emissive);
+		s_Data->TextureShader->SetInt("u_EntityID", entityID);
+		if (component.u_AlbedoTexture) {
+			component.u_AlbedoTexture->Bind(0);
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind(0);
+		}
+
+		if (component.u_RoughnessTexture) {
+			component.u_RoughnessTexture->Bind(3);
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind(3);
+		}
+
+		if (component.u_AoTexture) {
+			component.u_AoTexture->Bind(4);
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind(4);
+		}
+		//s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		//uint32_t blueTextureData = 0x0000ffff;
+		//s_Data->WhiteTexture->SetData(&blueTextureData, sizeof(uint32_t));
+		if (component.u_NormalTexture) {
+			component.u_NormalTexture->Bind(1);
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind(1);
+		}
+		//s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		//uint32_t blackTextureData = 0x000000ff;
+		//s_Data->WhiteTexture->SetData(&blackTextureData, sizeof(uint32_t));
+		if (component.u_MetallicTexture) {
+			component.u_MetallicTexture->Bind(2);
+		}
+		else
+		{
+			s_Data->WhiteTexture->Bind(2);
+		}
+
+		s_Data->TextureShader->SetMat4("u_WorldTransform", transform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
 
 }

@@ -42,14 +42,24 @@ namespace BE {
 
 	void Scene::OnUpdateEditor(EditorCamera& camera)
 	{
+		Renderer2D::InitQuad();
 		Renderer2D::BeginScene(camera);
-
-		auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group1) {
-			auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+		//{
+		//	auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		//	for (auto entity : group1) {
+		//		auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
+		//		//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+		//		Renderer2D::DrawSprite(transform.GetTransform(), Sprite, (int)entity);
+		//	}
+		//}
+		{
+			auto group2 = m_Registry.group<TransformComponent>(entt::get<QuadRendererComponent>);
+			for (auto entity1 : group2) {
+				auto [transform, Quad] = group2.get<TransformComponent, QuadRendererComponent>(entity1);
+				//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+				Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
+			}
 		}
-
 		Renderer2D::EndScene();
 	}
 
@@ -122,5 +132,6 @@ namespace BE {
 		}
 		return {};
 	}
+
 
 }

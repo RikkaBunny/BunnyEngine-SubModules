@@ -1,7 +1,7 @@
 #pragma once
 
 namespace BE {
-
+	
 	enum class ShaderDataType {
 		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
 	};
@@ -141,6 +141,25 @@ namespace BE {
 
 		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 
+	};
+
+	class OutBuffer {
+	public:
+		enum class VisibleBuffer {
+			FinalBuffer = 0,
+			ColorBuffer = 1,
+			DepthBuffer = 2,
+			LightBuffer = 3,
+			WorldNormalBuffer = 4,
+			RoughnessBuffer = 5,
+			MetallicBuffer = 6,
+			AOBuffer = 7,
+			ReflectBuffer = 8
+		};
+		static VisibleBuffer GetOutBuffer() { return m_OutBuffer; }
+		static void SetOutBuffer(VisibleBuffer outBuffer) { m_OutBuffer = outBuffer; }
+	private:
+		static VisibleBuffer m_OutBuffer ;
 	};
 
 }

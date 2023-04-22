@@ -9,6 +9,12 @@ namespace BE {
 
 	class Renderer {
 	public:
+		enum class RenderPipeline
+		{
+			ForwardRendering = 0,
+			DeferredRendering = 1
+		};
+	public:
 		static void Init();
 		static void OnWindowResize(uint32_t width, uint32_t height);
 		static void BeginScene(OrthographicCamera& camera);
@@ -18,6 +24,8 @@ namespace BE {
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
+		inline static RenderPipeline GetRenderPipeline() { return m_RenderPipeline; }
+
 	private:
 		struct SceneData
 		{
@@ -25,6 +33,8 @@ namespace BE {
 		};
 
 		static SceneData* m_SceneData;
+
+		static RenderPipeline m_RenderPipeline;
 	};
 
 }

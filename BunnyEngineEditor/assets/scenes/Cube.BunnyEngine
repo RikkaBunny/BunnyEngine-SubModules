@@ -2,43 +2,16 @@ Scene: Untitled
 Entities:
   - Entity: 123465
     NameComponent:
-      Name: NewGameEntity
+      Name: D
     TransformComponent:
-      Translation: [0.5, 0, 0.5]
-      Rotation: [0, 1.57079637, 0]
+      Translation: [0, -0.5, 0.5]
+      Rotation: [1.57079637, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.627906978, 0.280367762, 0.280367762, 1]
+      Color: [0.613953471, 0.257003784, 0.426347554, 1]
   - Entity: 123465
     NameComponent:
-      Name: NewGameEntity
-    TransformComponent:
-      Translation: [-0.5, 0, 0.5]
-      Rotation: [0, -1.57079637, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.345138311, 0.52558136, 0.188231453, 1]
-  - Entity: 123465
-    NameComponent:
-      Name: NewGameEntity
-    TransformComponent:
-      Translation: [0, 0, 1]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.292655498, 0.706976771, 0.585570931, 1]
-  - Entity: 123465
-    NameComponent:
-      Name: NewGameEntity
-    TransformComponent:
-      Translation: [0, 0.5, 0.5]
-      Rotation: [-1.57079637, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.550019264, 0.296376407, 0.637209296, 1]
-  - Entity: 123465
-    NameComponent:
-      Name: NewGameEntity
+      Name: B
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
@@ -47,10 +20,37 @@ Entities:
       Color: [0.66511631, 0.66511631, 0.66511631, 1]
   - Entity: 123465
     NameComponent:
-      Name: NewGameEntity
+      Name: T
     TransformComponent:
-      Translation: [0, -0.5, 0.5]
-      Rotation: [1.57079637, 0, 0]
+      Translation: [0, 0.5, 0.5]
+      Rotation: [-1.57079637, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.613953471, 0.257003784, 0.426347554, 1]
+      Color: [0.550019264, 0.296376407, 0.637209296, 1]
+  - Entity: 123465
+    NameComponent:
+      Name: F
+    TransformComponent:
+      Translation: [0, 0, 1]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.292655498, 0.706976771, 0.585570931, 1]
+  - Entity: 123465
+    NameComponent:
+      Name: R
+    TransformComponent:
+      Translation: [-0.5, 0, 0.5]
+      Rotation: [0, -1.57079637, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.345138311, 0.52558136, 0.188231453, 1]
+  - Entity: 123465
+    NameComponent:
+      Name: L
+    TransformComponent:
+      Translation: [0.5, 0, 0.5]
+      Rotation: [0, 1.57079637, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.627906978, 0.280367762, 0.280367762, 1]

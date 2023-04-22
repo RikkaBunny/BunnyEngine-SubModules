@@ -17,8 +17,15 @@ namespace BE {
 
 		void OnUpdate() override;
 
+		void SetWindowPos(int windowPosX, int windowPosY) override;
+		void SetWindowSize(int windowSizeX, int windowSizeY) override;
+		void SetWindowIconify() override { glfwIconifyWindow(m_Window); }
+		void SetWindowMaximize() override { glfwMaximizeWindow(m_Window); }
+		void SetWindowRestore() override { glfwRestoreWindow(m_Window); }
+
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeight() const override { return m_Data.Height; }
+		inline WindowState GetWindowState() const override { return m_Data.WindowState; }
 
 		//Window attributes
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
@@ -37,9 +44,11 @@ namespace BE {
 			std::string Title;
 			unsigned int Width, Height;
 			bool VSync;
+			WindowState WindowState = WindowState::NORMAL;
 
 			EventCallbackFn EventCallback;
 		};
+
 
 		WindowData m_Data;
 	};

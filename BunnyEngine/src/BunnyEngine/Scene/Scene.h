@@ -20,6 +20,8 @@ namespace BE {
 
 		Entity GetMainCameraEntity();
 
+		
+
 	private:
 		entt::registry m_Registry;
 

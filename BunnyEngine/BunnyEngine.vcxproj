@@ -143,7 +143,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="SDK\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="SDK\glm\glm\common.hpp" />
     <ClInclude Include="SDK\glm\glm\detail\_features.hpp" />
@@ -584,6 +583,7 @@
     <ClInclude Include="src\BunnyEngine\Math\Math.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h" />
@@ -612,7 +612,6 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="SDK\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="SDK\stb_image\stb_image.cpp" />
     <ClCompile Include="src\BEpch.cpp">
@@ -627,6 +626,7 @@
     <ClCompile Include="src\BunnyEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\BunnyEngine\Math\Math.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCameraController.cpp" />

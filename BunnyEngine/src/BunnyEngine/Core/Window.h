@@ -7,6 +7,12 @@
 
 
 namespace BE {
+	
+	enum class WindowState {
+		NORMAL,
+		MINIMIZED,
+		MAXIMIZED
+	};
 
 	struct WindowProps
 	{
@@ -29,9 +35,15 @@ namespace BE {
 		virtual ~Window() {}
 
 		virtual void OnUpdate() = 0;
+		virtual void SetWindowPos(int windowPosX, int windowPosY) = 0;
+		virtual void SetWindowSize(int windowSizeX, int windowSizeY) = 0;
+		virtual void SetWindowIconify() = 0;
+		virtual void SetWindowMaximize() = 0;
+		virtual void SetWindowRestore() = 0;
 
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
+		virtual WindowState GetWindowState() const = 0;
 
 		//Window attributes 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
