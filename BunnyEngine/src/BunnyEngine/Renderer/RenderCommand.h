@@ -22,6 +22,10 @@ namespace BE {
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 
+		inline static void Postprocess() {
+			s_RendererAPI->Postprocess();
+		}
+
 	private:
 		static RendererAPI* s_RendererAPI;
 	};

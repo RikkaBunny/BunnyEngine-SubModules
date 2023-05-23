@@ -1,5 +1,6 @@
 #pragma once
 #include "BunnyEngine/Renderer/RendererAPI.h"
+#include "BunnyEngine/Renderer/Renderer.h"
 
 namespace BE {
 
@@ -14,6 +15,7 @@ namespace BE {
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 
+		virtual void Postprocess() override;
 	};
 
 }

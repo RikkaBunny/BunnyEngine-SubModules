@@ -2,7 +2,10 @@
 
 #include "BunnyEngine.h"
 #include "Panels/DockSpace.h"
+#include "Panels/NodeEditorPanel.h"
+# include "../imgui-node-editor/imgui_node_editor.h"
 
+namespace ed = ax::NodeEditor::BE;
 namespace BE {
 	class EditorLayer : public Layer
 	{
@@ -34,7 +37,7 @@ namespace BE {
 		ViewportPanel m_ViewportPanel;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowserPanel m_ContentBrowserPanel;
-
+		ed::NodeEditorPanel m_NodeEditorPanel;
 	};
 }
 

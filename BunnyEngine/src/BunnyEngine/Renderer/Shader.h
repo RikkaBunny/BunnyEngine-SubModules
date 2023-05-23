@@ -4,6 +4,16 @@
 #include <glm/glm.hpp>
 
 namespace BE {
+	enum class ShaderInputType {
+		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Bool, Texture2D
+	};
+	struct ShaderParameter
+	{
+		ShaderInputType InputType;
+		std::string ParameterName;
+		std::string ParameterVlaue;
+		
+	}; 
 
 	class Shader {
 	public:
@@ -14,6 +24,7 @@ namespace BE {
 		virtual void UnBind() const = 0;
 
 		virtual const std::string& GetName() const = 0;
+		virtual const std::vector<ShaderParameter>& GetShaderParameter() const = 0;
 
 		virtual void SetInt(const std::string& name, int value) = 0;
 					
@@ -32,16 +43,16 @@ namespace BE {
 
 	class ShaderLibray {
 	public:
-		void Add(const std::string& name, const Ref<Shader>& shader);
-		void Add(const Ref<Shader>& shader);
-		Ref<Shader> Load(const std::string& filepath);
-		Ref<Shader> Load(const std::string& name, const std::string& filepath);
+		static void Add(const std::string& name, const Ref<Shader>& shader);
+		static void Add(const Ref<Shader>& shader);
+		static Ref<Shader> Load(const std::string& filepath);
+		static Ref<Shader> Load(const std::string& name, const std::string& filepath);
 		
-		Ref<Shader> Get(const std::string& name);
+		static Ref<Shader> Get(const std::string& name);
 
-		bool Exists(const std::string& name) const;
-
+		static bool Exists(const std::string& name);
+		static const std::unordered_map<std::string, Ref<Shader>> GetShaderLibray() { return m_Shaders; }
 	private:
-		std::unordered_map<std::string, Ref<Shader>> m_Shaders;
+		static std::unordered_map<std::string, Ref<Shader>> m_Shaders ;
 	};
 }

@@ -20,7 +20,7 @@ namespace BE {
 		BE_CORE_ASSERT(false, "Unknow RendererAPI!");
 		return nullptr;
 	}
-	Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height)
+	Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height, int type)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -28,7 +28,7 @@ namespace BE {
 			BE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLTexture2D>(width, height);
+			return std::make_shared<OpenGLTexture2D>(width, height, type);
 		}
 
 		BE_CORE_ASSERT(false, "Unknow RendererAPI!");

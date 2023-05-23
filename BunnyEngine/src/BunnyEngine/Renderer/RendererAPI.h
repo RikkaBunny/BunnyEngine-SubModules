@@ -21,6 +21,8 @@ namespace BE {
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
 
+		virtual void Postprocess() = 0;
+
 		inline static API GetAPI() { return s_API; };
 
 	private:

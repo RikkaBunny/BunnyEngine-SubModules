@@ -19,6 +19,7 @@ namespace BE {
 		virtual void UnBind() const override;
 
 		virtual const std::string& GetName() const override { return m_Name; };
+		virtual const std::vector<ShaderParameter>& GetShaderParameter() const override { return m_ShaderParameter; };
 
 		virtual void SetInt(const std::string& name, int value) override;
 
@@ -42,10 +43,12 @@ namespace BE {
 	private:
 		std::string ReadFile(const std::string& filePath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		std::vector<ShaderParameter> PreProcessParameter(const std::string& source);
 		void Compile(std::unordered_map<GLenum, std::string>& shaderSources);
 	private:
 		uint32_t m_RendererID;
 		std::string m_Name;
+		std::vector<ShaderParameter> m_ShaderParameter;
 	};
 
 }

@@ -5,7 +5,7 @@
 #include "DockSpace.h"
 
 namespace BE {
-	extern const std::filesystem::path g_AssetsPath = "assets";
+	extern const std::filesystem::path g_AssetsPath = "Assets";
 	ContentBrowserPanel::ContentBrowserPanel()
 		:m_CurrentDirectory(g_AssetsPath)
 	{

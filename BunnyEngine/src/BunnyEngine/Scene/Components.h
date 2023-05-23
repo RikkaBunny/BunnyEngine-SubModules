@@ -8,6 +8,7 @@
 #include "BunnyEngine/Scene/SceneCamera.h"
 #include "BunnyEngine/Scene/ScriptableEntity.h"
 #include "BunnyEngine/Renderer/Texture.h"
+#include "BunnyEngine/Renderer/Material.h"
 
 namespace BE {
 
@@ -58,20 +59,20 @@ namespace BE {
 	struct QuadRendererComponent
 	{
 		glm::vec4 Color{ 1.0f };
-		Ref<Texture2D> u_AlbedoTexture;
-		Ref<Texture2D> u_NormalTexture;
+		Ref<Texture2D> u_AlbedoTexture = Texture2D::Create(1, 1);
+		Ref<Texture2D> u_NormalTexture = Texture2D::Create(1, 1, 3);
 		float Metallic = 0.0f;
-		Ref<Texture2D> u_MetallicTexture;
+		Ref<Texture2D> u_MetallicTexture = Texture2D::Create(1, 1, 2);
 		float Roughness = 0.0f;
-		Ref<Texture2D> u_RoughnessTexture;
-		Ref<Texture2D> u_AoTexture;
+		Ref<Texture2D> u_RoughnessTexture = Texture2D::Create(1, 1, 1);
+		Ref<Texture2D> u_AoTexture = Texture2D::Create(1, 1);
 		float Emissive = 0.0f;
 		float Tiling = 1.0f;
 
 
 		QuadRendererComponent() = default;
 		QuadRendererComponent(const QuadRendererComponent&) = default;
-		QuadRendererComponent(const glm::vec4& color, float metallic, float roughness, float emissive)
+		QuadRendererComponent(const glm::vec4& color, const float metallic, const float roughness, const float emissive)
 			: Color(color), Metallic(metallic), Roughness(roughness), Emissive(emissive) {}
 
 	};
@@ -99,4 +100,28 @@ namespace BE {
 
 		}
 	};
+
+	struct DirctionLightComponent
+	{
+		glm::vec3 DirctionColor = { 1.0f,1.0f,1.0f };
+		float DirctionIntersity = 1.0f;
+
+		DirctionLightComponent() = default;
+		DirctionLightComponent(const DirctionLightComponent&) = default;
+		DirctionLightComponent(const glm::vec3& color, const float sunIntersity)
+			: DirctionColor(color), DirctionIntersity(sunIntersity){}
+
+	};
+
+	struct MaterialComponent
+	{
+		Material Mat;
+
+		MaterialComponent() = default;
+		MaterialComponent(const MaterialComponent&) = default;
+		MaterialComponent(const Material& materail)
+			: Mat(materail){}
+
+	};
+
 }

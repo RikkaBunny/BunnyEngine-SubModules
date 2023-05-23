@@ -1,4 +1,21 @@
-// Baeic Texture Shader
+// Base Deferred Shader
+#parameter
+{
+sampler2D u_AlbedoTexture = white;	
+sampler2D u_NormalTexture = blue;	
+sampler2D u_MetallicTexture = black;	
+sampler2D u_RoughnessTexture = gray;	
+sampler2D u_AoTexture = white;	
+
+vec2 u_TexTiling = (1,1);
+vec4 u_Color = (1,1,1,1);
+float u_Metallic = 1;
+float u_Roughness = 1;
+float u_Emissive = 0;
+
+bool u_TestBool = true;
+}
+
 #type vertex
 
 #version 330 core
@@ -31,6 +48,7 @@ layout(location = 0) out vec4 GBufferA;
 layout(location = 1) out vec4 GBufferB;
 layout(location = 2) out vec4 GBufferC;
 layout(location = 3) out int EntityID;
+
 uniform sampler2D u_AlbedoTexture;	
 uniform sampler2D u_NormalTexture;
 uniform sampler2D u_MetallicTexture;

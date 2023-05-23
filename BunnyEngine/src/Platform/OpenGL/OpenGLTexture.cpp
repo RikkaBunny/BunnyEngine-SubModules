@@ -12,6 +12,7 @@ namespace BE {
 		stbi_set_flip_vertically_on_load(1);
 		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		BE_CORE_ASSERT(data, "Failed to load image!");
+
 		m_Width = width;
 		m_Height = height;
 
@@ -40,7 +41,7 @@ namespace BE {
 		stbi_image_free(data);
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height,int type)
 	{
 		m_Width = width;
 		m_Height = height;
@@ -59,6 +60,33 @@ namespace BE {
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+		uint32_t whiteTextureData;
+		int width1, height1, channels1;
+		std::string bulePath = "Resources/Icons/ContentBrowser/Blue.png";
+		stbi_uc* data;
+
+		switch (type)
+		{
+		case 0:
+			whiteTextureData = 0xffffffff;
+			SetData(&whiteTextureData, sizeof(uint32_t));
+			break;
+		case 1:
+			whiteTextureData = 0x88888888;
+			SetData(&whiteTextureData, sizeof(uint32_t));
+			break;
+		case 2:
+			
+			whiteTextureData = 0x00000000;
+			SetData(&whiteTextureData, sizeof(uint32_t));
+			break;
+		case 3:
+			stbi_set_flip_vertically_on_load(1);
+			data = stbi_load(bulePath.c_str(), &width1, &height1, &channels1, 0);
+			glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+			stbi_image_free(data);
+			break;
+		}
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()

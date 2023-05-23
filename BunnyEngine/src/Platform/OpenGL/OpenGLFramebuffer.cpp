@@ -40,7 +40,7 @@ namespace BE::Utils {
 			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
 		}
 		else {
-			//glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
+			//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH32F_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_BYTE, nullptr);
 			glTexStorage2D(GL_TEXTURE_2D, 1, format, width, height);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -136,13 +136,13 @@ namespace BE {
 		Invalidate();
 	}
 
-	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	float OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
 	{
 		BE_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size());
 
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
-		int pixelData;
-		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		float pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED, GL_FLOAT, &pixelData);
 		return pixelData;
 	}
 
@@ -154,6 +154,17 @@ namespace BE {
 
 		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, 
 			Utils::BEFramebufferTextureFormatToGL(FBTextureformat), GL_INT, &value);
+	}
+
+	void OpenGLFramebuffer::BindAttachment(uint32_t attachmentIndex, int value, bool Depth)
+	{
+		if (!Depth) {
+			BE_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size());
+			glBindTextureUnit(value, m_ColorAttachments[attachmentIndex]);
+		}
+		else {
+			glBindTextureUnit(value, m_DepthAttachment);
+		}
 	}
 
 

@@ -34,6 +34,17 @@ namespace BE {
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_EditorCamera = EditorCamera(45.0f, 1.778f, 0.1f, 10000.0f);
+        switch (Renderer::GetRenderPipeline())
+        {
+            case Renderer::RenderPipeline::DeferredRendering :
+                FramebufferSpecification fbSpec1 = fbSpec;
+                fbSpec1.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+                m_Framebuffer1 = Framebuffer::Create(fbSpec1);
+                m_Framebuffer1->UnBind();
+                break;
+ 
+        }
+        m_Framebuffer->Bind();
     }
     //ViewportPanel::ViewportPanel(const FramebufferSpecification& framebufferSpecification, Ref<Scene>* activeScene, SceneHierarchyPanel* sceneHierarchyPanel, EditorCamera editorCamera)
     //    :fbSpec(framebufferSpecification), m_ActiveScene(activeScene), m_EditorCamera(editorCamera), m_SceneHierarchyPanel(sceneHierarchyPanel)
@@ -64,8 +75,8 @@ namespace BE {
         int mouseX = (int)mx;
         int mouseY = (int)my;
         if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y) {
-            int pixelData = GetFramebuffer()->ReadPixel(1, mouseX, mouseY);
-            m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_Context->GetActiveScene().get());
+            m_PixelData = GetFramebuffer()->ReadPixel(1, mouseX, mouseY);
+            //m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_Context->GetActiveScene().get());
         }
 
     }
@@ -122,6 +133,16 @@ namespace BE {
         m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID(0);
+        switch (Renderer::GetRenderPipeline())
+        {
+        case Renderer::RenderPipeline::ForwardRendering:
+            textureID = m_Framebuffer->GetColorAttachmentRendererID(0);
+            break;
+        case Renderer::RenderPipeline::DeferredRendering:
+            textureID = m_Framebuffer1->GetColorAttachmentRendererID(0);
+            break;
+
+        }
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ///////////////////////////////////////////////////////////////////////////////
         if (ImGui::BeginDragDropTarget()) {

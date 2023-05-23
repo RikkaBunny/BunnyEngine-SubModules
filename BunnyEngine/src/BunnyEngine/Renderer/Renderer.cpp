@@ -5,12 +5,13 @@
 namespace BE {
 
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
-	Renderer::RenderPipeline m_RenderPipeline = Renderer::RenderPipeline::DeferredRendering;
+	Renderer::RenderPipeline Renderer::s_RenderPipeline = Renderer::RenderPipeline::DeferredRendering;
 
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
 		Renderer2D::Init();
+		Renderer2D::InitQuad();
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)

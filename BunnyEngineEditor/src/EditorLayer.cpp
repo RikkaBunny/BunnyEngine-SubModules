@@ -29,13 +29,14 @@ namespace BE {
 
         m_ViewportPanel.SetContext(&m_DockSpace, fbSpec);
 
-
+        m_NodeEditorPanel.OnAttcah();
         
     }
 
     void EditorLayer::OnDetach()
     {
         m_DockSpace.OnDetach();
+        //m_NodeEditorPanel.OnDetach();
     }
 
     void EditorLayer::OnUpdate()
@@ -43,7 +44,7 @@ namespace BE {
         BE_PROFILE_FUNCTION();
 
         m_DockSpace.OnUpdate();
-
+        m_NodeEditorPanel.OnUpdate();
 
         
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->Bind();
@@ -51,20 +52,26 @@ namespace BE {
         BE_PROFILE_SCOPE("Renderer::OnUpdate");
         RenderCommand::Clear({ 0.0,0.0,0.0,1 });
 
-        m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(1, -1);
+        m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(1, 0);
+        m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(2, 0);
+        m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(3, 0);
         //m_ActiveScene->OnUpdateRuntime();
         m_DockSpace.GetActiveScene()->OnUpdateEditor(m_DockSpace.GetViewportPanel()->GetEditorCamera());
-
+        
         m_DockSpace.GetViewportPanel()->OnUpdate();
-            
+
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->UnBind();
 
-        
-
+        RenderCommand::Postprocess();
+        m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->Bind();
+        RenderCommand::Clear({ 0.0,0.0,0.0,0.0 });
+        Renderer2D::DrawScreenVisibleBuffer(m_DockSpace.GetViewportPanel()->GetFramebuffer().get(), (int)OutBuffer::GetOutBuffer());
+        m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->UnBind();
     }
 
     void EditorLayer::OnImGuiRender()
     {
+
         //Panel Render
         m_DockSpace.OnImGuiRender();
 
@@ -75,10 +82,15 @@ namespace BE {
         ImGui::Begin("Stats");
         ImGui::Separator();
         std::string name = "None";
-        if(m_DockSpace.GetViewportPanel()->GetHoveredEntity())
+        if (m_DockSpace.GetViewportPanel()->GetHoveredEntity())
             //name = m_DockSpace.GetViewportPanel()->GetHoveredEntity().GetComponent<NameComponent>().Name;
         ImGui::Text("Hovered Entity : %s", name.c_str());
+        float pixelData = m_DockSpace.GetViewportPanel()->GetPixelData();
+        //BE_CORE_INFO("Current Pixel Data : {0}", pixelData);
+        ImGui::Text("Current Pixel Data : %d", pixelData);
+        Ref<Texture2D> bule = Texture2D::Create("Resources/Icons/ContentBrowser/Blue.png");
         ImGui::End();
+        m_NodeEditorPanel.OnImGuiRender();
 
     }
 

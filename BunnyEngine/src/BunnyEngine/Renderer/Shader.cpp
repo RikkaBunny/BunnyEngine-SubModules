@@ -13,7 +13,9 @@ namespace BE {
 			BE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLShader>(filePath);
+			auto shader = std::make_shared<OpenGLShader>(filePath);
+			ShaderLibray::Add(shader);
+			return shader;
 		}
 
 		BE_CORE_ASSERT(false, "Unknow RendererAPI!");
@@ -28,7 +30,9 @@ namespace BE {
 			BE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			auto shader = std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			ShaderLibray::Add(shader);
+			return shader;
 		}
 
 		BE_CORE_ASSERT(false, "Unknow RendererAPI!");
@@ -36,11 +40,12 @@ namespace BE {
 	}
 
 
+	std::unordered_map<std::string, Ref<Shader>> ShaderLibray::m_Shaders;
 
 	void ShaderLibray::Add(const std::string& name, const Ref<Shader>& shader)
 	{
 		BE_CORE_ASSERT(!Exists(name), "Shader already exists!");
-		m_Shaders[name] = shader;
+		ShaderLibray::m_Shaders[name] = shader;
 	}
 
 	void ShaderLibray::Add(const Ref<Shader>& shader)
@@ -66,11 +71,11 @@ namespace BE {
 	Ref<Shader> ShaderLibray::Get(const std::string& name)
 	{
 		BE_CORE_ASSERT(Exists(name), "Shader not found!");
-		return m_Shaders[name];
+		return ShaderLibray::m_Shaders[name];
 	}
 
-	bool ShaderLibray::Exists(const std::string& name) const {
-		return m_Shaders.find(name) != m_Shaders.end();
+	bool ShaderLibray::Exists(const std::string& name) {
+		return ShaderLibray::m_Shaders.find(name) != ShaderLibray::m_Shaders.end();
 	}
 
 }

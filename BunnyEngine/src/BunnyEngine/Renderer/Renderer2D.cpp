@@ -15,31 +15,39 @@ namespace BE {
 	struct Renderer2DStorage {
 		Ref<VertexArray> QuadVertexArray;
 		Ref<Shader> TextureShader;
+		Ref<Shader> ScreenVisibleBuffer;
 		Ref<Texture2D> WhiteTexture;
 
 	};
 
-	static Renderer2DStorage* s_Data;
+	struct RendererPlaneStorage {
+		Ref<VertexArray> QuadVertexArray;
+		Ref<Shader> TextureShader;
+		Ref<Texture2D> WhiteTexture;
+		Ref<Texture2D> BlueTexture;
+		Ref<Texture2D> BlackTexture;
+	};
 
+	static Renderer2DStorage* s_Data;
+	static RendererPlaneStorage* s_PlaneData;
+	//static Ref<Shader> ScreenVisibleBuffer;
 	void Renderer2D::Init()
 	{
 		s_Data = new Renderer2DStorage();
 		s_Data->QuadVertexArray = VertexArray::Create();
 
-		float vertices[4 * 11] = {
-			-0.5f,-0.5f,0.0f, 0.0f,0.0f,-1.0f, 0.0f,0.0f, 0.707107f,0.707107f,0.0f,
-			0.5f, -0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,0.0f, -0.707107f,0.707107f,0.0f,
-			0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,1.0f, -0.707107f,-0.707107f,0.0f,
-			-0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 0.0f,1.0f, 0.707107f,-0.707107f,0.0f
+		float vertices[4 * 5] = {
+			-0.5f,-0.5f,0.0f, 0.0f,0.0f, 
+			0.5f, -0.5f, 0.0f, 1.0f,0.0f,
+			0.5f, 0.5f, 0.0f, 1.0f,1.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f,1.0f
 		};
 
 		Ref<VertexBuffer> m_VertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
 
 		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float3, "a_Normal"},
-			{ShaderDataType::Float2, "a_TexCoord"},
-			{ShaderDataType::Float3, "a_Tangent"}
+			{ShaderDataType::Float2, "a_TexCoord"}
 		};
 
 		m_VertexBuffer->SetLayout(layout);
@@ -54,21 +62,25 @@ namespace BE {
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/ScreenVisibleBuffer.glsl");
+		s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/DeferredPBRRenderer.glsl");
+
+		s_Data->TextureShader = Shader::Create("Assets/shaders/Texture.glsl");
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetInt("u_Texture", 0);
+		InitQuad();
 	}
 
 	void Renderer2D::InitQuad()
 	{
-		s_Data = new Renderer2DStorage();
-		s_Data->QuadVertexArray = VertexArray::Create();
+		s_PlaneData = new RendererPlaneStorage();
+		s_PlaneData->QuadVertexArray = VertexArray::Create();
 
 		float vertices[4 * 11] = {
-			-0.5f,-0.5f,0.0f, 0.0f,0.0f,-1.0f, 0.0f,0.0f, 0.707107f,0.707107f,0.0f,
-			0.5f, -0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,0.0f, -0.707107f,0.707107f,0.0f,
-			0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 1.0f,1.0f, -0.707107f,-0.707107f,0.0f,
-			-0.5f, 0.5f, 0.0f, 0.0f,0.0f,-1.0f, 0.0f,1.0f, 0.707107f,-0.707107f,0.0f
+			-0.5f,-0.5f,0.0f, 0.0f,0.0f,1.0f, 0.0f,0.0f, 0.707107f,0.707107f,0.0f,
+			0.5f, -0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f, -0.707107f,0.707107f,0.0f,
+			0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,1.0f, -0.707107f,-0.707107f,0.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 0.0f,1.0f, 0.707107f,-0.707107f,0.0f
 		};
 
 		Ref<VertexBuffer> m_VertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
@@ -81,24 +93,24 @@ namespace BE {
 		};
 
 		m_VertexBuffer->SetLayout(layout);
-		s_Data->QuadVertexArray->AddVertexBuffer(m_VertexBuffer);
+		s_PlaneData->QuadVertexArray->AddVertexBuffer(m_VertexBuffer);
 
 		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
 
 		Ref<IndexBuffer> m_IndexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
-		s_Data->QuadVertexArray->SetIndexBuffer(m_IndexBuffer);
+		s_PlaneData->QuadVertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		s_PlaneData->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
-		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+		s_PlaneData->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		s_Data->TextureShader = Shader::Create("assets/shaders/DeferredPBR.glsl");
-		s_Data->TextureShader->Bind();
-		s_Data->TextureShader->SetInt("u_AlbedoTexture", 0);
-		s_Data->TextureShader->SetInt("u_NormalTexture", 1);
-		s_Data->TextureShader->SetInt("u_MetallicTexture", 2);
-		s_Data->TextureShader->SetInt("u_RoughnessTexture", 3);
-		s_Data->TextureShader->SetInt("u_AoTexture", 4);
+		s_PlaneData->TextureShader = Shader::Create("Assets/shaders/DeferredPBR.glsl");
+		s_PlaneData->TextureShader->Bind();
+		s_PlaneData->TextureShader->SetInt("u_AlbedoTexture", 0);
+		s_PlaneData->TextureShader->SetInt("u_NormalTexture", 1);
+		s_PlaneData->TextureShader->SetInt("u_MetallicTexture", 2);
+		s_PlaneData->TextureShader->SetInt("u_RoughnessTexture", 3);
+		s_PlaneData->TextureShader->SetInt("u_AoTexture", 4);
 		//return s_Data;
 	}
 
@@ -113,6 +125,8 @@ namespace BE {
 
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProj);
+		s_PlaneData->TextureShader->Bind();
+		s_PlaneData->TextureShader->SetMat4("u_ViewProjection", viewProj);
 	}
 
 	void Renderer2D::BeginScene(const EditorCamera& camera)
@@ -121,6 +135,8 @@ namespace BE {
 
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProj);
+		s_PlaneData->TextureShader->Bind();
+		s_PlaneData->TextureShader->SetMat4("u_ViewProjection", viewProj);
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -132,6 +148,8 @@ namespace BE {
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
+		s_PlaneData->TextureShader->Bind();
+		s_PlaneData->TextureShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
 	}
 
 	void Renderer2D::EndScene()
@@ -260,19 +278,19 @@ namespace BE {
 
 	void Renderer2D::DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID)
 	{
-		s_Data->TextureShader->Bind();
-		s_Data->TextureShader->SetFloat4("u_Color", component.Color);
-		s_Data->TextureShader->SetFloat2("u_TexTiling", glm::vec2(component.Tiling));
-		s_Data->TextureShader->SetFloat("u_Metallic", component.Metallic);
-		s_Data->TextureShader->SetFloat("u_Roughness", component.Roughness);
-		s_Data->TextureShader->SetFloat("u_Emissive", component.Emissive);
-		s_Data->TextureShader->SetInt("u_EntityID", entityID);
+		s_PlaneData->TextureShader->Bind();
+		s_PlaneData->TextureShader->SetFloat4("u_Color", component.Color);
+		s_PlaneData->TextureShader->SetFloat2("u_TexTiling", glm::vec2(component.Tiling));
+		s_PlaneData->TextureShader->SetFloat("u_Metallic", component.Metallic);
+		s_PlaneData->TextureShader->SetFloat("u_Roughness", component.Roughness);
+		s_PlaneData->TextureShader->SetFloat("u_Emissive", component.Emissive);
+		s_PlaneData->TextureShader->SetInt("u_EntityID", entityID);
 		if (component.u_AlbedoTexture) {
 			component.u_AlbedoTexture->Bind(0);
 		}
 		else
 		{
-			s_Data->WhiteTexture->Bind(0);
+			s_PlaneData->WhiteTexture->Bind(0);
 		}
 
 		if (component.u_RoughnessTexture) {
@@ -280,7 +298,7 @@ namespace BE {
 		}
 		else
 		{
-			s_Data->WhiteTexture->Bind(3);
+			s_PlaneData->WhiteTexture->Bind(3);
 		}
 
 		if (component.u_AoTexture) {
@@ -288,7 +306,7 @@ namespace BE {
 		}
 		else
 		{
-			s_Data->WhiteTexture->Bind(4);
+			s_PlaneData->WhiteTexture->Bind(4);
 		}
 		//s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		//uint32_t blueTextureData = 0x0000ffff;
@@ -298,7 +316,7 @@ namespace BE {
 		}
 		else
 		{
-			s_Data->WhiteTexture->Bind(1);
+			s_PlaneData->WhiteTexture->Bind(1);
 		}
 		//s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		//uint32_t blackTextureData = 0x000000ff;
@@ -308,11 +326,37 @@ namespace BE {
 		}
 		else
 		{
-			s_Data->WhiteTexture->Bind(2);
+			s_PlaneData->WhiteTexture->Bind(2);
 		}
 
-		s_Data->TextureShader->SetMat4("u_WorldTransform", transform);
+		s_PlaneData->TextureShader->SetMat4("u_WorldTransform", transform);
 
+		s_PlaneData->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_PlaneData->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawScreenVisibleBuffer(Framebuffer* framebuffer, const int outBufferType)
+	{
+		s_Data->ScreenVisibleBuffer->Bind();
+		s_Data->ScreenVisibleBuffer->SetInt("u_OutBufferType", outBufferType);
+		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferA", 0);
+		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferB", 1);
+		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferC", 2);
+		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferD", 3);
+		s_Data->ScreenVisibleBuffer->SetInt("u_DepthBuffer", 4);
+		framebuffer->BindAttachment(0, 0);
+		framebuffer->BindAttachment(1, 1);
+		framebuffer->BindAttachment(2, 2);
+		framebuffer->BindAttachment(3, 3);
+		framebuffer->BindAttachment(0, 4, true);
+		//if (buffer) {
+		//	buffer->Bind();
+		//}
+		//else
+		//{
+		//	s_Data->WhiteTexture->Bind();
+		//}
+		//s_Data->WhiteTexture->Bind();
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}

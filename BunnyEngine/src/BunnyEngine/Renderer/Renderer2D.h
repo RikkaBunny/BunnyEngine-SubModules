@@ -4,6 +4,7 @@
 #include "BunnyEngine/Renderer/Camera.h"
 #include "BunnyEngine/Renderer/EditorCamera.h"
 #include <BunnyEngine/Scene/Components.h>
+#include "BunnyEngine/Renderer/Framebuffer.h"
 namespace BE {
 
 	class Renderer2D
@@ -38,6 +39,10 @@ namespace BE {
 		static void DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& component, const int entityID = -1);
 
 		static void DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID = -1);
+
+		static void DrawScreenVisibleBuffer(Framebuffer* framebuffer,const int outBufferType);
+
+		//static void DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID = -1);
 
 	};
 

@@ -38,8 +38,8 @@ namespace BE {
         //io.ConfigViewportsNoAutoMerge = true;
         //io.ConfigViewportsNoTaskBarIcon = true;
 
-        io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Bold.ttf", 14.0f);
-        io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 14.0f);
+        io.Fonts->AddFontFromFileTTF("Assets/fonts/Roboto/Roboto-Bold.ttf", 14.0f);
+        io.FontDefault = io.Fonts->AddFontFromFileTTF("Assets/fonts/Roboto/Roboto-Regular.ttf", 14.0f);
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();

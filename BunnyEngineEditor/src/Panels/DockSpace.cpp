@@ -179,7 +179,7 @@ namespace BE {
 
             // 添加最大化、最小化和关闭按钮
             float width = ImGui::GetWindowContentRegionMax().x;
-            ImGui::SetCursorPosX(width - frameHeight * 4);
+            ImGui::SetCursorPosX(width - frameHeight * 3.2f);
             if (ImGui::ImageButton((ImTextureID)m_MinIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight / 2.0f }, { 0, 1 }, { 1, 0 })) {
                 //m_WindowPos = ImGui::GetWindowPos();
                 //m_WindowSize = ImGui::GetWindowSize();

@@ -6,8 +6,9 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-namespace BE {
 
+namespace BE {
+	
 	static GLenum ShaderTypeFromString(const std::string& type) {
 		if (type == "vertex" || type == "Vertex")
 			return GL_VERTEX_SHADER;
@@ -17,11 +18,46 @@ namespace BE {
 		BE_CORE_ASSERT(false, "Unknown shader type! '{0}'", type);
 		return 0;
 	}
+	static ShaderParameter ShaderInputTypeFromString(const std::string& source, const char* floatToken, size_t pos) {
+		ShaderParameter parameter;
+		
+		size_t tokenLength = strlen(floatToken);
+		size_t begin = pos + tokenLength + 1;
+		//size_t begin = source.find(floatToken, tokenbegin);
+		size_t equal = source.find('=', begin);
+		size_t end = source.find(';', begin);
+		std::string name = source.substr(begin, equal- begin);
+		std::string value = source.substr(equal + 1, end- (equal + 1));
+
+		parameter.ParameterName = name;
+		parameter.ParameterVlaue = value;
+
+		return parameter;
+	}
+	static void FindParameter(const std::string& source, const char* token, std::vector<ShaderParameter>* shaderParameter, ShaderInputType inputType, size_t parameterStartPos, size_t parameterEndPos) {
+		size_t pos = parameterStartPos;
+		size_t curPos = parameterStartPos;
+		bool parameterChunk = true;
+		while (parameterChunk)
+		{
+			parameterChunk = false;
+			pos = source.find(token, curPos);
+			if (pos != std::string::npos && pos < parameterEndPos) {
+				ShaderParameter parameter = ShaderInputTypeFromString(source, token, pos);
+				parameter.InputType = inputType;
+				curPos = source.find_first_of("\r\n", pos);
+				shaderParameter->push_back(parameter);
+				parameterChunk = true;
+			}
+		}
+	} 
 
 	OpenGLShader::OpenGLShader(const std::string& filePath)
 	{
 		std::string source = ReadFile(filePath);
 		auto shaderSources = PreProcess(source);
+		m_ShaderParameter = PreProcessParameter(source);
+
 		Compile(shaderSources);
 
 		//Extract name from filepath
@@ -182,7 +218,52 @@ namespace BE {
 				source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
 		}
 
+		
 		return shaderSources;
+	}
+
+
+	std::vector<ShaderParameter> OpenGLShader::PreProcessParameter(const std::string& source) {
+		std::vector<ShaderParameter> shaderParameter;
+
+		const char* parameterToken = "#parameter";
+		//parameter chunk
+		size_t parameterTokenLength = strlen(parameterToken);
+		size_t parameterPos = source.find(parameterToken, 0);
+		if (parameterPos == std::string::npos)
+		{
+			return shaderParameter;
+		}
+		size_t parameterBegin = parameterPos + parameterTokenLength + 1;
+		size_t parameterStartPos = source.find('{', parameterBegin);
+		size_t parameterEndPos = source.find('}', parameterBegin);
+		std::string parameterType;
+		//
+		const char* floatToken = "float";
+		const char* vec2Token = "vec2";
+		const char* vec3Token = "vec3";
+		const char* vec4Token = "vec4";
+		const char* intToken = "int";
+		const char* boolToken = "bool";
+		const char* mat3Token = "mat3";
+		const char* mat4Token = "mat4";
+		const char* sampler2DToken = "sampler2D";
+		// current parameter line
+		size_t pos = parameterStartPos;
+		size_t curPos = parameterStartPos;
+		FindParameter(source, floatToken, &shaderParameter, ShaderInputType::Float, parameterStartPos,  parameterEndPos);
+		FindParameter(source, vec2Token, &shaderParameter, ShaderInputType::Float2, parameterStartPos, parameterEndPos);
+		FindParameter(source, vec3Token, &shaderParameter, ShaderInputType::Float3, parameterStartPos, parameterEndPos);
+		FindParameter(source, vec4Token, &shaderParameter, ShaderInputType::Float4, parameterStartPos, parameterEndPos);
+		FindParameter(source, intToken, &shaderParameter, ShaderInputType::Int, parameterStartPos, parameterEndPos);
+		FindParameter(source, boolToken, &shaderParameter, ShaderInputType::Bool, parameterStartPos, parameterEndPos);
+		FindParameter(source, mat3Token, &shaderParameter, ShaderInputType::Mat3, parameterStartPos, parameterEndPos);
+		FindParameter(source, mat4Token, &shaderParameter, ShaderInputType::Mat4, parameterStartPos, parameterEndPos);
+		FindParameter(source, sampler2DToken, &shaderParameter, ShaderInputType::Texture2D, parameterStartPos, parameterEndPos);
+
+		
+		return shaderParameter;
+		
 	}
 
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string>& shaderSources)
