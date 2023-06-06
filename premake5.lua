@@ -21,11 +21,13 @@ IncludeDir["entt"] = "%{wks.location}/BunnyEngine/SDK/entt/include"
 IncludeDir["yaml_cpp"] = "%{wks.location}/BunnyEngine/SDK/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "%{wks.location}/BunnyEngine/SDK/ImGuizmo"
 IncludeDir["imgui_node_editor"] = "%{wks.location}/BunnyEngine/SDK/imgui-node-editor"
+IncludeDir["assimp"] = "%{wks.location}/BunnyEngine/SDK/assimp/include"
 
 group "Dependencise"
 	include "BunnyEngine/SDK/GLFW"
 	include "BunnyEngine/SDK/Glad"
 	include "BunnyEngine/SDK/imgui"
+	include "BunnyEngine/SDK/assimp"
 	include "BunnyEngine/SDK/yaml-cpp"
 	include "BunnyEngine/SDK/imgui-node-editor"
 group ""
@@ -73,6 +75,7 @@ project "BunnyEngine"
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.imgui_node_editor}",
+		"%{IncludeDir.assimp}",
 		"%{IncludeDir.ImGuizmo}"
 	}
 
@@ -82,6 +85,7 @@ project "BunnyEngine"
 		"ImGui",
 		"yaml-cpp",
 		"imgui-node-editor",
+		"assimp",
 		"opengl32.lib"
 	}
 
@@ -136,6 +140,7 @@ project "BunnyEngineEditor"
 		"BunnyEngine/SDK/spdlog/include",
 		"BunnyEngine/src",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.assimp}",
 		"%{IncludeDir.entt}"
 	}
 

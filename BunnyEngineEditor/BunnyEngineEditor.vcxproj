@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\assimp\include;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\assimp\include;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BE_PLATFORM_WINDOWS;BE_BUILD_DLL;GLFW_INCLUDE_NONE;BE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\BunnyEngine\SDK\spdlog\include;..\BunnyEngine\src;..\BunnyEngine\SDK\glm;..\BunnyEngine\SDK\assimp\include;..\BunnyEngine\SDK\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

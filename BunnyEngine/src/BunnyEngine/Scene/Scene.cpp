@@ -45,27 +45,47 @@ namespace BE {
 	{
 		Renderer2D::InitQuad();
 		Renderer2D::BeginScene(camera);
-		{
-			auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group1) {
-				auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
-				//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
-				Renderer2D::DrawSprite(transform.GetTransform(), Sprite, (int)entity);
-			}
-		}
-		{
+		//{
+		//	auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		//	for (auto entity : group1) {
+		//		auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
+		//		//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+		//		Renderer2D::DrawSprite(transform.GetTransform(), Sprite, (int)entity);
+		//	}
+		//}
+		//{
 			auto view = m_Registry.view<TransformComponent, QuadRendererComponent>();
 			for (auto entity1 : view) {
 				auto [transform, Quad] = view.get<TransformComponent, QuadRendererComponent>(entity1);
 
 				Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
 			}
-			//auto group2 = m_Registry.group<TransformComponent>(entt::get<QuadRendererComponent>);
-			//for (auto entity1 : group2) {
-			//	auto [transform, Quad] = group2.get<TransformComponent, QuadRendererComponent>(entity1);
-			//	//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
-			//	Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
-			//}
+		//	//auto group2 = m_Registry.group<TransformComponent>(entt::get<QuadRendererComponent>);
+		//	//for (auto entity1 : group2) {
+		//	//	auto [transform, Quad] = group2.get<TransformComponent, QuadRendererComponent>(entity1);
+		//	//	//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+		//	//	Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
+		//	//}
+		//}
+		{
+			auto view = m_Registry.view<MeshComponent, MaterialComponent>();
+			for (auto entity : view) {
+				auto [mesh, material] = view.get<MeshComponent, MaterialComponent>(entity);
+				TransformComponent transfrom = m_Registry.get<TransformComponent>(entity);
+				Ref<Shader> m_Shader = material.Mat.GetShader();
+				
+				if (!m_Shader)
+					continue;
+
+				material.Mat.BindShader();
+				glm::mat4 viewProj = camera.GetViewProjection();
+				m_Shader->Bind();
+				m_Shader->SetFloat("u_Emissive", 2.0f);
+				m_Shader->SetMat4("u_WorldTransform", transfrom.GetTransform());
+				m_Shader->SetMat4("u_ViewProjection", viewProj);
+				RenderCommand::DrawIndexed(mesh.MeshSource.GetMeshSource());
+				
+			}
 		}
 		Renderer2D::EndScene();
 		

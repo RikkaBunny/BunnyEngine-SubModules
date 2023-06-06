@@ -337,6 +337,14 @@ namespace BE {
 
 	void Renderer2D::DrawScreenVisibleBuffer(Framebuffer* framebuffer, const int outBufferType)
 	{
+		if (outBufferType == 0) {
+			//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/ScreenVisibleBuffer.glsl");
+			s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/DeferredPBRRenderer.glsl");
+		}
+		else {
+			s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/ScreenVisibleBuffer.glsl");
+			//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/DeferredPBRRenderer.glsl");
+		}
 		s_Data->ScreenVisibleBuffer->Bind();
 		s_Data->ScreenVisibleBuffer->SetInt("u_OutBufferType", outBufferType);
 		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferA", 0);

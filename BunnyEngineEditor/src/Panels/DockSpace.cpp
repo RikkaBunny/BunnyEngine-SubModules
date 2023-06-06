@@ -177,6 +177,18 @@ namespace BE {
                 ImGui::EndMenu();
             }
 
+            if (ImGui::BeginMenu("Import"))
+            {
+                if (ImGui::MenuItem("Import Mesh", "")) {
+                    std::string filepath = FileDialogs::OpenFile("Mesh Files (*.obj;*.fbx)\0*.fbx;*.obj\0*");
+                    if (!filepath.empty()) {
+                        MeshLoad::SerializeMesh(filepath);
+                    }
+                }
+
+                ImGui::EndMenu();
+            }
+
             // 添加最大化、最小化和关闭按钮
             float width = ImGui::GetWindowContentRegionMax().x;
             ImGui::SetCursorPosX(width - frameHeight * 3.2f);

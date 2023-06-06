@@ -16,6 +16,7 @@ namespace BE {
 			break;
 		case Renderer::RenderPipeline::DeferredRendering:
 			//
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			break;
 		}
 		glEnable(GL_DEPTH_TEST);

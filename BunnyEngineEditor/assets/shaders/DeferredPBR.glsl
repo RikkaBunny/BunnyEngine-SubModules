@@ -7,13 +7,13 @@ sampler2D u_MetallicTexture = black;
 sampler2D u_RoughnessTexture = gray;	
 sampler2D u_AoTexture = white;	
 
-vec2 u_TexTiling = (1,1);
-vec4 u_Color = (1,1,1,1);
-float u_Metallic = 1;
-float u_Roughness = 1;
-float u_Emissive = 0;
+uniform vec2 u_TexTiling=(1.0,1.0);
+uniform vec4 u_Color = (1,0,0,1);
+uniform float u_Metallic = 0;
+uniform float u_Roughness = 0.5;
+uniform float u_Emissive = 1;
 
-bool u_TestBool = true;
+uniform int u_EntityID = 11;
 }
 
 #type vertex

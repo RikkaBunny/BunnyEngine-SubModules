@@ -19,6 +19,9 @@ namespace BE {
 		}
 
 		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray) {
+			if (!vertexArray)
+				return;
+			vertexArray->Bind();
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 

@@ -9,6 +9,7 @@
 #include "BunnyEngine/Scene/ScriptableEntity.h"
 #include "BunnyEngine/Renderer/Texture.h"
 #include "BunnyEngine/Renderer/Material.h"
+#include "BunnyEngine/Renderer/Mesh.h"
 
 namespace BE {
 
@@ -121,6 +122,17 @@ namespace BE {
 		MaterialComponent(const MaterialComponent&) = default;
 		MaterialComponent(const Material& materail)
 			: Mat(materail){}
+
+	};
+
+	struct MeshComponent
+	{
+		Mesh MeshSource;
+
+		MeshComponent() = default;
+		MeshComponent(const MeshComponent&) = default;
+		MeshComponent(const Mesh& meshSource)
+			: MeshSource(meshSource) {}
 
 	};
 

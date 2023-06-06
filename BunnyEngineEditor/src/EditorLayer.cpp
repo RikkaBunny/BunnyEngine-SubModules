@@ -30,6 +30,7 @@ namespace BE {
         m_ViewportPanel.SetContext(&m_DockSpace, fbSpec);
 
         m_NodeEditorPanel.OnAttcah();
+
         
     }
 

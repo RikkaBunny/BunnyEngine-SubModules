@@ -35,6 +35,95 @@ namespace BE {
 		SetParameterMap();
 	}
 
+	void Material::BindShader()
+	{
+		if (!m_Shader)
+			return;
+
+		m_Shader->Bind();
+		int textureSlot = 0;
+		auto shaderParameters = m_Shader->GetShaderParameter();
+		for (size_t i = 0; i < shaderParameters.size(); i++) {
+			ShaderParameter m_ShaderParameter = shaderParameters.at(i);
+			switch (m_ShaderParameter.InputType)
+			{
+			case BE::ShaderInputType::None:
+				break;
+			case BE::ShaderInputType::Float: {
+				std::string name = m_ShaderParameter.ParameterName;
+				float value = std::get<float>(m_ShaderParameters[i]);
+				m_Shader->SetFloat(name, value);
+				break;
+			}
+			case BE::ShaderInputType::Float2: {
+				std::string name = m_ShaderParameter.ParameterName;
+				glm::vec2 value = std::get<glm::vec2>(m_ShaderParameters[i]);				
+				m_Shader->SetFloat2(name, value);
+				
+				break;
+			}
+			case BE::ShaderInputType::Float3:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				glm::vec3 value = std::get<glm::vec3>(m_ShaderParameters[i]);
+				m_Shader->SetFloat3(name, value);
+				
+				break;
+			}
+			case BE::ShaderInputType::Float4:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				glm::vec4 value = std::get<glm::vec4>(m_ShaderParameters[i]);
+				m_Shader->SetFloat4(name, value);
+
+				break;
+			}
+			case BE::ShaderInputType::Mat3:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				glm::mat3 value = std::get<glm::mat3>(m_ShaderParameters[i]);
+				m_Shader->SetMat3(name, value);
+				break;
+			}
+			case BE::ShaderInputType::Mat4:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				glm::mat4 value = std::get<glm::mat4>(m_ShaderParameters[i]);
+				m_Shader->SetMat3(name, value);
+				break;
+			}
+			case BE::ShaderInputType::Int:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				int value = std::get<int>(m_ShaderParameters[i]);
+				m_Shader->SetInt(name, value);
+				break;
+			}
+			case BE::ShaderInputType::Bool:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				bool value = std::get<bool>(m_ShaderParameters[i]);
+				//m_Shader->SetInt(name, value);
+				break;
+			}
+			case BE::ShaderInputType::Texture2D:
+			{
+				std::string name = m_ShaderParameter.ParameterName;
+				Ref<Texture2D> value = std::get<Ref<Texture2D>>(m_ShaderParameters[i]);
+				value->Bind(textureSlot);
+				textureSlot++;
+				break;
+			}
+			}
+		}
+	}
+
+	void Material::BindShader(glm::mat4 transform)
+	{
+		BindShader();
+		m_Shader->SetMat4("u_WorldTransform", transform);
+	}
+
 	void Material::SetParameterMap()
 	{
 		m_ShaderParameters.clear();

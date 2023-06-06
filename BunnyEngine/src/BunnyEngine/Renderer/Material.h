@@ -15,8 +15,9 @@ namespace BE {
 		void SetShader(Ref<Shader> shader);
 		Ref<Shader> GetShader() { return m_Shader; }
 		auto GetShaderLibray() { return ShaderLibray::GetShaderLibray(); }
-		//auto GetShaderParameter() { return m_ShaderParameterValue; }
-		float i = 2.5f;
+		void BindShader();
+		void BindShader(glm::mat4 transform);
+
 	private:
 		void SetParameterMap();
 		

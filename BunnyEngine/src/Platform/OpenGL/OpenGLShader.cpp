@@ -18,6 +18,18 @@ namespace BE {
 		BE_CORE_ASSERT(false, "Unknown shader type! '{0}'", type);
 		return 0;
 	}
+	static void trim(std::string& s)
+	{
+		int index = 0;
+		if (!s.empty())
+		{
+			while ((index = s.find(' ', index)) != std::string::npos)
+			{
+				s.erase(index, 1);
+			}
+		}
+	}
+
 	static ShaderParameter ShaderInputTypeFromString(const std::string& source, const char* floatToken, size_t pos) {
 		ShaderParameter parameter;
 		
@@ -28,7 +40,7 @@ namespace BE {
 		size_t end = source.find(';', begin);
 		std::string name = source.substr(begin, equal- begin);
 		std::string value = source.substr(equal + 1, end- (equal + 1));
-
+		trim(name);
 		parameter.ParameterName = name;
 		parameter.ParameterVlaue = value;
 

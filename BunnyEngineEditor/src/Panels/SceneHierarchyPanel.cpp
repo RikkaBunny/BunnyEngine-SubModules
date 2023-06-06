@@ -224,6 +224,10 @@ namespace BE {
 				m_SelectionContext.AddComponent<MaterialComponent>();
 				ImGui::CloseCurrentPopup();
 			}
+			if (ImGui::MenuItem("Mesh")) {
+				m_SelectionContext.AddComponent<MeshComponent>();
+				ImGui::CloseCurrentPopup();
+			}
 			ImGui::EndPopup();
 		}
 		ImGui::PopItemWidth();
@@ -492,6 +496,14 @@ namespace BE {
 			DrawVec3Control("Rotation", rotation);
 			component.Rotation = glm::radians(rotation);
 			DrawVec3Control("Scale", component.Scale);*/
+			});
+
+		DrawComponent<MeshComponent>("Mesh", entity, [](auto& component) {
+			ImGui::Text("MeshSource");
+			if (ImGui::Button("Mesh", { 20, 40 })) {
+				component.MeshSource.SetMeshSource();
+			}
+			//ImGui::DragFloat("DirctionIntersity", &component.DirctionIntersity, 0.1f, 0.0f, 10.0f);
 			});
 	}
 
