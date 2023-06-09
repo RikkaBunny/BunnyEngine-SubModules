@@ -588,7 +588,6 @@
     <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Material.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Mesh.h" />
-    <ClInclude Include="src\BunnyEngine\Renderer\MeshSource.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\RenderCommand.h" />
@@ -634,7 +633,6 @@
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Material.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Mesh.cpp" />
-    <ClCompile Include="src\BunnyEngine\Renderer\MeshSource.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\RenderCommand.cpp" />

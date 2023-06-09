@@ -92,6 +92,11 @@ namespace BE {
 			CalculateOffsetAndStride();
 		}
 
+		BufferLayout(const std::vector<BufferElement>& elements)
+			: m_Elements(elements) {
+			CalculateOffsetAndStride();
+		}
+
 		inline uint32_t GetStride() const { return m_Stride; };
 		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; };
 		inline void AddElement(BufferElement element) { m_Elements.push_back(element); CalculateOffsetAndStride(); };

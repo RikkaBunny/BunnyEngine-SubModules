@@ -43,7 +43,7 @@ namespace BE {
 
 	void Scene::OnUpdateEditor(EditorCamera& camera)
 	{
-		Renderer2D::InitQuad();
+		//Renderer2D::InitQuad();
 		Renderer2D::BeginScene(camera);
 		//{
 		//	auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);

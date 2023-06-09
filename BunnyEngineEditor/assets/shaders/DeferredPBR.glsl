@@ -18,12 +18,28 @@ uniform int u_EntityID = 11;
 
 #type vertex
 
+//layout(location = 0) in vec3 a_Position;
+//layout(location = 1) in vec3 a_Normal;
+//layout(location = 2) in vec3 a_Tangent;
+//layout(location = 3) in vec3 a_Color;
+//layout(location = 4) in vec2 a_TexCoord0;
+//layout(location = 5) in vec2 a_TexCoord1;
+//layout(location = 6) in vec2 a_TexCoord2;
+//layout(location = 7) in vec2 a_TexCoord3;
+//layout(location = 8) in vec2 a_TexCoord4;
+//layout(location = 9) in vec2 a_TexCoord5;
+//layout(location = 10) in vec2 a_TexCoord6;
+//layout(location = 11) in vec2 a_TexCoord7;
+//layout(location = 12) in vec2 a_TexCoord8;
+
 #version 330 core
 			
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec3 a_Normal;
-layout(location = 2) in vec2 a_TexCoord;
-layout(location = 3) in vec3 a_Tangent;
+layout(location = 2) in vec3 a_Tangent;
+layout(location = 3) in vec4 a_Color;
+layout(location = 4) in vec2 a_TexCoord0;
+
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_WorldTransform;
@@ -32,7 +48,7 @@ out vec2 v_TexCoord;
 out mat3 v_TBN;
 
 void main(){
-	v_TexCoord = a_TexCoord;
+	v_TexCoord = a_TexCoord0;
 	vec4 WorldNormal = normalize(u_WorldTransform * vec4(a_Normal, 1.0f));
 	vec3 B = normalize(cross(a_Tangent, WorldNormal.xyz));
 

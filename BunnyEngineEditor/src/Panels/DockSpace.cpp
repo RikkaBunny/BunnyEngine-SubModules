@@ -182,10 +182,16 @@ namespace BE {
                 if (ImGui::MenuItem("Import Mesh", "")) {
                     std::string filepath = FileDialogs::OpenFile("Mesh Files (*.obj;*.fbx)\0*.fbx;*.obj\0*");
                     if (!filepath.empty()) {
-                        MeshLoad::SerializeMesh(filepath);
+                        //MeshLoad::SerializeMesh(filepath);
                     }
                 }
-
+                if (ImGui::MenuItem("Save Mesh", "")) {
+                    std::string filepath = FileDialogs::SaveFile("BunnyMesh Files (*.BunnyMesh)\0*.BunnyMesh\0*");
+                    if (!filepath.empty()) {
+                        //MeshLoad::DeserializeMesh(filepath);
+                    }
+                }
+                
                 ImGui::EndMenu();
             }
 

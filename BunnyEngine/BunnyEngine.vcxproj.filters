@@ -1404,9 +1404,6 @@
     <ClInclude Include="src\BunnyEngine\Renderer\Mesh.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Renderer\MeshSource.h">
-      <Filter>src\BunnyEngine\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
@@ -1530,9 +1527,6 @@
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Mesh.cpp">
-      <Filter>src\BunnyEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Renderer\MeshSource.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp">
