@@ -498,12 +498,23 @@ namespace BE {
 			DrawVec3Control("Scale", component.Scale);*/
 			});
 
+
 		DrawComponent<MeshComponent>("Mesh", entity, [](auto& component) {
-			ImGui::Text("MeshSource");
-			//ImGui::BeginCombo()
-			if (ImGui::Button("Mesh", { 50, 20 })) {
-				component.MeshSource.SetMeshSource();
+			//ImGui::Text("MeshSource");
+			//ImGui::SameLine();
+			//if (ImGui::Button("Mesh", { 50, 20 })) {
+			//	component.MeshSource.SetMeshSource();
+			//}
+			auto meshNames = MeshLibray::GetMeshNames();
+
+			if (ImGui::Combo("MeshSource", &component.CurrentMesh, meshNames.data(), static_cast<int>(meshNames.size()))) {
+				BE_CORE_INFO(meshNames[component.CurrentMesh]);
+				
+				component.MeshSource.SetMeshSource(meshNames[component.CurrentMesh]);
 			}
+			if (ImGui::IsItemClicked()) {
+				MeshLibray::UpdateMeshNames();
+			}			
 			//ImGui::DragFloat("DirctionIntersity", &component.DirctionIntersity, 0.1f, 0.0f, 10.0f);
 			});
 	}

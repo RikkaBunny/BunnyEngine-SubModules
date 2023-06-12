@@ -41,20 +41,22 @@ namespace BE {
 	}
 #pragma endregion
 
-	void Mesh::SetMeshSource()
+	void Mesh::SetMeshSource(std::string filepath)
 	{
-		MeshLibray::UpdateMeshLibray();
-		std::string filepath = FileDialogs::OpenFile("Mesh Files (*.obj;*.fbx)\0*.fbx;*.obj\0*");
-		if (!filepath.empty()) {
-			//m_MeshSource = MeshLoad::DeserializeMesh(filepath);
-			m_MeshSource = MeshLoad::loadStaticMesh(filepath);
-			//m_MeshSource = MeshLoad::loadDynamicMesh(filepath).at(0);
-		}
+		//MeshLibray::UpdateMeshNames();
+		//std::string filepath = FileDialogs::OpenFile("Mesh Files (*.obj;*.fbx)\0*.fbx;*.obj\0*");
+		//if (!filepath.empty()) {
+		//	//m_MeshSource = MeshLoad::DeserializeMesh(filepath);
+		//	m_MeshSource = MeshLoad::loadStaticMesh(filepath);
+		//	//m_MeshSource = MeshLoad::loadDynamicMesh(filepath).at(0);
+		//}
+		m_MeshSource = MeshLoad::loadStaticMesh(filepath);
 
 
 	}
 
-	std::vector<std::string> MeshLibray::m_MeshPath ;
+	std::vector<std::string> MeshLibray::m_MeshPaths;
+	std::vector<const char*> MeshLibray::m_MeshNames;
 
 	MeshSource MeshLibray::Get(const std::string& name)
 	{
@@ -63,12 +65,21 @@ namespace BE {
 
 	void MeshLibray::UpdateMeshLibray()
 	{
+		m_MeshPaths.clear();
 		MeshLibray::FileIterator(g_AssetsPath);
 	}
+	void MeshLibray::UpdateMeshNames()
+	{
+		UpdateMeshLibray();
+		m_MeshNames.clear();
+		m_MeshNames.reserve(m_MeshPaths.size());
+		
+		for (const auto& str : m_MeshPaths) {
+			m_MeshNames.push_back(str.c_str());
+		}
+	}
 
-}
-
-	void BE::MeshLibray::FileIterator(std::filesystem::path filePath)
+	void MeshLibray::FileIterator(std::filesystem::path filePath)
 	{
 		for (auto& directoryEntry : std::filesystem::directory_iterator(filePath)) {
 			const auto& path = directoryEntry.path();
@@ -80,11 +91,16 @@ namespace BE {
 
 			}
 			else {
-				
+
 				std::string name = filenameString.substr(filenameString.size() - 3, 3);
 				if (name == "fbx" || name == "obj") {
-					m_MeshPath.push_back(path.string());
+					m_MeshPaths.push_back(path.string());
 				}
 			}
 		}
 	}
+
+
+}
+
+

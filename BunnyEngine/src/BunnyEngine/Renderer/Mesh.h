@@ -30,7 +30,7 @@ namespace BE {
 	{
 	public:
 		//Mesh();
-		void SetMeshSource();
+		void SetMeshSource(std::string filepath);
 		Ref<VertexArray> GetMeshSource() { return m_MeshSource.GetVertexArray(); }
 
 	private:
@@ -44,11 +44,14 @@ namespace BE {
 
 		static MeshSource Get(const std::string& name);
 
-		static const std::vector<std::string> GetMeshLibray() { return m_MeshPath; }
+		static const std::vector<std::string> GetMeshLibray() { return m_MeshPaths; }
+		static const std::vector<const char*> GetMeshNames() { return m_MeshNames; }
 		static void UpdateMeshLibray();
+		static void UpdateMeshNames();
 	private:
 		static void FileIterator(std::filesystem::path filePath);
 	private:
-		static std::vector<std::string> m_MeshPath;
+		static std::vector<std::string> m_MeshPaths;
+		static std::vector<const char*> m_MeshNames;
 	};
 }

@@ -128,6 +128,7 @@ namespace BE {
 	struct MeshComponent
 	{
 		Mesh MeshSource;
+		int CurrentMesh = -1;
 
 		MeshComponent() = default;
 		MeshComponent(const MeshComponent&) = default;

@@ -25,6 +25,8 @@ namespace BE {
 
 
 	private:
+		
+
 		DockSpace* m_Context = nullptr;
 		Entity m_SelectionContext;
 		Ref<Texture2D> m_BEIcon = Texture2D::Create("Resources/Icons/Common/BunnyIcon1.png");
