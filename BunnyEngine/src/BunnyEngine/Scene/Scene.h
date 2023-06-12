@@ -4,6 +4,13 @@
 #include "BunnyEngine/Renderer/EditorCamera.h"
 
 namespace BE {
+
+	enum class ScneneStates
+	{
+		Ediotr = 0,
+		Runtime = 1
+	};
+
 	class Entity;
 
 	class Scene {
@@ -20,10 +27,13 @@ namespace BE {
 
 		Entity GetMainCameraEntity();
 
-		
+		ScneneStates GetCurrentScneneStates() { return m_CurrentScneneStates; }
+		void SetCurrentScneneStates(ScneneStates scneneState) { m_CurrentScneneStates = scneneState; }
 
 	private:
 		entt::registry m_Registry;
+
+		ScneneStates m_CurrentScneneStates = ScneneStates::Ediotr;
 
 		uint32_t m_ViewportWidth;
 		uint32_t m_ViewportHeight;

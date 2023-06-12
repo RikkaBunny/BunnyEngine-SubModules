@@ -75,7 +75,7 @@ float GeometrySmith(vec3 N,vec3 V,vec3 L,float roughness){
 
 const vec3 wPos=vec3(0.0,0.0,0.0);
 const vec3 cameraPos=vec3(1.0,1.0,1.0);
-const vec3 lightPointPos=vec3(1.0,-1.0,1.0);
+const vec3 lightPointPos=vec3(1.0,1.0,1.0);
 const vec3 lightPointColor=vec3(1.0,1.0,1.0);
 
 void main(){

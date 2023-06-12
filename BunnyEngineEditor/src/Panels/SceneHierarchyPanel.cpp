@@ -144,9 +144,9 @@ namespace BE {
 		float lineHeight = ImGui::GetFontSize() + GImGui->Style.FramePadding.y*2.0f;
 		ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
 
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.75f,0.15f,0.1f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f,0.2f,0.2f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.7f,0.15f,0.1f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.91f, 0.68f, 0.67f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.93f, 0.85f, 0.83f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.43f, 0.28f, 0.25f, 1.0f });
 		if (ImGui::Button("X", buttonSize))
 			values.x = resetValue;
 		ImGui::PopStyleColor(3);
@@ -156,9 +156,9 @@ namespace BE {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.15f,0.75f,0.1f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f,0.9f,0.2f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f,0.75f,0.1f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.65f, 0.73f, 0.69f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.75f, 0.79f, 0.76f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.00f, 0.24f, 0.25f,1.0f });
 		if (ImGui::Button("Y", buttonSize))
 			values.y = resetValue;
 		ImGui::PopStyleColor(3);
@@ -168,9 +168,9 @@ namespace BE {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.15f,0.1f,0.75f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f,0.2f,0.9f,1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f,0.1f,0.75f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.67f, 0.83f, 0.84f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.78f, 0.87f, 0.88f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.36f, 0.45f, 0.58f, 1.0f });
 		if (ImGui::Button("Z", buttonSize))
 			values.z = resetValue;
 		ImGui::PopStyleColor(3);
@@ -180,8 +180,8 @@ namespace BE {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
-		ImGui::PopStyleVar();
 		ImGui::Columns(1);
+		ImGui::PopStyleVar();
 		ImGui::PopID();
 	}
 
@@ -500,7 +500,8 @@ namespace BE {
 
 		DrawComponent<MeshComponent>("Mesh", entity, [](auto& component) {
 			ImGui::Text("MeshSource");
-			if (ImGui::Button("Mesh", { 20, 40 })) {
+			//ImGui::BeginCombo()
+			if (ImGui::Button("Mesh", { 50, 20 })) {
 				component.MeshSource.SetMeshSource();
 			}
 			//ImGui::DragFloat("DirctionIntersity", &component.DirctionIntersity, 0.1f, 0.0f, 10.0f);

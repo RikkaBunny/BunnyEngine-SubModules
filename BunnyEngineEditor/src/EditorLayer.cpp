@@ -18,7 +18,7 @@ namespace BE {
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
-        fbSpec.Attachments = { FramebufferTextureFormat::RGBA16F, FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
+        fbSpec.Attachments = { FramebufferTextureFormat::RGBA16F, FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RGBA16F, FramebufferTextureFormat::Depth };
 
         //m_DockSpace = new DockSpace(){};
         m_DockSpace.SetContext(&m_SceneHierarchyPanel, &m_ContentBrowserPanel, &m_ViewportPanel);
@@ -51,13 +51,23 @@ namespace BE {
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->Bind();
             
         BE_PROFILE_SCOPE("Renderer::OnUpdate");
-        RenderCommand::Clear({ 0.0,0.0,0.0,1 });
-
+        RenderCommand::Clear({ 0.0,0.0,0.0,1.0 });
+        ///////////// DeferredRendering
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(1, 0);
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(2, 0);
         m_DockSpace.GetViewportPanel()->GetFramebuffer()->ClearAttachment(3, 0);
-        //m_ActiveScene->OnUpdateRuntime();
-        m_DockSpace.GetActiveScene()->OnUpdateEditor(m_DockSpace.GetViewportPanel()->GetEditorCamera());
+
+
+        switch (m_DockSpace.GetActiveScene()->GetCurrentScneneStates())
+        {
+        case BE::ScneneStates::Ediotr:
+            m_DockSpace.GetActiveScene()->OnUpdateEditor(m_DockSpace.GetViewportPanel()->GetEditorCamera());
+            break;
+
+        case BE::ScneneStates::Runtime:
+            m_DockSpace.GetActiveScene()->OnUpdateRuntime();
+            break;
+        }
         
         m_DockSpace.GetViewportPanel()->OnUpdate();
 

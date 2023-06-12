@@ -120,7 +120,7 @@ namespace BE {
         ImGuiIO& io = ImGui::GetIO();
         ImGuiStyle& style = ImGui::GetStyle();
         float minWinSizeX = style.WindowMinSize.x;
-        style.WindowMinSize.x = 300.0f;
+        style.WindowMinSize.x = 100.0f;
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -196,9 +196,11 @@ namespace BE {
             }
 
             // 添加最大化、最小化和关闭按钮
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 1.0f, 1.0f, 1.0f, 0.0f });
+
             float width = ImGui::GetWindowContentRegionMax().x;
             ImGui::SetCursorPosX(width - frameHeight * 3.2f);
-            if (ImGui::ImageButton((ImTextureID)m_MinIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight / 2.0f }, { 0, 1 }, { 1, 0 })) {
+            if (ImGui::ImageButton((ImTextureID)m_MinIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight / 2.0f }, { 0, 1 }, { 1, 0 }, -1, { 1.0f, 1.0f, 1.0f, 0.0f }, { 0.5f, 0.5f, 0.5f, 1.0f })) {
                 //m_WindowPos = ImGui::GetWindowPos();
                 //m_WindowSize = ImGui::GetWindowSize();
                 Application::Get().GetWindow().SetWindowRestore();
@@ -210,7 +212,7 @@ namespace BE {
                 Application::Get().GetWindow().SetWindowIconify();
             }
 
-            if (ImGui::ImageButton((ImTextureID)m_MaxIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight / 2.0f }, { 0, 1 }, { 1, 0 })) {
+            if (ImGui::ImageButton((ImTextureID)m_MaxIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight / 2.0f }, { 0, 1 }, { 1, 0 }, -1, { 1.0f, 1.0f, 1.0f, 0.0f }, { 0.5f, 0.5f, 0.5f, 1.0f })) {
 
                 //m_WindowPos = ImGui::GetWindowPos();
                 //m_WindowSize = ImGui::GetWindowSize();
@@ -226,12 +228,13 @@ namespace BE {
                 //ImGui::SetWindowSize(m_WindowSize);
                 //ImGui::SetWindowPos({ 0,0 });
             }
-            if (ImGui::ImageButton((ImTextureID)m_CloseIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight/2.0f }, { 0, 1 }, { 1, 0 })) {
+            if (ImGui::ImageButton((ImTextureID)m_CloseIcon->GetRendererID(), { frameHeight / 2.0f, frameHeight/2.0f }, { 0, 1 }, { 1, 0 }, -1, { 1.0f, 1.0f, 1.0f, 0.0f }, { 0.5f, 0.5f, 0.5f, 1.0f })) {
                 Application::Get().Close();
                 
             }
       
-            
+            ImGui::PopStyleColor();
+
             //在主菜单上进行窗口移动
             if (ImGui::IsWindowHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered()) {
                 m_WindowPos = ImGui::GetWindowPos();

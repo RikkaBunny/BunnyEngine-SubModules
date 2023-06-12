@@ -94,6 +94,15 @@ namespace BE {
 		glDeleteTextures(1, &m_RendererID);
 	}
 
+	float* OpenGLTexture2D::GetData()
+	{
+		uint32_t bpc = m_DataFormat == GL_RGBA ? 4 : 3;
+		float* data = new float[m_Width * m_Height * bpc];
+		//todo  固定默认为float数据，float 4bytes。 以后改为动态.
+		glGetTextureImage(m_RendererID, 0, m_DataFormat, GL_FLOAT, m_Width * m_Height * bpc * 4, data);
+		return data;
+	}
+
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
 	{
 		uint32_t bpc = m_DataFormat == GL_RGBA ? 4 : 3;

@@ -108,8 +108,8 @@ namespace BE {
 				});
 		}
 
-		//Render 2D
-		Camera* mainCamera = nullptr;
+		//Render Scene
+		SceneCamera* mainCamera = nullptr;
 		glm::mat4 mainCamerTransform ;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
@@ -126,10 +126,31 @@ namespace BE {
 		if (mainCamera) {
 			Renderer2D::BeginScene(*mainCamera, mainCamerTransform);
 
-			auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+	/*		auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group1) {
 				auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
 				Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
+			}*/
+
+			{
+				auto view = m_Registry.view<MeshComponent, MaterialComponent>();
+				for (auto entity : view) {
+					auto [mesh, material] = view.get<MeshComponent, MaterialComponent>(entity);
+					TransformComponent transfrom = m_Registry.get<TransformComponent>(entity);
+					Ref<Shader> m_Shader = material.Mat.GetShader();
+
+					if (!m_Shader)
+						continue;
+
+					material.Mat.BindShader();
+					glm::mat4 viewProj = mainCamera->GetProjection() * glm::inverse(mainCamerTransform);
+					m_Shader->Bind();
+					m_Shader->SetFloat("u_Emissive", 2.0f);
+					m_Shader->SetMat4("u_WorldTransform", transfrom.GetTransform());
+					m_Shader->SetMat4("u_ViewProjection", viewProj);
+					RenderCommand::DrawIndexed(mesh.MeshSource.GetMeshSource());
+
+				}
 			}
 
 			Renderer2D::EndScene();

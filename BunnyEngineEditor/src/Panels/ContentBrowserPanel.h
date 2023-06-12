@@ -12,6 +12,10 @@ namespace BE {
 		void SetContext(DockSpace* context);
 
 		void OnImGuiRenderer();
+	private:
+		void ContentBrowser();
+		void ContentBrowserBreviary();
+		void FilesTree(std::filesystem::path filePath);
 
 	private:
 		DockSpace* m_Context;

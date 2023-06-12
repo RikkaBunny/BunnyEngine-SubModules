@@ -9,6 +9,7 @@
 #include "BunnyEngine/Utils/PlatformUtils.h"
 
 namespace BE {
+	extern const std::filesystem::path g_AssetsPath;
 
 #pragma region MeshSource
 
@@ -42,7 +43,7 @@ namespace BE {
 
 	void Mesh::SetMeshSource()
 	{
-
+		MeshLibray::UpdateMeshLibray();
 		std::string filepath = FileDialogs::OpenFile("Mesh Files (*.obj;*.fbx)\0*.fbx;*.obj\0*");
 		if (!filepath.empty()) {
 			//m_MeshSource = MeshLoad::DeserializeMesh(filepath);
@@ -53,5 +54,37 @@ namespace BE {
 
 	}
 
-	
+	std::vector<std::string> MeshLibray::m_MeshPath ;
+
+	MeshSource MeshLibray::Get(const std::string& name)
+	{
+		return MeshSource();
+	}
+
+	void MeshLibray::UpdateMeshLibray()
+	{
+		MeshLibray::FileIterator(g_AssetsPath);
+	}
+
 }
+
+	void BE::MeshLibray::FileIterator(std::filesystem::path filePath)
+	{
+		for (auto& directoryEntry : std::filesystem::directory_iterator(filePath)) {
+			const auto& path = directoryEntry.path();
+			auto relativePath = std::filesystem::relative(path, g_AssetsPath);
+			std::string filenameString = relativePath.filename().string();
+
+			if (directoryEntry.is_directory()) {
+				FileIterator(path);
+
+			}
+			else {
+				
+				std::string name = filenameString.substr(filenameString.size() - 3, 3);
+				if (name == "fbx" || name == "obj") {
+					m_MeshPath.push_back(path.string());
+				}
+			}
+		}
+	}

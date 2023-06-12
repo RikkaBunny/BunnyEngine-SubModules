@@ -102,11 +102,26 @@ namespace BE {
                 }
                 ImGui::EndCombo();
             }
+
+
             ImGui::SameLine((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size));
-            Ref<Texture2D> icon = m_PlayIcon;
-            if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { size, size }, { 0, 1 }, { 1, 0 }))
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 1.0f, 1.0f, 1.0f, 0.0f });
+            if (ImGui::ImageButton((ImTextureID)m_ScneneStatesIcon->GetRendererID(), { size, size }, { 0, 1 }, { 1, 0 }))
             {
+                auto currentScneneStates = m_Context->GetActiveScene()->GetCurrentScneneStates();
+                switch (currentScneneStates)
+                {
+                case BE::ScneneStates::Ediotr:
+                    m_ScneneStatesIcon = m_PauseIcon;
+                    m_Context->GetActiveScene()->SetCurrentScneneStates(ScneneStates::Runtime);
+                    break;
+                case BE::ScneneStates::Runtime:
+                    m_ScneneStatesIcon = m_PlayIcon;
+                    m_Context->GetActiveScene()->SetCurrentScneneStates(ScneneStates::Ediotr);
+                    break;
+                }
             }
+            ImGui::PopStyleColor();
             ImGui::EndTabBar();
         }
     }
@@ -130,6 +145,9 @@ namespace BE {
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
         viewportPanelSize = ImGui::GetContentRegionAvail();
+        if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
+            m_Context->GetActiveScene()->OnViewportResize(viewportPanelSize.x, viewportPanelSize.y);
+        }
         m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID(0);

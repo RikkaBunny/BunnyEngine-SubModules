@@ -14,6 +14,7 @@ namespace BE {
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
 		virtual uint32_t GetRendererID() const override { return m_RendererID; }
+		virtual float* GetData() override;
 		virtual void SetRendererID(uint32_t rendererID)  override { m_RendererID = rendererID; }
 
 		virtual void SetData(void* data, uint32_t size) override;

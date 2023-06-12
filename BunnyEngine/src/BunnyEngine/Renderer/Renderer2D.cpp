@@ -121,6 +121,8 @@ namespace BE {
 
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
+		RenderCommand::BeginScene();
+
 		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
 
 		s_Data->TextureShader->Bind();
@@ -131,6 +133,8 @@ namespace BE {
 
 	void Renderer2D::BeginScene(const EditorCamera& camera)
 	{
+		RenderCommand::BeginScene();
+
 		glm::mat4 viewProj = camera.GetViewProjection();
 
 		s_Data->TextureShader->Bind();
@@ -141,11 +145,15 @@ namespace BE {
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		RenderCommand::BeginScene();
+
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 	void Renderer2D::BeginScene(const glm::mat4 viewProjectionMatrix)
 	{
+		RenderCommand::BeginScene();
+
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
 		s_PlaneData->TextureShader->Bind();

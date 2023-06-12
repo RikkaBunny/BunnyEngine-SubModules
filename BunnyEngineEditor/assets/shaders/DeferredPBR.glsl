@@ -8,7 +8,7 @@ sampler2D u_RoughnessTexture = gray;
 sampler2D u_AoTexture = white;	
 
 uniform vec2 u_TexTiling=(1.0,1.0);
-uniform vec4 u_Color = (1,0,0,1);
+uniform vec4 u_Color = (1,1,1.0,1);
 uniform float u_Metallic = 0;
 uniform float u_Roughness = 0.5;
 uniform float u_Emissive = 1;

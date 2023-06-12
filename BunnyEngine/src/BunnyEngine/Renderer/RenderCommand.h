@@ -10,6 +10,10 @@ namespace BE {
 			s_RendererAPI->Init();
 		}
 
+		inline static void BeginScene() {
+			s_RendererAPI->BeginScene();
+		}
+
 		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
 			s_RendererAPI->SetViewport( x,  y,  width,  height);
 		}

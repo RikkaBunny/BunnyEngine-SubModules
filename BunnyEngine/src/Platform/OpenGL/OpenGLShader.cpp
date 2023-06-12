@@ -41,6 +41,7 @@ namespace BE {
 		std::string name = source.substr(begin, equal- begin);
 		std::string value = source.substr(equal + 1, end- (equal + 1));
 		trim(name);
+		trim(value);
 		parameter.ParameterName = name;
 		parameter.ParameterVlaue = value;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "VertexArray.h"
 #include "../Utils/MeshLoad.h"
+#include<filesystem>
 
 namespace BE {
 
@@ -35,5 +36,19 @@ namespace BE {
 	private:
 		Ref<VertexArray> m_VertexArray;
 		MeshSource m_MeshSource;
+	};
+
+	class MeshLibray{
+	public:
+		//static void Add(const std::string& name, const std::string& meshPath);
+
+		static MeshSource Get(const std::string& name);
+
+		static const std::vector<std::string> GetMeshLibray() { return m_MeshPath; }
+		static void UpdateMeshLibray();
+	private:
+		static void FileIterator(std::filesystem::path filePath);
+	private:
+		static std::vector<std::string> m_MeshPath;
 	};
 }

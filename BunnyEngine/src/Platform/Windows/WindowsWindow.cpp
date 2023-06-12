@@ -4,10 +4,9 @@
 #include "BunnyEngine/Events/ApplicationEvent.h"
 #include "BunnyEngine/Events/KeyEvent.h"
 #include "BunnyEngine/Events/MouseEvent.h"
-
 #include "Platform/OpenGL/OpenGLContext.h"
 
-
+#include "stb_image.h"
 
 namespace BE {
 
@@ -45,8 +44,16 @@ namespace BE {
 		}
 		// 设置窗口提示 GLFW_DECORATED 的值为 GLFW_FALSE，以创建一个无边框窗口
 		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
-
+		//设置窗口初始化的 大小、 位置 、 titile、icon
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		auto monitor = glfwGetPrimaryMonitor();
+		auto curMonitor = glfwGetVideoMode(monitor);
+		SetWindowPos(curMonitor->width / 2 - (int)props.Width/2, curMonitor->height / 2 - (int)props.Height/2);
+
+		GLFWimage image;
+		image.pixels = stbi_load(m_IconPath, &image.width, &image.height, 0, 4);
+		glfwSetWindowIcon(m_Window, 1, &image);
+		stbi_image_free(image.pixels);
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();

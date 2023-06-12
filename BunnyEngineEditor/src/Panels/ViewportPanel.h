@@ -63,6 +63,7 @@ namespace BE {
 
 		Ref<Texture2D> m_PauseIcon = Texture2D::Create("Resources/Icons/ViewportPanel/pause.png");
 		Ref<Texture2D> m_PlayIcon = Texture2D::Create("Resources/Icons/ViewportPanel/play.png");
+		Ref<Texture2D> m_ScneneStatesIcon = m_PlayIcon;
 
 	};
 

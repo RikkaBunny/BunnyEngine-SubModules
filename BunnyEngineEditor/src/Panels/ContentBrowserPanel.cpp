@@ -19,6 +19,12 @@ namespace BE {
 	}
 
 	void ContentBrowserPanel::OnImGuiRenderer() {
+		ContentBrowserBreviary();
+		ContentBrowser();
+	}
+
+	void ContentBrowserPanel::ContentBrowser()
+	{
 		ImGui::Begin("Content Browser");
 
 		if (m_CurrentDirectory != std::filesystem::path(g_AssetsPath)) {
@@ -53,11 +59,13 @@ namespace BE {
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
 				ImGui::EndDragDropSource();
 			}
-			
+
 			ImGui::PopStyleColor();
+
+			// go to click file
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
 				if (directoryEntry.is_directory()) {
-						m_CurrentDirectory /= path.filename();
+					m_CurrentDirectory /= path.filename();
 				}
 			}
 			ImGui::TextWrapped(filenameString.c_str());
@@ -72,5 +80,48 @@ namespace BE {
 		// TODO: status bar
 		ImGui::End();
 	}
+
+	void ContentBrowserPanel::ContentBrowserBreviary()
+	{
+		ImGui::Begin("Files Breviary");
+
+		if (ImGui::TreeNodeEx("Assets", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen)) {
+			//ImGui::item
+			FilesTree(std::filesystem::path(g_AssetsPath));
+
+			ImGui::TreePop();
+		}
+
+		ImGui::End();
+	}
+
+	void ContentBrowserPanel::FilesTree(std::filesystem::path filePath)
+	{
+		for (auto& directoryEntry : std::filesystem::directory_iterator(filePath)) {
+			const auto& path = directoryEntry.path();
+			auto relativePath = std::filesystem::relative(path, g_AssetsPath);
+			std::string filenameString = relativePath.filename().string();
+			
+			if (directoryEntry.is_directory()) {
+				bool opened = ImGui::TreeNode(filenameString.c_str());
+				if (ImGui::IsItemClicked()) {
+					m_CurrentDirectory = path;
+					/*if (m_CurrentDirectory == path)
+						m_CurrentDirectory = filePath;*/
+				}
+				if (opened)
+				{
+					FilesTree(path);
+
+					ImGui::TreePop();
+				}
+				
+			}
+			else {
+				ImGui::Text(filenameString.c_str());
+			}
+		}
+	}
+
 
 }

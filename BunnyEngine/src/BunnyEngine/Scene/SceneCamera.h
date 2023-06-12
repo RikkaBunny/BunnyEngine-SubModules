@@ -47,9 +47,9 @@ namespace BE {
 		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 10000.0f;
 
 		float m_OrthographicSize = 10.0f;
-		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
+		float m_OrthographicNear = 0.01f, m_OrthographicFar = 10000.0f;
 
-		float m_AspectRatio = 0.0f;
+		float m_AspectRatio = 1.778f;
 	};
 
 

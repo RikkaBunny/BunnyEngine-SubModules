@@ -49,8 +49,9 @@ namespace BE {
 			EventCallbackFn EventCallback;
 		};
 
-
 		WindowData m_Data;
+
+		const char* m_IconPath = "Resources/Icons/Common/BunnyIcon.png";
 	};
 
 }

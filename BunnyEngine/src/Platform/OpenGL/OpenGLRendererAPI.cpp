@@ -6,6 +6,10 @@
 namespace BE {
 	void OpenGLRendererAPI::Init()
 	{
+		BeginScene();
+	}
+	void OpenGLRendererAPI::BeginScene()
+	{
 		glEnable(GL_BLEND);
 		
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

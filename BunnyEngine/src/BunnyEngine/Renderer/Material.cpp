@@ -248,8 +248,24 @@ namespace BE {
 			case BE::ShaderInputType::Texture2D:
 			{
 				std::string name = m_ShaderParameter.ParameterName;
-				Ref<Texture2D> value = Texture2D::Create(1, 1);
-				m_ShaderParameters.push_back(value);
+				std::string type = m_ShaderParameter.ParameterVlaue;
+				if (type == "blue") {
+					Ref<Texture2D> value = Texture2D::Create(1, 1, 3);
+					m_ShaderParameters.push_back(value);
+				}
+				else if (type == "black") {
+					Ref<Texture2D> value = Texture2D::Create(1, 1, 2);
+					m_ShaderParameters.push_back(value);
+				}
+				else if (type == "gray") {
+					Ref<Texture2D> value = Texture2D::Create(1, 1, 1);
+					m_ShaderParameters.push_back(value);
+				}
+				else {
+					Ref<Texture2D> value = Texture2D::Create(1, 1);
+					m_ShaderParameters.push_back(value);
+				}
+				
 				break;
 			}
 			}
