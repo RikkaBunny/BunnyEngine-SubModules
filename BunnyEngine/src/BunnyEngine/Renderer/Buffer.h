@@ -1,10 +1,14 @@
 #pragma once
+#include <map>
 
 namespace BE {
-	
+	//class RendererAPI;
+	class OpenGLUniformBuffer;
+
 	enum class ShaderDataType {
 		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
 	};
+	
 
 	static uint8_t ShaderDataTypeSize(ShaderDataType type) {
 		switch (type)
@@ -167,6 +171,10 @@ namespace BE {
 	private:
 		static VisibleBuffer m_OutBuffer ;
 	};
+
+
+
+	
 
 }
 

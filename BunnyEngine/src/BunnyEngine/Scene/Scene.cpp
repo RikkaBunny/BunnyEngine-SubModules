@@ -4,9 +4,12 @@
 #include <glm/glm.hpp>
 
 #include "BunnyEngine/Renderer/Renderer2D.h"
+#include "BunnyEngine/Renderer/UniformBuffer.h"
 #include "BunnyEngine/Renderer/RenderCommand.h"
 #include "Entity.h"
 #include "Components.h"
+#include "BunnyEngine/Renderer/Light.h"
+#include <glm/gtx/rotate_vector.hpp>
 
 namespace BE {
 
@@ -45,21 +48,31 @@ namespace BE {
 	{
 		//Renderer2D::InitQuad();
 		Renderer2D::BeginScene(camera);
-		//{
-		//	auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		//	for (auto entity : group1) {
-		//		auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
-		//		//Renderer2D::DrawQuad(transform.GetTransform(), Sprite.Color);
-		//		Renderer2D::DrawSprite(transform.GetTransform(), Sprite, (int)entity);
-		//	}
-		//}
-		//{
-			auto view = m_Registry.view<TransformComponent, QuadRendererComponent>();
-			for (auto entity1 : view) {
-				auto [transform, Quad] = view.get<TransformComponent, QuadRendererComponent>(entity1);
 
-				Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
-			}
+		auto view = m_Registry.view<TransformComponent, DirctionLightComponent>();
+		for (auto entity : view) {
+			auto [transform, dirctionLight] = view.get<TransformComponent, DirctionLightComponent>(entity);
+			LightDirection lightDir;
+			lightDir.lightColor = glm::vec4(dirctionLight.DirctionColor,1.0);
+			lightDir.lightDir = glm::vec4(transform.Rotation, 1.0);
+			lightDir.lightDirPos = glm::vec4(transform.Translation, 1.0);
+			glm::vec3 dirction = glm::vec3(0.0f, 0.0f, 1.0f);
+			dirction = glm::rotateX(dirction, transform.Rotation.x);
+			dirction = glm::rotateY(dirction, transform.Rotation.y);
+			dirction = glm::rotateZ(dirction, transform.Rotation.z);
+			//dirction = -1.0f * dirction;
+			lightDir.lightDir = glm::vec4(dirction, 1.0);
+
+			UniformBuffer::CreateUniformBuffer<LightDirection>("LightDirection", lightDir);
+		}
+
+
+		//auto view = m_Registry.view<TransformComponent, QuadRendererComponent>();
+		//for (auto entity1 : view) {
+		//	auto [transform, Quad] = view.get<TransformComponent, QuadRendererComponent>(entity1);
+
+		//	Renderer2D::DrawPBRQuad(transform.GetTransform(), Quad, (int)entity1);
+		//}
 		//	//auto group2 = m_Registry.group<TransformComponent>(entt::get<QuadRendererComponent>);
 		//	//for (auto entity1 : group2) {
 		//	//	auto [transform, Quad] = group2.get<TransformComponent, QuadRendererComponent>(entity1);
@@ -125,7 +138,11 @@ namespace BE {
 		}
 		if (mainCamera) {
 			Renderer2D::BeginScene(*mainCamera, mainCamerTransform);
-
+			{
+				
+				//UniformBuffer::s_OpenGLUniformBuffer->SetUniformBuffer(lightDir);
+				//OpenGLUniformBuffer::GetInstance()->SetUniformBuffer(lightDir);
+			}
 	/*		auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group1) {
 				auto [transform, Sprite] = group1.get<TransformComponent, SpriteRendererComponent>(entity);
@@ -157,11 +174,12 @@ namespace BE {
 		}
 	}
 
+
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
 	{
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
-
+		
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view) {
 			auto& cameraComponent = view.get<CameraComponent>(entity);

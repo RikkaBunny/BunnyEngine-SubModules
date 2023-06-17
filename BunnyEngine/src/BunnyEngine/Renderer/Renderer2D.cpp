@@ -354,6 +354,7 @@ namespace BE {
 			//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/DeferredPBRRenderer.glsl");
 		}
 		s_Data->ScreenVisibleBuffer->Bind();
+		s_Data->ScreenVisibleBuffer->SetUniformBuffer("LightDirection");
 		s_Data->ScreenVisibleBuffer->SetInt("u_OutBufferType", outBufferType);
 		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferA", 0);
 		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferB", 1);
@@ -374,6 +375,7 @@ namespace BE {
 		//}
 		//s_Data->WhiteTexture->Bind();
 		s_Data->QuadVertexArray->Bind();
+
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 

@@ -36,6 +36,8 @@ namespace BE {
 		virtual void SetMat3(const std::string& name, const glm::mat3& matrix) = 0;
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) = 0;
 
+		virtual void SetUniformBuffer(const std::string& name) = 0;
+
 		static Ref<Shader> Create(const std::string& filePath);
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
@@ -51,8 +53,8 @@ namespace BE {
 		static Ref<Shader> Get(const std::string& name);
 
 		static bool Exists(const std::string& name);
-		static const std::unordered_map<std::string, Ref<Shader>> GetShaderLibray() { return m_Shaders; }
+		static const std::unordered_map<std::string, Ref<Shader>> GetShaderLibray() { return s_Shaders; }
 	private:
-		static std::unordered_map<std::string, Ref<Shader>> m_Shaders ;
+		static std::unordered_map<std::string, Ref<Shader>> s_Shaders ;
 	};
 }

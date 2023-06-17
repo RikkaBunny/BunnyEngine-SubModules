@@ -145,8 +145,10 @@ namespace BE {
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
         viewportPanelSize = ImGui::GetContentRegionAvail();
+        //µ÷ÕûÆÁÄ»±ÈÀý
         if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
             m_Context->GetActiveScene()->OnViewportResize(viewportPanelSize.x, viewportPanelSize.y);
+            m_EditorCamera.SetViewportSize(viewportPanelSize.x, viewportPanelSize.y);
         }
         m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
 

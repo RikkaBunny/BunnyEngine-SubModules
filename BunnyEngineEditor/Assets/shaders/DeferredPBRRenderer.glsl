@@ -32,6 +32,12 @@ uniform sampler2D u_GBufferC;
 uniform sampler2D u_GBufferD;
 uniform sampler2D u_DepthBuffer;
 
+layout(std140) uniform LightDirection{
+	vec3 lightColor;
+	vec3 lightDirector;
+	vec3 lightPos;
+};
+
 const float PI=3.14159265359;
 
 in vec2 v_TexCoord;
@@ -73,15 +79,17 @@ float GeometrySmith(vec3 N,vec3 V,vec3 L,float roughness){
 	return ggx2*ggx1;
 }
 
-const vec3 wPos=vec3(0.0,0.0,0.0);
+//const vec3 wPos=vec3(0.0,0.0,0.0);
 const vec3 cameraPos=vec3(1.0,1.0,1.0);
 const vec3 lightPointPos=vec3(1.0,1.0,1.0);
 const vec3 lightPointColor=vec3(1.0,1.0,1.0);
+
 
 void main(){
 	vec3 albedo=pow(texture(u_GBufferA,v_TexCoord).rgb, vec3(2.2));
 //	vec3 albedo=vec3(1.0);
 	vec3 normal=texture(u_GBufferB,v_TexCoord).rgb;
+	vec3 wPos=texture(u_GBufferD,v_TexCoord).rgb;
 
 //	vec3 normal=fs_in.wNormal;
 	float metallic=texture(u_GBufferC,v_TexCoord).r;
@@ -96,14 +104,14 @@ void main(){
 	vec3 Lo=vec3(0.0);
 
 
-	vec3 L=normalize(lightPointPos-wPos);
+	vec3 L=normalize(lightDirector);
 	vec3 H=normalize(V+L);
 
 	float distance=length(lightPointPos-wPos);
 //	float attenuation=1.0 / (lightPointconstant + lightPointlinear * distance + lightPointquadratic * (distance * distance)); 
 //	float attenuation=1.0 / distance*distance;
-	float attenuation=texture(u_GBufferA,v_TexCoord).a;
-	vec3 radiance=lightPointColor*attenuation;
+//	float attenuation=texture(u_GBufferA,v_TexCoord).a;
+	vec3 radiance=lightColor;
 
 	vec3 F0=vec3(0.04);
 	F0=mix(F0,albedo,metallic);
@@ -144,4 +152,5 @@ void main(){
 	color = pow(color, vec3(1.0/2.2)); 
 
 	FragColor = vec4(color, 1.0);
+//	FragColor = vec4(lightDirector, 1.0);
 }

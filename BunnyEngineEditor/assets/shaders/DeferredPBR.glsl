@@ -46,6 +46,7 @@ uniform mat4 u_WorldTransform;
 			
 out vec2 v_TexCoord;
 out mat3 v_TBN;
+out vec4 v_WPos;
 
 void main(){
 	v_TexCoord = a_TexCoord0;
@@ -54,6 +55,7 @@ void main(){
 
 	v_TBN = mat3(a_Tangent, B, vec3(WorldNormal.xyz));
 
+	v_WPos =  u_WorldTransform * vec4(a_Position, 1.0);
 	gl_Position = u_ViewProjection * u_WorldTransform * vec4(a_Position, 1.0);
 }
 #type fragment
@@ -63,7 +65,7 @@ void main(){
 layout(location = 0) out vec4 GBufferA;
 layout(location = 1) out vec4 GBufferB;
 layout(location = 2) out vec4 GBufferC;
-layout(location = 3) out int EntityID;
+layout(location = 3) out vec4 GBufferD;
 
 uniform sampler2D u_AlbedoTexture;	
 uniform sampler2D u_NormalTexture;
@@ -81,6 +83,8 @@ uniform int u_EntityID;
 
 in vec2 v_TexCoord;
 in mat3 v_TBN;
+in vec4 v_WPos;
+
 void main(){
 
 	vec4 albedo = texture(u_AlbedoTexture, v_TexCoord * u_TexTiling) * u_Color;
@@ -98,5 +102,5 @@ void main(){
 	//BufferC8f R metallic G specular B ao A customdata
 	GBufferC = vec4(metallic, 0.5f, ao, 1.0f);
 
-	EntityID = u_EntityID;
+	GBufferD = v_WPos;
 }

@@ -1398,6 +1398,9 @@
     <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\Light.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\Material.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
@@ -1479,6 +1482,9 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\UniformBuffer.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDK\ImGuizmo\ImGuizmo.cpp">
@@ -1521,6 +1527,9 @@
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\Light.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\Material.cpp">
@@ -1601,5 +1610,6 @@
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\UniformBuffer.cpp" />
   </ItemGroup>
 </Project>

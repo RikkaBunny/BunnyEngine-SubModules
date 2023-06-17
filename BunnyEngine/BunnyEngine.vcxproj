@@ -586,6 +586,7 @@
     <ClInclude Include="src\BunnyEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\Light.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Material.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Mesh.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\OrthographicCamera.h" />
@@ -596,6 +597,7 @@
     <ClInclude Include="src\BunnyEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Shader.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\Texture.h" />
+    <ClInclude Include="src\BunnyEngine\Renderer\UniformBuffer.h" />
     <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\BunnyEngine\Scene\Components.h" />
     <ClInclude Include="src\BunnyEngine\Scene\Entity.h" />
@@ -631,6 +633,7 @@
     <ClCompile Include="src\BunnyEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\Light.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Material.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Mesh.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\OrthographicCamera.cpp" />
@@ -641,6 +644,7 @@
     <ClCompile Include="src\BunnyEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\Texture.cpp" />
+    <ClCompile Include="src\BunnyEngine\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\BunnyEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\BunnyEngine\Scene\Scene.cpp" />

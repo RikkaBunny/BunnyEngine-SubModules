@@ -40,12 +40,12 @@ namespace BE {
 	}
 
 
-	std::unordered_map<std::string, Ref<Shader>> ShaderLibray::m_Shaders;
+	std::unordered_map<std::string, Ref<Shader>> ShaderLibray::s_Shaders;
 
 	void ShaderLibray::Add(const std::string& name, const Ref<Shader>& shader)
 	{
 		BE_CORE_ASSERT(!Exists(name), "Shader already exists!");
-		ShaderLibray::m_Shaders[name] = shader;
+		ShaderLibray::s_Shaders[name] = shader;
 	}
 
 	void ShaderLibray::Add(const Ref<Shader>& shader)
@@ -71,11 +71,11 @@ namespace BE {
 	Ref<Shader> ShaderLibray::Get(const std::string& name)
 	{
 		BE_CORE_ASSERT(Exists(name), "Shader not found!");
-		return ShaderLibray::m_Shaders[name];
+		return ShaderLibray::s_Shaders[name];
 	}
 
 	bool ShaderLibray::Exists(const std::string& name) {
-		return ShaderLibray::m_Shaders.find(name) != ShaderLibray::m_Shaders.end();
+		return ShaderLibray::s_Shaders.find(name) != ShaderLibray::s_Shaders.end();
 	}
 
 }

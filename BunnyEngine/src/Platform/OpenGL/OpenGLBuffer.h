@@ -1,5 +1,6 @@
 #pragma once
 #include "BunnyEngine/Renderer/Buffer.h"
+#include <glad/glad.h>
 
 namespace BE {
 
@@ -33,6 +34,23 @@ namespace BE {
 		uint32_t m_Count;
 	};
 
+	class OpenGLUniformBuffer
+	{
+	public:
+		template<typename T>
+		void SetUniformBuffer(const T& buffer, unsigned int bindingPoint)
+		{
+			GLuint ubo;
+			glGenBuffers(1, &ubo);
+			glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+			glBufferData(GL_UNIFORM_BUFFER, sizeof(buffer), &buffer, GL_STATIC_DRAW);
+			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, ubo);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			//BE_CORE_INFO("Bind Uniform Buffer");
+		}
+
+	};
+	
 }
 
 

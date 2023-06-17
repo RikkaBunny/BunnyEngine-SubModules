@@ -55,8 +55,8 @@ namespace BE {
 
 	}
 
-	std::vector<std::string> MeshLibray::m_MeshPaths;
-	std::vector<const char*> MeshLibray::m_MeshNames;
+	std::vector<std::string> MeshLibray::s_MeshPaths;
+	std::vector<const char*> MeshLibray::s_MeshNames;
 
 	MeshSource MeshLibray::Get(const std::string& name)
 	{
@@ -65,17 +65,17 @@ namespace BE {
 
 	void MeshLibray::UpdateMeshLibray()
 	{
-		m_MeshPaths.clear();
+		s_MeshPaths.clear();
 		MeshLibray::FileIterator(g_AssetsPath);
 	}
 	void MeshLibray::UpdateMeshNames()
 	{
 		UpdateMeshLibray();
-		m_MeshNames.clear();
-		m_MeshNames.reserve(m_MeshPaths.size());
+		s_MeshNames.clear();
+		s_MeshNames.reserve(s_MeshPaths.size());
 		
-		for (const auto& str : m_MeshPaths) {
-			m_MeshNames.push_back(str.c_str());
+		for (const auto& str : s_MeshPaths) {
+			s_MeshNames.push_back(str.c_str());
 		}
 	}
 
@@ -94,7 +94,7 @@ namespace BE {
 
 				std::string name = filenameString.substr(filenameString.size() - 3, 3);
 				if (name == "fbx" || name == "obj") {
-					m_MeshPaths.push_back(path.string());
+					s_MeshPaths.push_back(path.string());
 				}
 			}
 		}

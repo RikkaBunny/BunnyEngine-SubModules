@@ -1,6 +1,6 @@
 #include "BEpch.h"
 #include "OpenGLShader.h"
-
+#include "BunnyEngine/Renderer/UniformBuffer.h"
 #include <fstream>
 #include <glad/glad.h>
 
@@ -141,6 +141,11 @@ namespace BE {
 		UploadUniformMat4(name, matrix);
 	}
 
+	void OpenGLShader::SetUniformBuffer(const std::string& name)
+	{
+		UploadUniformBuffer(name);
+	}
+
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
@@ -181,6 +186,13 @@ namespace BE {
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	void OpenGLShader::UploadUniformBuffer(const std::string& name)
+	{
+		GLint location = glGetUniformBlockIndex(m_RendererID, name.c_str());
+		unsigned int uniformPoint = UniformBuffer::UniformBufferPoint(name);
+		glUniformBlockBinding(m_RendererID, location, uniformPoint);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filePath)

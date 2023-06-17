@@ -44,14 +44,14 @@ namespace BE {
 
 		static MeshSource Get(const std::string& name);
 
-		static const std::vector<std::string> GetMeshLibray() { return m_MeshPaths; }
-		static const std::vector<const char*> GetMeshNames() { return m_MeshNames; }
+		static const std::vector<std::string> GetMeshLibray() { return s_MeshPaths; }
+		static const std::vector<const char*> GetMeshNames() { return s_MeshNames; }
 		static void UpdateMeshLibray();
 		static void UpdateMeshNames();
 	private:
 		static void FileIterator(std::filesystem::path filePath);
 	private:
-		static std::vector<std::string> m_MeshPaths;
-		static std::vector<const char*> m_MeshNames;
+		static std::vector<std::string> s_MeshPaths;
+		static std::vector<const char*> s_MeshNames;
 	};
 }
