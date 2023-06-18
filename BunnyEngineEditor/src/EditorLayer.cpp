@@ -75,9 +75,12 @@ namespace BE {
 
         RenderCommand::Postprocess();
         m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->Bind();
-        RenderCommand::Clear({ 0.0,0.0,0.0,0.0 });
+        //RenderCommand::Clear({ 0.125,0.125,0.125,1.0 });
         Renderer2D::DrawScreenVisibleBuffer(m_DockSpace.GetViewportPanel()->GetFramebuffer().get(), (int)OutBuffer::GetOutBuffer());
         m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->UnBind();
+
+        ///////////////////////////// Editor Mode Window Mouse Select Entity;
+        EditorSelectEntity();
     }
 
     void EditorLayer::OnImGuiRender()
@@ -96,7 +99,7 @@ namespace BE {
         if (m_DockSpace.GetViewportPanel()->GetHoveredEntity())
             //name = m_DockSpace.GetViewportPanel()->GetHoveredEntity().GetComponent<NameComponent>().Name;
         ImGui::Text("Hovered Entity : %s", name.c_str());
-        float pixelData = m_DockSpace.GetViewportPanel()->GetPixelData();
+        int pixelData = m_DockSpace.GetViewportPanel()->GetPixelData();
         //BE_CORE_INFO("Current Pixel Data : {0}", pixelData);
         ImGui::Text("Current Pixel Data : %d", pixelData);
         Ref<Texture2D> bule = Texture2D::Create("Resources/Icons/ContentBrowser/Blue.png");
@@ -113,6 +116,18 @@ namespace BE {
 
         m_DockSpace.GetViewportPanel()->OnEvent(event);
 
+    }
+
+    void EditorLayer::EditorSelectEntity()
+    {
+        if (m_DockSpace.GetActiveScene()->GetCurrentScneneStates() == BE::ScneneStates::Runtime)
+            return;
+
+        m_DockSpace.GetViewportPanel()->GetFramebuffer(2)->Bind();
+        RenderCommand::Clear({ 0.5,0.5,0.5,1.0 });
+        m_DockSpace.GetViewportPanel()->GetFramebuffer(2)->ClearAttachment(0, -1);
+        m_DockSpace.GetActiveScene()->OnUpdateEditorSelect(m_DockSpace.GetViewportPanel()->GetEditorCamera());
+        m_DockSpace.GetViewportPanel()->GetFramebuffer(2)->UnBind();
     }
 
     

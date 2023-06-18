@@ -22,6 +22,7 @@ namespace BE {
 		Entity CreateEntity(const std::string& name = "NewGameEntity");
 		void DestroyEntity(Entity entity);
 		void OnUpdateEditor(EditorCamera& camera);
+		void OnUpdateEditorSelect(EditorCamera& camera);
 		void OnUpdateRuntime();
 		void OnViewportResize(uint32_t width, uint32_t height);
 
@@ -29,6 +30,9 @@ namespace BE {
 
 		ScneneStates GetCurrentScneneStates() { return m_CurrentScneneStates; }
 		void SetCurrentScneneStates(ScneneStates scneneState) { m_CurrentScneneStates = scneneState; }
+
+	private:
+		void LightDataManage();
 
 	private:
 		entt::registry m_Registry;

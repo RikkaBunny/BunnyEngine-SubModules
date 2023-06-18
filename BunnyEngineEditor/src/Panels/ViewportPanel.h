@@ -22,7 +22,7 @@ namespace BE {
 		bool IsViewportFocused() { return m_ViewportFocused; }
 		bool IsViewportHovered() { return m_ViewportHovered; }
 
-		Ref<Framebuffer> GetFramebuffer(int fbnum = 0) { if (fbnum==0) { return m_Framebuffer; } else { return m_Framebuffer1; } }
+		Ref<Framebuffer> GetFramebuffer(int fbnum = 0);
 
 		glm::vec2 GetViewportSize() { return m_ViewportSize; }
 		glm::vec2 GetViewportBoundsMin() { return m_ViewportBounds[0]; }
@@ -31,7 +31,7 @@ namespace BE {
 		EditorCamera GetEditorCamera() { return m_EditorCamera; }
 
 		Entity GetHoveredEntity() { return m_HoveredEntity; }
-		float GetPixelData() { return m_PixelData; }
+		int GetPixelData() { return m_PixelData; }
 
 		void OnEvent(Event& event);
 
@@ -40,19 +40,22 @@ namespace BE {
 		bool OnKeyPressed(KeyPressedEvent& event);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& event);
 
+		void OnViewportResize(uint32_t width, uint32_t height);
+
 	private:
 
 		DockSpace* m_Context;
 
 		FramebufferSpecification fbSpec;
 
-		Ref<Framebuffer> m_Framebuffer;
-		Ref<Framebuffer> m_Framebuffer1;
+		Ref<Framebuffer> m_Framebuffer_Base;
+		Ref<Framebuffer> m_Framebuffer_DeferredRender;
+		Ref<Framebuffer> m_Framebuffer_Editor;
 
 		EditorCamera m_EditorCamera;
 
 		Entity m_HoveredEntity;
-		float m_PixelData;
+		int m_PixelData;
 
 		int m_GizmoType = -1;
 

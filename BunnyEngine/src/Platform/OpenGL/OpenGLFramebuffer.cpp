@@ -136,13 +136,13 @@ namespace BE {
 		Invalidate();
 	}
 
-	float OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
 	{
 		BE_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size());
 
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
-		float pixelData;
-		glReadPixels(x, y, 1, 1, GL_RED, GL_FLOAT, &pixelData);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
 	}
 

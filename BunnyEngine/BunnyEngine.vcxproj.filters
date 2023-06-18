@@ -1431,6 +1431,9 @@
     <ClInclude Include="src\BunnyEngine\Renderer\Texture.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\BunnyEngine\Renderer\UniformBuffer.h">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\BunnyEngine\Renderer\VertexArray.h">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
@@ -1481,9 +1484,6 @@
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BunnyEngine\Renderer\UniformBuffer.h">
-      <Filter>src\BunnyEngine\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1562,6 +1562,9 @@
     <ClCompile Include="src\BunnyEngine\Renderer\Texture.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\BunnyEngine\Renderer\UniformBuffer.cpp">
+      <Filter>src\BunnyEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\BunnyEngine\Renderer\VertexArray.cpp">
       <Filter>src\BunnyEngine\Renderer</Filter>
     </ClCompile>
@@ -1610,6 +1613,5 @@
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\BunnyEngine\Renderer\UniformBuffer.cpp" />
   </ItemGroup>
 </Project>

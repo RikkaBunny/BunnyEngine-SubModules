@@ -61,11 +61,12 @@ namespace BE {
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibray::Load(const std::string& name, const std::string& filepath)
+	Ref<Shader> ShaderLibray::Get(const std::string& name, const std::string& filepath)
 	{
-		auto shader = Shader::Create(filepath);
-		Add(name,shader);
-		return shader;
+		if(Exists(name)) 
+			return Get(name);
+		
+		return Load(filepath);
 	}
 
 	Ref<Shader> ShaderLibray::Get(const std::string& name)

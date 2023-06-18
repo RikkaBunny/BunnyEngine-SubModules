@@ -18,7 +18,8 @@ namespace BE {
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& event) override;
 
-
+	private:
+		void EditorSelectEntity();
 	private:
 
 		Ref<Shader> m_Shader;

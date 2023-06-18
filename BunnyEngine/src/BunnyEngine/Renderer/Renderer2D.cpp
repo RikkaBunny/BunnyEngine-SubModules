@@ -365,7 +365,7 @@ namespace BE {
 		framebuffer->BindAttachment(1, 1);
 		framebuffer->BindAttachment(2, 2);
 		framebuffer->BindAttachment(3, 3);
-		framebuffer->BindAttachment(0, 4, true);
+		framebuffer->BindAttachment(0, 4, true); 
 		//if (buffer) {
 		//	buffer->Bind();
 		//}

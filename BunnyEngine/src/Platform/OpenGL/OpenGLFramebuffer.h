@@ -13,7 +13,7 @@ namespace BE {
 		virtual void UnBind() override;
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
-		virtual float ReadPixel(uint32_t attachmentIndex, int x, int y) override;
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
 		virtual void ClearAttachment(uint32_t attachmentIndex, int value) override;
 		virtual void BindAttachment(uint32_t attachmentIndex, int value, bool Depth) override;
 

@@ -21,7 +21,7 @@ namespace BE {
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
-        m_Framebuffer = Framebuffer::Create(fbSpec);
+        m_Framebuffer_Base = Framebuffer::Create(fbSpec);
 
         m_EditorCamera = EditorCamera(45.0f, 1.778f, 0.1f, 10000.0f);
 
@@ -31,30 +31,35 @@ namespace BE {
     {
         m_Context = context;
 
-        m_Framebuffer = Framebuffer::Create(fbSpec);
+        m_Framebuffer_Base = Framebuffer::Create(fbSpec);
 
         m_EditorCamera = EditorCamera(45.0f, 1.778f, 0.1f, 10000.0f);
         switch (Renderer::GetRenderPipeline())
         {
             case Renderer::RenderPipeline::DeferredRendering :
-                FramebufferSpecification fbSpec1 = fbSpec;
-                fbSpec1.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
-                m_Framebuffer1 = Framebuffer::Create(fbSpec1);
-                m_Framebuffer1->UnBind();
+                FramebufferSpecification fbSpec_DeferredRender = fbSpec;
+                fbSpec_DeferredRender.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+                m_Framebuffer_DeferredRender = Framebuffer::Create(fbSpec_DeferredRender);
+                m_Framebuffer_DeferredRender->UnBind();
                 break;
- 
         }
-        m_Framebuffer->Bind();
+
+        FramebufferSpecification fbSpec_Editor = fbSpec;
+        fbSpec_Editor.Attachments = { FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
+        m_Framebuffer_Editor = Framebuffer::Create(fbSpec_Editor);
+        m_Framebuffer_Editor->UnBind();
+
+        m_Framebuffer_Base->Bind();
     }
     //ViewportPanel::ViewportPanel(const FramebufferSpecification& framebufferSpecification, Ref<Scene>* activeScene, SceneHierarchyPanel* sceneHierarchyPanel, EditorCamera editorCamera)
     //    :fbSpec(framebufferSpecification), m_ActiveScene(activeScene), m_EditorCamera(editorCamera), m_SceneHierarchyPanel(sceneHierarchyPanel)
     //{
-    //    m_Framebuffer = Framebuffer::Create(fbSpec);
+    //    m_Framebuffer_Base = Framebuffer::Create(fbSpec);
 
     //}
     //void ViewportPanel::SetContext(const FramebufferSpecification& fbSpec, Ref<Scene>* activeScene, SceneHierarchyPanel* sceneHierarchyPanel, EditorCamera editorCamera)
     //{
-    //    m_Framebuffer = Framebuffer::Create(fbSpec);
+    //    m_Framebuffer_Base = Framebuffer::Create(fbSpec);
     //    m_EditorCamera = editorCamera;
     //    m_ActiveScene = activeScene;
     //    m_SceneHierarchyPanel = sceneHierarchyPanel;
@@ -72,18 +77,22 @@ namespace BE {
         my = GetViewportBoundsMax().y - my;
         glm::vec2 viewportSize = GetViewportBoundsMax() - GetViewportBoundsMin();
 
+        //////////////////////////////////////Game Entity Select
+        GetFramebuffer(2)->Bind();
+        
         int mouseX = (int)mx;
         int mouseY = (int)my;
         if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y) {
-            m_PixelData = GetFramebuffer()->ReadPixel(1, mouseX, mouseY);
-            //m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_Context->GetActiveScene().get());
+            m_PixelData = GetFramebuffer(2)->ReadPixel(0, mouseX, mouseY);
+            m_HoveredEntity = m_PixelData == -1 ? Entity() : Entity((entt::entity)m_PixelData, m_Context->GetActiveScene().get());
+            //BE_CORE_INFO("X = {0} , Y = {1}",mouseX, mouseY);
         }
-
+        GetFramebuffer(2)->UnBind();
     }
 
     void ViewportPanel::UI_Toolbar()
     {
-        if (ImGui::BeginTabBar("sdfsdf")) {
+        if (ImGui::BeginTabBar("UI_Toolbar")) {
             float size = ImGui::GetFrameHeight() - 2.0f;
             ImGui::SameLine();
             const char* items[] = { "FinalBuffer","ColorBuffer", "DepthBuffer", "LightBuffer","WorldNormalBuffer","RoughnessBuffer","MetallicBuffer","AOBuffer"};
@@ -126,6 +135,24 @@ namespace BE {
         }
     }
 
+    Ref<Framebuffer> ViewportPanel::GetFramebuffer(int fbnum)
+    {
+        switch (fbnum)
+        {
+        case 0:
+            return m_Framebuffer_Base;
+            break;
+        case 1:
+            return m_Framebuffer_DeferredRender;
+            break;
+        case 2:
+            return m_Framebuffer_Editor;
+            break;
+        }
+        BE_CORE_ASSERT("No Counterpart Framebuffer");
+        return nullptr;
+    }
+
 
 
 
@@ -147,22 +174,23 @@ namespace BE {
         viewportPanelSize = ImGui::GetContentRegionAvail();
         //µ÷ÕûÆÁÄ»±ÈÀý
         if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
-            m_Context->GetActiveScene()->OnViewportResize(viewportPanelSize.x, viewportPanelSize.y);
-            m_EditorCamera.SetViewportSize(viewportPanelSize.x, viewportPanelSize.y);
+            OnViewportResize(viewportPanelSize.x, viewportPanelSize.y);
         }
+
         m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
 
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID(0);
+        uint32_t textureID = m_Framebuffer_Base->GetColorAttachmentRendererID(0);
         switch (Renderer::GetRenderPipeline())
         {
         case Renderer::RenderPipeline::ForwardRendering:
-            textureID = m_Framebuffer->GetColorAttachmentRendererID(0);
+            textureID = m_Framebuffer_Base->GetColorAttachmentRendererID(0);
             break;
         case Renderer::RenderPipeline::DeferredRendering:
-            textureID = m_Framebuffer1->GetColorAttachmentRendererID(0);
+            textureID = m_Framebuffer_DeferredRender->GetColorAttachmentRendererID(0);
             break;
 
         }
+        //textureID = m_Framebuffer_Editor->GetColorAttachmentRendererID(0);
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ///////////////////////////////////////////////////////////////////////////////
         if (ImGui::BeginDragDropTarget()) {
@@ -287,8 +315,24 @@ namespace BE {
         bool leftMouse = Input::IsMouseButtonPressed(BE_MOUSE_BUTTON_LEFT);
         if (leftMouse && m_ViewportHovered && !ImGuizmo::IsOver()) {
             m_Context->GetSceneHierarchyPanel()->SetSelectedEntity(m_HoveredEntity);
+            if (!m_HoveredEntity) {
+                m_GizmoType = -1;
+            }
         }
         return false;
+    }
+
+    void ViewportPanel::OnViewportResize(uint32_t width, uint32_t height)
+    {
+        fbSpec.Width = width;
+        fbSpec.Height = height;
+
+        m_Framebuffer_Base->Resize(width, height);
+        m_Framebuffer_DeferredRender->Resize(width, height);
+        m_Framebuffer_Editor->Resize(width, height);
+
+        m_Context->GetActiveScene()->OnViewportResize(width, height);
+        m_EditorCamera.SetViewportSize(width, height);
     }
 
 }
