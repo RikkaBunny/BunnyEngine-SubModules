@@ -20,6 +20,11 @@ namespace BE {
 		virtual void SetData(void* data, uint32_t size) override;
 
 		virtual void Bind(uint32_t slot = 0) const override;
+
+	private:
+		void Load_8_Bit_Texture(const std::string& path);
+		void Load_16_Bit_Texture(const std::string& path);
+		void Load_HDR_Texture(const std::string& path);
 	private:
 		std::string m_Path;
 		uint32_t m_Width, m_Height;

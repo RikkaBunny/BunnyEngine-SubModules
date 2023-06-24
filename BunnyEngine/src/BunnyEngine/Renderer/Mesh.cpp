@@ -93,7 +93,7 @@ namespace BE {
 			else {
 
 				std::string name = filenameString.substr(filenameString.size() - 3, 3);
-				if (name == "fbx" || name == "obj") {
+				if (name == "fbx" || name == "obj" || name == "FBX" || name == "OBJ") {
 					s_MeshPaths.push_back(path.string());
 				}
 			}

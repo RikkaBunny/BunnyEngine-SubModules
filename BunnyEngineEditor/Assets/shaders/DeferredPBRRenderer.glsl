@@ -25,6 +25,7 @@ void main(){
 #version 330 core
 			
 layout(location = 0) out vec4 FragColor;
+in vec2 v_TexCoord;
 
 uniform sampler2D u_GBufferA;
 uniform sampler2D u_GBufferB;
@@ -32,23 +33,27 @@ uniform sampler2D u_GBufferC;
 uniform sampler2D u_GBufferD;
 uniform sampler2D u_DepthBuffer;
 
+uniform samplerCube u_irradianceMap;
+uniform samplerCube u_PrefilterMap;
+uniform sampler2D u_BRDFLUT;
+
 layout(std140) uniform LightDirection{
 	vec3 lightColor;
 	vec3 lightDirector;
 	vec3 lightPos;
 };
 
+uniform vec3 cameraPos;
+
 const float PI=3.14159265359;
 
-in vec2 v_TexCoord;
-
-//¼ÆËã£¨¸ß¹â£©·´ÉäµÄ°Ù·Ö±È
+//è®¡ç®—ï¼ˆé«˜å…‰ï¼‰åå°„çš„ç™¾åˆ†æ¯”
 vec3 fresnelSchlick(float cosTheta,vec3 F0 ,float roughness){
 	return F0+(max(vec3(1.0-roughness),F0)-F0)*pow(1.0-cosTheta,5.0);
 }
-//ÕıÌ¬·Ö²¼º¯Êı ¹ÀËãÎ¢Æ½ÃæµÄ×ÜÌåÈ¡Ïò¶È
+//æ­£æ€åˆ†å¸ƒå‡½æ•° ä¼°ç®—å¾®å¹³é¢çš„æ€»ä½“å–å‘åº¦
 float DistributionGGX(vec3 N,vec3 H,float roughness){
-	//Ê¹ÓÃ´Ö²Ú¶ÈÆ½·½»á¸üºÃ
+	//ä½¿ç”¨ç²—ç³™åº¦å¹³æ–¹ä¼šæ›´å¥½
 	float a=roughness*roughness;
 	float a2=a*a;
 	float NdotH=max(dot(N,H),0.0);
@@ -59,7 +64,7 @@ float DistributionGGX(vec3 N,vec3 H,float roughness){
 
 	return nom/denom;
 }
-//¼ÆËãÕÚ±ÎÖµ
+//è®¡ç®—é®è”½å€¼
 float GeometrySchlickGGX(float NdotV,float roughness){
 	float r=roughness+1.0;
 	float k=r*r/8;
@@ -69,7 +74,7 @@ float GeometrySchlickGGX(float NdotV,float roughness){
 	
 	return nom/denom;
 }
-//¼ÆËã¹Û²ì·½Ïò£¨¼¸ºÎÕÚ±ÎÖµ£©ºÍ¹âÏß·½Ïò£¨¼¸ºÎÒõÓ°Öµ£©
+//è®¡ç®—è§‚å¯Ÿæ–¹å‘ï¼ˆå‡ ä½•é®è”½å€¼ï¼‰å’Œå…‰çº¿æ–¹å‘ï¼ˆå‡ ä½•é˜´å½±å€¼ï¼‰
 float GeometrySmith(vec3 N,vec3 V,vec3 L,float roughness){
 	float NdotV=max(dot(N,V),0.0);
 	float NdotL=max(dot(N,L),0.0);
@@ -79,22 +84,23 @@ float GeometrySmith(vec3 N,vec3 V,vec3 L,float roughness){
 	return ggx2*ggx1;
 }
 
-//const vec3 wPos=vec3(0.0,0.0,0.0);
-const vec3 cameraPos=vec3(1.0,1.0,1.0);
-const vec3 lightPointPos=vec3(1.0,1.0,1.0);
-const vec3 lightPointColor=vec3(1.0,1.0,1.0);
-
 
 void main(){
-	vec3 albedo=pow(texture(u_GBufferA,v_TexCoord).rgb, vec3(2.2));
+    vec4 GBufferA = texture(u_GBufferA,v_TexCoord);
+    vec4 GBufferB = texture(u_GBufferB,v_TexCoord);
+    vec4 GBufferC = texture(u_GBufferC,v_TexCoord);
+    vec4 GBufferD = texture(u_GBufferD,v_TexCoord);
+	vec3 albedo=pow(GBufferA.rgb, vec3(2.2));
 //	vec3 albedo=vec3(1.0);
-	vec3 normal=texture(u_GBufferB,v_TexCoord).rgb;
-	vec3 wPos=texture(u_GBufferD,v_TexCoord).rgb;
-
+	vec3 normal=GBufferB.rgb;
+	vec3 wPos=GBufferD.rgb;
+    vec3 emissive=GBufferC.rgb;
+    
 //	vec3 normal=fs_in.wNormal;
-	float metallic=texture(u_GBufferC,v_TexCoord).r;
-	float roughness=texture(u_GBufferB,v_TexCoord).a;
-	float ao=texture(u_GBufferC,v_TexCoord).b;
+	float metallic=GBufferA.a;
+	float roughness=GBufferB.a;
+	float ao=GBufferC.a;
+	
 //	float ao=1;
 
 
@@ -107,7 +113,7 @@ void main(){
 	vec3 L=normalize(lightDirector);
 	vec3 H=normalize(V+L);
 
-	float distance=length(lightPointPos-wPos);
+//	float distance=length(lightPointPos-wPos);
 //	float attenuation=1.0 / (lightPointconstant + lightPointlinear * distance + lightPointquadratic * (distance * distance)); 
 //	float attenuation=1.0 / distance*distance;
 //	float attenuation=texture(u_GBufferA,v_TexCoord).a;
@@ -121,36 +127,37 @@ void main(){
 	float G=GeometrySmith(N,V,L,roughness);
 
 	vec3 nominator=NDF*G*F;
-	//¼Ó0.001·ÀÖ¹³ıÒÔ0 ³ö´í
+	//åŠ 0.001é˜²æ­¢é™¤ä»¥0 å‡ºé”™
 	float denominator = 4.0 * (max(dot(N, V), 0.0)) * (max(dot(N, L), 0.0)) + 0.001; 
 	vec3 specular=nominator/denominator;
 
 	vec3 Ks=F;
 	vec3 Kd=vec3(1.0)-Ks;
-	//½ğÊô¶ÈÔ½¸ßÔ½Ã»ÓĞÕÛÉä ½ğÊôÃ»ÓĞÕÛÉä
+	//é‡‘å±åº¦è¶Šé«˜è¶Šæ²¡æœ‰æŠ˜å°„ é‡‘å±æ²¡æœ‰æŠ˜å°„
 	Kd*=1.0-metallic;
-	//»·¾³¹â¸øÓèµÄÂş·´Éä
-//	vec3 irradiance = texture(irradianceMap, N).rgb;
-//	vec3 diffuse    = irradiance * albedo;
+	//ç¯å¢ƒå…‰ç»™äºˆçš„æ¼«åå°„
+	vec3 irradiance = texture(u_irradianceMap, N).rgb;
+	vec3 diffuse    = irradiance * albedo;
 	
 	
-	//Ô¤¼ÆËãµÄ»·¾³¸ß¹âµÄDNFÕıÌ«·Ö²¼Öµ
-//	vec3 R=reflect(-V,N);
-//	const float MAX_REFLECTION_LOD=4.0;
-//	vec3 prefilteredColor=textureLod(prefilterMap,R,roughness*MAX_REFLECTION_LOD).rgb;
-//
-//	vec2 envBRDF=texture(brdfLUT,vec2(max(dot(N,V),0.0),roughness)).rg;
-//	vec3 envSpecular=prefilteredColor*(F*envBRDF.x+envBRDF.y);
+	//é¢„è®¡ç®—çš„ç¯å¢ƒé«˜å…‰çš„DNFæ­£å¤ªåˆ†å¸ƒå€¼
+	vec3 R=reflect(-V,N);
+	const float MAX_REFLECTION_LOD=4.0;
+	vec3 prefilteredColor=textureLod(u_PrefilterMap,R,roughness*MAX_REFLECTION_LOD).rgb;
+
+	vec2 envBRDF=texture(u_BRDFLUT,vec2(max(dot(N,V),0.0),roughness)).rg;
+	vec3 envSpecular=prefilteredColor*(F*envBRDF.x+envBRDF.y);
 
 	float NdotL=max(dot(N,L),0.0);
 	Lo+=(Kd * albedo / PI + specular) * radiance *NdotL;
-//	vec3 ambient    = (Kd * diffuse+envSpecular) * ao; 
-//	vec3 color   = ambient + Lo;  
-	vec3 color   =  Lo;
-	//HDR gamma½ÃÕı
+	vec3 ambient    = (Kd * diffuse+envSpecular) * ao; 
+	vec3 color   = ambient + Lo;  
+	//HDR gammaçŸ«æ­£
 	color = color / (color + vec3(1.0));
 	color = pow(color, vec3(1.0/2.2)); 
 
-	FragColor = vec4(color, 1.0);
-//	FragColor = vec4(lightDirector, 1.0);
+	FragColor = vec4(color+emissive, 1.0);
+//	vec3 envColor = textureLod(u_PrefilterMap, wPos, 1.2).rgb;
+//	prefilteredColor=textureLod(u_PrefilterMap,R,roughness*MAX_REFLECTION_LOD).rgb;
+//	FragColor = vec4(prefilteredColor, 1.0);
 }

@@ -95,7 +95,7 @@ namespace BE {
         if (ImGui::BeginTabBar("UI_Toolbar")) {
             float size = ImGui::GetFrameHeight() - 2.0f;
             ImGui::SameLine();
-            const char* items[] = { "FinalBuffer","ColorBuffer", "DepthBuffer", "LightBuffer","WorldNormalBuffer","RoughnessBuffer","MetallicBuffer","AOBuffer"};
+            const char* items[] = { "FinalBuffer","ColorBuffer", "DepthBuffer", "LightBuffer","WorldNormalBuffer","RoughnessBuffer","MetallicBuffer","AOBuffer","EmissiveBuffer"};
             int item_current = (int)OutBuffer::GetOutBuffer();
             if (ImGui::BeginCombo("Visible Buffer", items[item_current], ImGuiComboFlags_NoPreview))
             {
@@ -192,6 +192,7 @@ namespace BE {
         }
         //textureID = m_Framebuffer_Editor->GetColorAttachmentRendererID(0);
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
         ///////////////////////////////////////////////////////////////////////////////
         if (ImGui::BeginDragDropTarget()) {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
@@ -212,31 +213,30 @@ namespace BE {
         /*   BE_CORE_WARN(" Min Bounds = {0} , {1}", m_ViewportBounds[0].x, m_ViewportBounds[0].y);
            BE_CORE_WARN(" Max Bounds = {0} , {1}", m_ViewportBounds[1].x, m_ViewportBounds[1].y);*/
 
-           //Gizmos
+        //Gizmos
+        
         Entity selectedEntity = m_Context->GetSceneHierarchyPanel()->GetSelectedEntity();
+        
+        
+
         if (selectedEntity && m_GizmoType != -1) {
+            
+            //Entity Transform
+            auto& tc = selectedEntity.GetComponent<TransformComponent>();
+            glm::mat4 transform = tc.GetTransform();
+            //Editor Camera 
+            const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+            glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
             ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetDrawlist();
             float windowWidth = (float)ImGui::GetWindowWidth();
             float windowHeight = (float)ImGui::GetWindowHeight();
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-            //Camera
-            //auto cameraEntity = m_ActiveScene->GetMainCameraEntity();
-            //const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-            //const glm::mat4& cameraProjection = camera.GetProjection();
-            //glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-
-            //Editor Camera 
-
-            const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
-            glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
-            //Entity Transform
-            auto& tc = selectedEntity.GetComponent<TransformComponent>();
-            glm::mat4 transform = tc.GetTransform();
-
             ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
                 ImGuizmo::OPERATION(m_GizmoType), ImGuizmo::LOCAL, glm::value_ptr(transform));
+            
+
 
             if (ImGuizmo::IsUsing()) {
                 m_EditorCamera.SetViewportFocused(false);
@@ -249,7 +249,10 @@ namespace BE {
                 tc.Scale = scale;
             }
         }
+        
+        
 
+        
 
         ImGui::End();
         ImGui::PopStyleVar();

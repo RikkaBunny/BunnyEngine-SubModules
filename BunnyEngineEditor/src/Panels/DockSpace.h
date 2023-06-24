@@ -9,6 +9,7 @@
 #include "SceneHierarchyPanel.h"
 #include "ContentBrowserPanel.h"
 #include "ViewportPanel.h"
+#include "PropertiesPanel.h"
 
 namespace BE {
 
@@ -20,7 +21,7 @@ namespace BE {
 		//void SetContext( SceneHierarchyPanel* sceneHierarchyPanel,  ContentBrowserPanel* contentBrowserPanel);
 		void OnAttcah() ;
 
-		void SetContext(SceneHierarchyPanel* sceneHierarchyPanel, ContentBrowserPanel* contentBrowserPanel, ViewportPanel* viewportPanel_0);
+		void SetContext(SceneHierarchyPanel* sceneHierarchyPanel, PropertiesPanel* propertiesPanel, ContentBrowserPanel* contentBrowserPanel, ViewportPanel* viewportPanel_0);
 
 		void OnDetach() ;
 		void OnUpdate() ;
@@ -35,6 +36,7 @@ namespace BE {
 
 		Ref<Scene> GetActiveScene() { return this->m_ActiveScene; }
 		SceneHierarchyPanel* GetSceneHierarchyPanel() { return this->m_SceneHierarchyPanel; }
+		PropertiesPanel* GetPropertiesPanel() { return this->m_PropertiesPanel; }
 		ContentBrowserPanel* GetContentBrowserPanel() { return this->m_ContentBrowserPanel; }
 		ViewportPanel* GetViewportPanel(int viewportPanelIndex = 0) { return this->m_ViewportPanel_0; }
 
@@ -45,6 +47,7 @@ namespace BE {
 		Ref<Scene> m_ActiveScene = std::make_shared<Scene>();
 
 		SceneHierarchyPanel* m_SceneHierarchyPanel;
+		PropertiesPanel* m_PropertiesPanel;
 		ContentBrowserPanel* m_ContentBrowserPanel;
 		ViewportPanel* m_ViewportPanel_0;
 

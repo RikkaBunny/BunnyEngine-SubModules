@@ -1,10 +1,14 @@
 #include "BEpch.h"
 #include "Shader.h"
 
+#include <filesystem>
+
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace BE {
+	extern const std::filesystem::path g_AssetsPath;
+	
 	Ref<Shader> Shader::Create(const std::string& filePath)
 	{
 		switch (Renderer::GetAPI())
@@ -75,8 +79,39 @@ namespace BE {
 		return ShaderLibray::s_Shaders[name];
 	}
 
+	void ShaderLibray::UpdateShaderLibray()
+	{
+		ShaderLibray::FileIterator(g_AssetsPath);
+	}
+
 	bool ShaderLibray::Exists(const std::string& name) {
 		return ShaderLibray::s_Shaders.find(name) != ShaderLibray::s_Shaders.end();
 	}
 
+	void ShaderLibray::FileIterator(std::filesystem::path filePath)
+	{
+		for (auto& directoryEntry : std::filesystem::directory_iterator(filePath)) {
+			const auto& path = directoryEntry.path();
+			auto relativePath = std::filesystem::relative(path, g_AssetsPath);
+			std::string filenameString = relativePath.filename().string();
+
+			if (directoryEntry.is_directory()) {
+				FileIterator(path);
+
+			}
+			else {
+
+				std::string filename = filenameString.substr(filenameString.size() - 4, 4);
+				if (filename == "glsl") {
+					//Extract name from filepath
+					auto lastSlash = filenameString.find_last_of("/\\");
+					lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+					auto lastDot = filenameString.rfind('.');
+					auto count = lastDot == std::string::npos ? filenameString.size() - lastSlash : lastDot - lastSlash;
+					std::string name = filenameString.substr(lastSlash, count);
+					Get(name,path.string());
+				}
+			}
+		}
+	}
 }

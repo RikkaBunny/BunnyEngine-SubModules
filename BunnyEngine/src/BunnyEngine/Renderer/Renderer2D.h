@@ -40,7 +40,7 @@ namespace BE {
 
 		static void DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID = -1);
 
-		static void DrawScreenVisibleBuffer(Framebuffer* framebuffer,const int outBufferType);
+		static void DrawScreenVisibleBuffer(Framebuffer* framebuffer,const int outBufferType, glm::vec3 cameraPos, Ref<Scene> currentScene);
 
 		//static void DrawPBRQuad(const glm::mat4& transform, const QuadRendererComponent& component, const int entityID = -1);
 

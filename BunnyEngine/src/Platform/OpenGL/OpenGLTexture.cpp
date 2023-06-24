@@ -5,12 +5,13 @@
 
 
 namespace BE {
-	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
-		:m_Path(path)
-	{
+
+	void OpenGLTexture2D::Load_8_Bit_Texture(const std::string& path) {
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
+
 		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
 		BE_CORE_ASSERT(data, "Failed to load image!");
 
 		m_Width = width;
@@ -39,6 +40,105 @@ namespace BE {
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
+	}
+
+	void OpenGLTexture2D::Load_16_Bit_Texture(const std::string& path)
+	{
+		int width, height, channels;
+		stbi_set_flip_vertically_on_load(1);
+
+		stbi_us* data = stbi_load_16(path.c_str(), &width, &height, &channels, 0);
+
+		BE_CORE_ASSERT(data, "Failed to load image!");
+
+		m_Width = width;
+		m_Height = height;
+
+		if (channels == 4) {
+			m_InternalFormat = GL_RGBA16;
+			m_DataFormat = GL_RGBA;
+		}
+		else if (channels == 3) {
+			m_InternalFormat = GL_RGB16;
+			m_DataFormat = GL_RGB;
+		}
+
+		BE_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+
+		stbi_image_free(data);
+	}
+
+	void OpenGLTexture2D::Load_HDR_Texture(const std::string& path)
+	{
+		int width, height, channels;
+		stbi_set_flip_vertically_on_load(1);
+
+		float* data = stbi_loadf(path.c_str(), &width, &height, &channels, 0);
+
+		BE_CORE_ASSERT(data, "Failed to load image!");
+
+		m_Width = width;
+		m_Height = height;
+
+		if (channels == 4) {
+			m_InternalFormat = GL_RGBA16F;
+			m_DataFormat = GL_RGBA;
+		}
+		else if (channels == 3) {
+			m_InternalFormat = GL_RGBA16F;
+			m_DataFormat = GL_RGB;
+		}
+
+		BE_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_FLOAT, data);
+
+		stbi_image_free(data);
+	}
+
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
+		:m_Path(path)
+	{
+		int width, height, channels;
+		stbi_set_flip_vertically_on_load(1);
+		stbi_uc* data;
+		
+		float* dataf;
+
+		int is_16bit = stbi_is_16_bit(path.c_str());
+		int is_hdr = stbi_is_hdr(path.c_str());
+
+		if (is_hdr) {
+			Load_HDR_Texture(path);
+			return;
+		}
+		else if (is_16bit) {
+			Load_16_Bit_Texture(path);
+			return;
+		}
+		else {
+			Load_8_Bit_Texture(path);
+		}
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height,int type)

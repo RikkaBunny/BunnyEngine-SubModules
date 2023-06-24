@@ -52,8 +52,12 @@ namespace BE {
 		static Ref<Shader> Get(const std::string& name, const std::string& filepath);
 		static Ref<Shader> Get(const std::string& name);
 
+		static void UpdateShaderLibray();
+		
 		static bool Exists(const std::string& name);
 		static const std::unordered_map<std::string, Ref<Shader>> GetShaderLibray() { return s_Shaders; }
+	private:
+		static void FileIterator(std::filesystem::path filePath);
 	private:
 		static std::unordered_map<std::string, Ref<Shader>> s_Shaders ;
 	};

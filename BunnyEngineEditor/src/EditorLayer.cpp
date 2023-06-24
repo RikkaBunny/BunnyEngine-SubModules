@@ -21,9 +21,11 @@ namespace BE {
         fbSpec.Attachments = { FramebufferTextureFormat::RGBA16F, FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RGBA16F,FramebufferTextureFormat::RGBA16F, FramebufferTextureFormat::Depth };
 
         //m_DockSpace = new DockSpace(){};
-        m_DockSpace.SetContext(&m_SceneHierarchyPanel, &m_ContentBrowserPanel, &m_ViewportPanel);
+        m_DockSpace.SetContext(&m_SceneHierarchyPanel, &m_PropertiesPanel, &m_ContentBrowserPanel, &m_ViewportPanel);
 
         m_SceneHierarchyPanel.SetContext(&m_DockSpace);
+
+        m_PropertiesPanel.SetContext(&m_DockSpace);
 
         m_ContentBrowserPanel.SetContext(&m_DockSpace);
 
@@ -76,7 +78,8 @@ namespace BE {
         RenderCommand::Postprocess();
         m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->Bind();
         //RenderCommand::Clear({ 0.125,0.125,0.125,1.0 });
-        Renderer2D::DrawScreenVisibleBuffer(m_DockSpace.GetViewportPanel()->GetFramebuffer().get(), (int)OutBuffer::GetOutBuffer());
+        Renderer2D::DrawScreenVisibleBuffer(m_DockSpace.GetViewportPanel()->GetFramebuffer().get(), (int)OutBuffer::GetOutBuffer(), 
+            m_DockSpace.GetViewportPanel()->GetEditorCamera().GetPosition(),m_DockSpace.GetActiveScene());
         m_DockSpace.GetViewportPanel()->GetFramebuffer(1)->UnBind();
 
         ///////////////////////////// Editor Mode Window Mouse Select Entity;
@@ -90,6 +93,7 @@ namespace BE {
         m_DockSpace.OnImGuiRender();
 
         m_DockSpace.GetSceneHierarchyPanel()->OnImGuiRenderer();
+        m_DockSpace.GetPropertiesPanel()->OnImGuiRenderer();
         m_DockSpace.GetContentBrowserPanel()->OnImGuiRenderer();
         m_DockSpace.GetViewportPanel()->OnImGuiRenderer();
 

@@ -4,14 +4,14 @@
 sampler2D u_AlbedoTexture = white;	
 sampler2D u_NormalTexture = blue;	
 sampler2D u_MetallicTexture = black;	
-sampler2D u_RoughnessTexture = gray;	
+sampler2D u_RoughnessTexture = white;	
 sampler2D u_AoTexture = white;	
 
 uniform vec2 u_TexTiling=(1.0,1.0);
 uniform vec4 u_Color = (1,1,1.0,1);
 uniform float u_Metallic = 0;
 uniform float u_Roughness = 0.5;
-uniform float u_Emissive = 1;
+uniform vec3 u_Emissive = (0,0,0);
 
 uniform int u_EntityID = 11;
 }
@@ -50,10 +50,11 @@ out vec4 v_WPos;
 
 void main(){
 	v_TexCoord = a_TexCoord0;
-	vec4 WorldNormal = normalize(u_WorldTransform * vec4(a_Normal, 1.0f));
-	vec3 B = normalize(cross(a_Tangent, WorldNormal.xyz));
+	
+	vec3 B = normalize(cross(a_Tangent, normalize(a_Normal.xyz)));
 
-	v_TBN = mat3(a_Tangent, B, vec3(WorldNormal.xyz));
+	v_TBN = mat3(a_Tangent, B, vec3(a_Normal.xyz));
+	v_TBN = mat3(u_WorldTransform) * v_TBN;
 
 	v_WPos =  u_WorldTransform * vec4(a_Position, 1.0);
 	gl_Position = u_ViewProjection * u_WorldTransform * vec4(a_Position, 1.0);
@@ -77,7 +78,7 @@ uniform vec2 u_TexTiling;
 uniform vec4 u_Color;
 uniform float u_Metallic;
 uniform float u_Roughness;
-uniform float u_Emissive;
+uniform vec3 u_Emissive;
 
 uniform int u_EntityID;
 
@@ -91,16 +92,16 @@ void main(){
 	vec3 normal = texture(u_NormalTexture, v_TexCoord * u_TexTiling).xyz;
 	normal=normalize(normal*2.0-1.0);
 	normal=normalize(v_TBN*normal);
-	float metallic = texture(u_MetallicTexture, v_TexCoord * u_TexTiling).g * u_Metallic;
-	float roughness = texture(u_RoughnessTexture, v_TexCoord * u_TexTiling).g * u_Roughness;
-	float ao = texture(u_AoTexture, v_TexCoord * u_TexTiling).g;
+	float metallic = texture(u_MetallicTexture, v_TexCoord * u_TexTiling).r * u_Metallic;
+	float roughness = texture(u_RoughnessTexture, v_TexCoord * u_TexTiling).r * u_Roughness;
+	float ao = texture(u_AoTexture, v_TexCoord * u_TexTiling).r;
 
 	//BufferA16(8)f  BaseRGB + Emissive  
-	GBufferA = vec4(albedo.rgb, u_Emissive);
+	GBufferA = vec4(albedo.rgb, metallic);
 	//BufferB16f WNormalRGB roughness  A 
 	GBufferB = vec4(normal.rgb, roughness);
 	//BufferC8f R metallic G specular B ao A customdata
-	GBufferC = vec4(metallic, 0.5f, ao, 1.0f);
+	GBufferC = vec4(u_Emissive, ao);
 
 	GBufferD = v_WPos;
 }

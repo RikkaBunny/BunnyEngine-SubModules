@@ -4,6 +4,7 @@
 
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
+#include "Platform/OpenGL/OpenGLTextureCubeMap.h"
 
 namespace BE {
 
@@ -15,6 +16,20 @@ namespace BE {
 			return nullptr;
 		case RendererAPI::API::OpenGL:
 			return std::make_shared<OpenGLTexture2D>(path);
+		}
+
+		BE_CORE_ASSERT(false, "Unknow RendererAPI!");
+		return nullptr;
+	}
+	Ref<Texture2D> Texture2D::CreateCubeMap(const std::string& path)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:
+			BE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLTextureCubeMap>(path);
 		}
 
 		BE_CORE_ASSERT(false, "Unknow RendererAPI!");

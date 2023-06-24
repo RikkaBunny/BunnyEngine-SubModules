@@ -20,6 +20,7 @@ namespace BE {
 	class Texture2D : public Texture {
 	public:
 		static Ref<Texture2D> Create(const std::string& path);
+		static Ref<Texture2D> CreateCubeMap(const std::string& path);
 		static Ref<Texture2D> Create(uint32_t width, uint32_t height, int type = 0);
 	};
 }

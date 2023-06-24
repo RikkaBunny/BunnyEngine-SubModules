@@ -1,6 +1,6 @@
 
 #include "DockSpace.h"
-
+#include "Platform/OpenGL/OpenGLIBL.h"
 #include "../EditorLayer.h"
 
 namespace BE {
@@ -44,9 +44,10 @@ namespace BE {
         
     }
 
-    void DockSpace::SetContext(SceneHierarchyPanel* sceneHierarchyPanel, ContentBrowserPanel* contentBrowserPanel, ViewportPanel* viewportPanel_0)
+    void DockSpace::SetContext(SceneHierarchyPanel* sceneHierarchyPanel, PropertiesPanel* propertiesPanel, ContentBrowserPanel* contentBrowserPanel, ViewportPanel* viewportPanel_0)
     {
         m_SceneHierarchyPanel = sceneHierarchyPanel;
+        m_PropertiesPanel = propertiesPanel;
         m_ContentBrowserPanel = contentBrowserPanel;
         m_ViewportPanel_0 = viewportPanel_0;
     }
@@ -192,6 +193,29 @@ namespace BE {
                     }
                 }
                 
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Environment"))
+            {
+                if (ImGui::MenuItem("CubeMapBaker", "")) {
+                    std::string filepath = FileDialogs::OpenFile("Texture Files (*.hdr;*.tga)\0*.tga;*.hdr\0*");
+                    if (!filepath.empty()) {
+                        //MeshLoad::SerializeMesh(filepath);
+                        //auto hdrTexture = Texture2D::Create(filepath);
+                        //OpenGLIBL::RenderBRDFLUT(filepath);
+                        //OpenGLIBL::RenderHdrEnvIrradianceCubemap(filepath);
+                        
+                        m_ActiveScene->SetCurrentScneneIBL(IBL::Create(filepath));
+                    }
+                }
+                if (ImGui::MenuItem("Save Mesh", "")) {
+                    std::string filepath = FileDialogs::SaveFile("BunnyMesh Files (*.BunnyMesh)\0*.BunnyMesh\0*");
+                    if (!filepath.empty()) {
+                        //MeshLoad::DeserializeMesh(filepath);
+                    }
+                }
+
                 ImGui::EndMenu();
             }
 

@@ -67,15 +67,15 @@ void main(){
 		color = vec4(color.w,color.w,color.w,1.0);
 	break;
 	case 6:
-		color = texture(u_GBufferC, v_TexCoord);
-		color = vec4(color.x,color.x,color.x,1.0);
+		color = texture(u_GBufferA, v_TexCoord);
+		color = vec4(color.w,color.w,color.w,1.0);
 	break;
 	case 7:
 		color = texture(u_GBufferC, v_TexCoord);
-		color = vec4(color.z,color.z,color.z,1.0);
+		color = vec4(color.w,color.w,color.w,1.0);
 	break;
 	case 8:
-		color = texture(u_GBufferA, v_TexCoord);
+		color = texture(u_GBufferC, v_TexCoord);
 		color = vec4(color.x,color.y,color.z,1.0);
 	break;
 	}

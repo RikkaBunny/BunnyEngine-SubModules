@@ -2,6 +2,7 @@
 #include "entt.hpp"
 
 #include "BunnyEngine/Renderer/EditorCamera.h"
+#include "BunnyEngine/Renderer/IBL.h"
 
 namespace BE {
 
@@ -31,6 +32,9 @@ namespace BE {
 		ScneneStates GetCurrentScneneStates() { return m_CurrentScneneStates; }
 		void SetCurrentScneneStates(ScneneStates scneneState) { m_CurrentScneneStates = scneneState; }
 
+		void SetCurrentScneneIBL(const Ref<IBL>& scneneIBL) { m_CurrentScneneIBL = scneneIBL; }
+		Ref<IBL> GetCurrentScneneIBL() { return m_CurrentScneneIBL; }
+
 	private:
 		void LightDataManage();
 
@@ -38,6 +42,8 @@ namespace BE {
 		entt::registry m_Registry;
 
 		ScneneStates m_CurrentScneneStates = ScneneStates::Ediotr;
+		
+		Ref<IBL> m_CurrentScneneIBL = IBL::Create("Assets/textures/kloofendal_48d_partly_cloudy_puresky_4k.hdr");
 
 		uint32_t m_ViewportWidth;
 		uint32_t m_ViewportHeight;

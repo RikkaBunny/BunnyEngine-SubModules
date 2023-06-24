@@ -42,6 +42,8 @@ namespace BE {
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
+		////SMAA 多重采样
+		//glfwWindowHint(GLFW_SAMPLES, 4);
 		// 设置窗口提示 GLFW_DECORATED 的值为 GLFW_FALSE，以创建一个无边框窗口
 		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 		//设置窗口初始化的 大小、 位置 、 titile、icon

@@ -343,11 +343,13 @@ namespace BE {
 		RenderCommand::DrawIndexed(s_PlaneData->QuadVertexArray);
 	}
 
-	void Renderer2D::DrawScreenVisibleBuffer(Framebuffer* framebuffer, const int outBufferType)
+	void Renderer2D::DrawScreenVisibleBuffer(Framebuffer* framebuffer, const int outBufferType, glm::vec3 cameraPos, Ref<Scene> currentScene)
 	{
+		auto lut = Texture2D::Create("Assets/IBL/BRDFLUT.hdr");
 		if (outBufferType == 0) {
 			//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/ScreenVisibleBuffer.glsl");
 			s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/DeferredPBRRenderer.glsl");
+			//s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/PBR.glsl");
 		}
 		else {
 			s_Data->ScreenVisibleBuffer = Shader::Create("Assets/shaders/ScreenVisibleBuffer.glsl");
@@ -361,11 +363,25 @@ namespace BE {
 		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferC", 2);
 		s_Data->ScreenVisibleBuffer->SetInt("u_GBufferD", 3);
 		s_Data->ScreenVisibleBuffer->SetInt("u_DepthBuffer", 4);
+		
+		s_Data->ScreenVisibleBuffer->SetFloat3("cameraPos", cameraPos);
 		framebuffer->BindAttachment(0, 0);
 		framebuffer->BindAttachment(1, 1);
 		framebuffer->BindAttachment(2, 2);
 		framebuffer->BindAttachment(3, 3);
 		framebuffer->BindAttachment(0, 4, true); 
+
+		if (currentScene->GetCurrentScneneIBL()) {
+			s_Data->ScreenVisibleBuffer->SetInt("u_irradianceMap", 5);
+			s_Data->ScreenVisibleBuffer->SetInt("u_PrefilterMap", 6);
+
+			currentScene->GetCurrentScneneIBL()->BindEnvIrradianceCubeMap(5);
+			currentScene->GetCurrentScneneIBL()->BindPrefilteredCubeMap(6);
+
+		}
+		s_Data->ScreenVisibleBuffer->SetInt("u_BRDFLUT", 7);
+		lut->Bind(7);
+		
 		//if (buffer) {
 		//	buffer->Bind();
 		//}

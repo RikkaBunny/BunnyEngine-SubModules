@@ -37,6 +37,7 @@ namespace BE {
 		DockSpace m_DockSpace;
 		ViewportPanel m_ViewportPanel;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		PropertiesPanel m_PropertiesPanel;
 		ContentBrowserPanel m_ContentBrowserPanel;
 		ed::NodeEditorPanel m_NodeEditorPanel;
 	};

@@ -17,6 +17,8 @@ namespace BE {
 
 		virtual void BeginScene() = 0;
 
+		virtual void DepthLESS() = 0;
+
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
 
 		virtual void Clear( const glm::vec4& color = glm::vec4(0.0f,0.0f,0.0f,0.0f)) = 0;
