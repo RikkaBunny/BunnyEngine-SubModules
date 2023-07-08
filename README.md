@@ -1,7 +1,8 @@
 # BunnyEngine
 兔子先生的独立引擎！ Mr. Bunny's indie engine！
 
-![engine](https://github.com/RikkaBunny/BunnyEngine/assets/42572971/5f79b4d4-1bbd-481f-beb8-998666a8f794)
+![8EHMBT9 )D13T BJGNW1~V7](https://github.com/RikkaBunny/BunnyEngine/assets/42572971/296ec70c-7ac3-479a-91d6-b49450d38cd2)
+
 
 ## Getting Started
 暂且支持Window ，下载项目文件，编辑 Windows-GenerateProjects.bat 文件。
