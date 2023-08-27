@@ -1,18 +1,1 @@
-[submodule "BunnyEngine/vendor/GLFW"]
-	path = BunnyEngine/vendor/GLFW
-	url = https://github.com/TheCherno/glfw
-[submodule "BunnyEngine/SDK/GLFW"]
-	path = BunnyEngine/SDK/GLFW
-	url = https://github.com/TheCherno/glfw
-[submodule "BunnyEngine/SDK/imgui"]
-	path = BunnyEngine/SDK/imgui
-	url = https://github.com/TheCherno/imgui
-[submodule "BunnyEngine/SDK/glm"]
-	path = BunnyEngine/SDK/glm
-	url = https://github.com/g-truc/glm
-[submodule "BunnyEngine/SDK/yaml-cpp"]
-	path = BunnyEngine/SDK/yaml-cpp
-	url = https://github.com/thecherno/yaml-cpp
-[submodule "BunnyEngine/SDK/ImGuizmo"]
-	path = BunnyEngine/SDK/ImGuizmo
-	url = https://github.com/thecherno/imguizmo
+
