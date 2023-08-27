@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+F:/cmake-3.26.3-windows-x86_64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake
+F:/cmake-3.26.3-windows-x86_64/share/cmake-3.26/Modules/FindPackageMessage.cmake
+F:/imgui-node-editor-master/build/CMakeFiles/cmake.verify_globs
+F:/imgui-node-editor-master/examples/application/support/Resource.rc.in
+F:/imgui-node-editor-master/examples/canvas-example/CMakeLists.txt
+F:/imgui-node-editor-master/misc/cmake-modules/Findimgui.cmake
+F:/imgui-node-editor-master/misc/cmake-modules/Findimgui_node_editor.cmake
